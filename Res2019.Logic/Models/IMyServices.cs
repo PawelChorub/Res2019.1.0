@@ -2,6 +2,7 @@
 {
     public interface IMyServices
     {
+        string ServiceId { get; set; }
         string ServiceName { get; set; }
     }
 }

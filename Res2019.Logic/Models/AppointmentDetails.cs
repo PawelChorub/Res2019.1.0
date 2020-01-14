@@ -9,6 +9,7 @@ namespace Res2019.Logic.Models
     public class AppointmentDetails : IAppointment, ICustomer, IMyServices, IAppointmentDetails
     {
 
+        public string AppointmentId { get; set; }
         public string AppointmentDate { get; set; }
         public string AppointmentDuration { get; set; }
         public string AppointmentLength { get; set; }
@@ -20,5 +21,6 @@ namespace Res2019.Logic.Models
         public string CustomerSurname { get; set; }
         public string CustomerTelephoneNumber { get; set; }
         public string ServiceName { get; set; }
+        public string ServiceId { get; set; }
     }
 }

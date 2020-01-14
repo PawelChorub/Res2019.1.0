@@ -79,5 +79,32 @@ namespace Res2019
                 throw;
             }
         }
+        public void SaveToSql_NEW(IAppointment appointment, ICustomer customer, IMyServices service)
+        {
+            try
+            {
+                string isOccupied = "true";
+                sqlConnection.Open();
+                sqlQuery = string.Format("INSERT INTO //new summary appoint teble//" +
+                    " (customer_id, service_id, date_id)" +
+                    "VALUES ('{0}','{1}','{2}')",
+                    
+                     customer.CustomerId,
+                     service.ServiceId,
+                     appointment.AppointmentId,
+                     //appointment.AppointmentLength,
+                     //appointment.AppointmentDuration
+                     table);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Wystąpił nieoczekiwany błąd podczas zapisu do bazy, szczegóły: " + ex.ToString());
+            }
+        }
+
     }
 }
