@@ -60,12 +60,32 @@ namespace Res2019
                 MessageBox.Show("Wystąpił nieoczekiwany błąd podczas zapisu do bazy, szczegóły: " + ex.ToString());
             }
         }
+        public void SaveNewDateToSql(IDate date)
+        {
+            try
+            {
+                sqlConnection.Open();
+                sqlQuery = string.Format("INSERT INTO date (date, time, length, duration) VALUES ('{0}','{1}','{2}', '{3}')",
+                     date.DateDate,
+                     date.DateTime,
+                     date.DateLength,
+                     date.DateDuration);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public void SaveNewCustomerToSql(ICustomer customer)
         {
             try
             {
                 sqlConnection.Open();
-                sqlQuery = string.Format("INSERT INTO //tablename// (customerForename, customerSurname, customerTelephoneNumber) VALUES ('{0}','{1}','{2}')",
+                sqlQuery = string.Format("INSERT INTO customer (customerForename, customerSurname, customerTelephoneNumber) VALUES ('{0}','{1}','{2}')",
                      customer.CustomerForename,
                      customer.CustomerSurname,
                      customer.CustomerTelephoneNumber);
@@ -79,7 +99,8 @@ namespace Res2019
                 throw;
             }
         }
-        public void SaveToSql_NEW(IAppointment appointment, ICustomer customer, IMyServices service)
+        //public void SaveToSql_NEW(IAppointment appointment, ICustomer customer, IMyServices service)
+        public void SaveToSql_NEW(string date_id, string customer_id, string service_id)
         {
             try
             {
@@ -88,13 +109,7 @@ namespace Res2019
                 sqlQuery = string.Format("INSERT INTO //new summary appoint teble//" +
                     " (customer_id, service_id, date_id)" +
                     "VALUES ('{0}','{1}','{2}')",
-                    
-                     customer.CustomerId,
-                     service.ServiceId,
-                     appointment.AppointmentId,
-                     //appointment.AppointmentLength,
-                     //appointment.AppointmentDuration
-                     table);
+                     customer_id, service_id, date_id);
                 sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection.Close();

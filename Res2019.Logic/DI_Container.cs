@@ -31,6 +31,7 @@ namespace Res2019.Logic
             Bind<IUpdateToDatabase>().To<UpdateToDatabase>();
             Bind<ITimeToEndOfWorkProcessor>().To<TimeToEndOfWorkProcessor>();
             Bind<IAppointmentDetails>().To<AppointmentDetails>();
+            Bind<IDate>().To<Date>();
             Bind<EmailConfirmation>().ToSelf();
             Bind<SmsConfirmation>().ToSelf();
 
