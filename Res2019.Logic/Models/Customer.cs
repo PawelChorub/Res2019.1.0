@@ -9,6 +9,7 @@ namespace Res2019
 {
     public class Customer : IForenameLibrary, ISurnameLibrary, ITelephoneNumberLibrary, IEmailLibrary, ICustomer
     {
+        public string CustomerId { get; set; }
         public string CustomerForename { get; set; }
         public string CustomerSurname { get; set; }
         public string CustomerTelephoneNumber { get; set; }

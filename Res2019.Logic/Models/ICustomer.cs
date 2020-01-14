@@ -2,6 +2,7 @@
 {
     public interface ICustomer
     {
+        string CustomerId { get; set; }
         string CustomerEmail { get; set; }
         string CustomerForename { get; set; }
         string CustomerSurname { get; set; }

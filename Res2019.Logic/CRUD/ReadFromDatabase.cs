@@ -124,7 +124,7 @@ namespace Res2019
                         output.CustomerForename = reader["customerForename"].ToString();
                         output.CustomerSurname = reader["customerSurename"].ToString();
                         output.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
-                        //output.CustomerId = reader["customer_id"].ToString();
+                        output.CustomerId = reader["customer_id"].ToString();
                     }
                 }
             }
