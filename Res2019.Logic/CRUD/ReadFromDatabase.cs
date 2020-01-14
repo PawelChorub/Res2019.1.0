@@ -19,6 +19,7 @@ namespace Res2019
         private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings();
     
         private static SqlConnection sqlConnection = new SqlConnection(connectionString.MsSqlConnectionStringBuild());
+        private static SqlConnection sqlConnection_New = new SqlConnection(connectionString.MsSqlConnectionStringBuild_New());
         
         private static SqlCommand sqlCommand;
         private static SqlDataReader reader;
@@ -113,10 +114,10 @@ namespace Res2019
 
             try
             {
-                sqlConnection.Open();
+                sqlConnection_New.Open();
                 sqlQuery = string.Format("SELECT * FROM date WHERE date = '{0}' AND time = '{1}'", dataWizyty, godzinaWizyty);
 
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
@@ -139,7 +140,7 @@ namespace Res2019
                     app = null;
                 }
 
-                sqlConnection.Close();
+                sqlConnection_New.Close();
             }
             catch (Exception ex)
             {
