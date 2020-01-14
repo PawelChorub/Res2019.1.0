@@ -106,7 +106,33 @@ namespace Res2019
                                
             }
             return app;
-
+        }
+        public ICustomer GetCustomerFromDb(ICustomer customer)
+        {
+            ICustomer output = null;
+            try
+            {
+                sqlConnection.Open();
+                sqlQuery = string.Format("SELECT FROM //tableName// WHERE customerForename = '{0}' AND customerSurname = '{1}' AND customerTelephoneNumber = '{2}')",
+                                    customer.CustomerForename, customer.CustomerSurname, customer.CustomerTelephoneNumber);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        output.CustomerForename = reader["customerForename"].ToString();
+                        output.CustomerSurname = reader["customerSurename"].ToString();
+                        output.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
+                        //output.CustomerId = reader["customer_id"].ToString();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return output;
         }
     }
 }
