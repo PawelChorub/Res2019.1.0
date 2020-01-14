@@ -52,7 +52,7 @@ namespace Res2019.Logic
             {
                 timeToCalculate = appointmentTime.AddMinutes(i).ToShortTimeString();
 
-                if (readFromDatabase.ReturnAppointmentFromDatabase(appointment.AppointmentDate, timeToCalculate) == null)
+                if (readFromDatabase.GetDateFromDb(appointment.AppointmentDate, timeToCalculate) == null)
                 {
                     IsTimeAvailable = true;
                 }
@@ -103,7 +103,7 @@ namespace Res2019.Logic
                 {   // sprawdź po minucie czy wolny zakres terminów
                     timeToCalculate = appointmentTime.AddMinutes(i).ToShortTimeString();
 
-                    if (readFromDatabase.ReturnAppointmentFromDatabase(appointment.AppointmentDate, timeToCalculate) == null)
+                    if (readFromDatabase.GetDateFromDb(appointment.AppointmentDate, timeToCalculate) == null)
                     {
                         IsTimeAvailable = true;
                     }
@@ -157,7 +157,7 @@ namespace Res2019.Logic
         {
             if (!string.IsNullOrWhiteSpace(date) && !string.IsNullOrWhiteSpace(time))
             {
-                return readFromDatabase.ReturnAppointmentFromDatabase(date, time);
+                return readFromDatabase.GetDateFromDb(date, time);
             }
             else
             {

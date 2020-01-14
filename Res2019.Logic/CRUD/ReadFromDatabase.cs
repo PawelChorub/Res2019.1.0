@@ -65,15 +65,56 @@ namespace Res2019
             }
             return listOfApp;
         }
+        // old
+        //public IAppointmentDetails ReturnAppointmentFromDatabase(string dataWizyty, string godzinaWizyty)
+        //{
+        //    IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
 
-        public IAppointmentDetails ReturnAppointmentFromDatabase(string dataWizyty, string godzinaWizyty)
+        //    try
+        //    {               
+        //        sqlConnection.Open();
+        //        sqlQuery = string.Format("SELECT * FROM ReservationTable WHERE appointmentDate = '{0}' AND appointmentTime = '{1}'", dataWizyty, godzinaWizyty);
+
+        //        sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+        //        reader = sqlCommand.ExecuteReader();
+        //        if (reader.HasRows)
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                app.AppointmentDate = reader["appointmentDate"].ToString();
+        //                app.AppointmentTime = reader["appointmentTime"].ToString();
+        //                app.AppointmentLength = reader["appointmentLength"].ToString();
+        //                app.AppointmentDuration = reader["appointmentDuration"].ToString();
+        //                app.CustomerForename = reader["customerForename"].ToString();
+        //                app.CustomerSurname = reader["customerSurname"].ToString();
+        //                app.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
+        //                app.CustomerEmail = reader["customerEmail"].ToString();
+        //                app.ServiceName = reader["serviceName"].ToString();
+        //                app.IsOccupied = reader["isOccupied"].ToString();                       
+        //            }
+        //        }
+        //        else
+        //        {
+        //            app = null;
+        //        }
+
+        //        sqlConnection.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.ToString());
+
+        //    }
+        //    return app;
+        //}
+        public IAppointmentDetails GetDateFromDb(string dataWizyty, string godzinaWizyty)
         {
             IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
 
             try
-            {               
+            {
                 sqlConnection.Open();
-                sqlQuery = string.Format("SELECT * FROM ReservationTable WHERE appointmentDate = '{0}' AND appointmentTime = '{1}'", dataWizyty, godzinaWizyty);
+                sqlQuery = string.Format("SELECT * FROM date WHERE date = '{0}' AND time = '{1}'", dataWizyty, godzinaWizyty);
 
                 sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
@@ -81,32 +122,33 @@ namespace Res2019
                 {
                     while (reader.Read())
                     {
-                        app.AppointmentDate = reader["appointmentDate"].ToString();
-                        app.AppointmentTime = reader["appointmentTime"].ToString();
-                        app.AppointmentLength = reader["appointmentLength"].ToString();
-                        app.AppointmentDuration = reader["appointmentDuration"].ToString();
-                        app.CustomerForename = reader["customerForename"].ToString();
-                        app.CustomerSurname = reader["customerSurname"].ToString();
-                        app.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
-                        app.CustomerEmail = reader["customerEmail"].ToString();
-                        app.ServiceName = reader["serviceName"].ToString();
-                        app.IsOccupied = reader["isOccupied"].ToString();                       
+                        app.AppointmentDate = reader["date"].ToString();
+                        app.AppointmentTime = reader["time"].ToString();
+                        app.AppointmentLength = reader["length"].ToString();
+                        app.AppointmentDuration = reader["duration"].ToString();
+                        //app.CustomerForename = reader["customerForename"].ToString();
+                        //app.CustomerSurname = reader["customerSurname"].ToString();
+                        //app.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
+                        //app.CustomerEmail = reader["customerEmail"].ToString();
+                        //app.ServiceName = reader["serviceName"].ToString();
+                        //app.IsOccupied = reader["isOccupied"].ToString();
                     }
                 }
                 else
                 {
                     app = null;
                 }
-                
+
                 sqlConnection.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-                               
+
             }
             return app;
         }
+
         public ICustomer GetCustomerFromDb(ICustomer customer)
         {
             ICustomer output = null;

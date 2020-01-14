@@ -5,7 +5,7 @@ namespace Res2019
 {
     public interface IReadFromDatabase
     {
-        IAppointmentDetails ReturnAppointmentFromDatabase(string dataWizyty, string godzinaWizyty);
+        IAppointmentDetails GetDateFromDb(string dataWizyty, string godzinaWizyty);
         List<IAppointmentDetails> ReturnListOfAppointmentsFromDatabase(string date);
     }
 }
