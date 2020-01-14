@@ -184,7 +184,11 @@ namespace Res2019.Logic
 
             if (CheckObjectsIsItsNotNull(appointment, customer, service))
             {
-                saveToDatabase.SaveToSql(appointment, customer, service);
+                //saveToDatabase.SaveToSql(appointment, customer, service);
+                //saveToDatabase.SaveToSql_New("1", "1", "1");
+                saveToDatabase.SaveToSql_New(
+                    readFromDatabase.GetDateFromDb("1", "1").AppointmentDate, "1", "1");
+
             }
         }
 

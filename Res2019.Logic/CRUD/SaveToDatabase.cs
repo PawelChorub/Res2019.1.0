@@ -25,6 +25,7 @@ namespace Res2019
         private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings();
 
         private static SqlConnection sqlConnection = new SqlConnection(connectionString.MsSqlConnectionStringBuild());
+        private static SqlConnection sqlConnection_New = new SqlConnection(connectionString.MsSqlConnectionStringBuild_New());
         private static SqlCommand sqlCommand;
         private string sqlQuery = "";
 
@@ -100,19 +101,18 @@ namespace Res2019
             }
         }
         //public void SaveToSql_NEW(IAppointment appointment, ICustomer customer, IMyServices service)
-        public void SaveToSql_NEW(string date_id, string customer_id, string service_id)
+        public void SaveToSql_New(string date_id, string customer_id, string service_id)
         {
             try
             {
-                string isOccupied = "true";
-                sqlConnection.Open();
-                sqlQuery = string.Format("INSERT INTO //new summary appoint teble//" +
+                sqlConnection_New.Open();
+                sqlQuery = string.Format("INSERT INTO appointment" +
                     " (customer_id, service_id, date_id)" +
                     "VALUES ('{0}','{1}','{2}')",
                      customer_id, service_id, date_id);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
                 sqlCommand.ExecuteNonQuery();
-                sqlConnection.Close();
+                sqlConnection_New.Close();
 
             }
             catch (Exception ex)
