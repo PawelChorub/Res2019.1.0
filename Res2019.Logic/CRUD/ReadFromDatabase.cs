@@ -134,5 +134,31 @@ namespace Res2019
             }
             return output;
         }
+        public IMyServices GetServiceFromDb(IMyServices service)
+        {
+            IMyServices output = null;
+            try
+            {
+                sqlConnection.Open();
+                sqlQuery = string.Format("SELECT FROM //tableName// WHERE serviceName = '{0}')",
+                                    service.ServiceName);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        output.ServiceId = reader["service_id"].ToString();
+                        output.ServiceName = reader["serviceName"].ToString();                     
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return output;
+        }
+
     }
 }
