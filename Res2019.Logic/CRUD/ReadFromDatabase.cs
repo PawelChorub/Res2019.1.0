@@ -28,7 +28,6 @@ namespace Res2019
 
         public List<IAppointmentDetails> ReturnListOfAppointmentsFromDatabase(string date)
         {
-
             List<IAppointmentDetails> listOfApp = new List<IAppointmentDetails>();
 
             try
@@ -42,7 +41,6 @@ namespace Res2019
                 {
                     while (reader.Read())
                     {
-
                         IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
 
                         app.AppointmentDate = reader["appointmentDate"].ToString();
@@ -55,8 +53,6 @@ namespace Res2019
                         app.CustomerEmail = reader["customerEmail"].ToString();
                         app.ServiceName = reader["serviceName"].ToString();
                         app.IsOccupied = reader["isOccupied"].ToString();
-
-                        
 
                         listOfApp.Add(app);                        
                     }

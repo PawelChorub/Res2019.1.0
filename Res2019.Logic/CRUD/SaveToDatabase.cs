@@ -60,7 +60,24 @@ namespace Res2019
                 MessageBox.Show("Wystąpił nieoczekiwany błąd podczas zapisu do bazy, szczegóły: " + ex.ToString());
             }
         }
+        public void SaveNewCustomerToSql(ICustomer customer)
+        {
+            try
+            {
+                sqlConnection.Open();
+                sqlQuery = string.Format("INSERT INTO //tablename// (customerForename, customerSurname, customerTelephoneNumber) VALUES ('{0}','{1}','{2}')",
+                     customer.CustomerForename,
+                     customer.CustomerSurname,
+                     customer.CustomerTelephoneNumber);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+            catch (Exception)
+            {
 
-
+                throw;
+            }
+        }
     }
 }
