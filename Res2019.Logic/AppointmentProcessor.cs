@@ -157,7 +157,7 @@ namespace Res2019.Logic
         {
             if (!string.IsNullOrWhiteSpace(date) && !string.IsNullOrWhiteSpace(time))
             {
-                return readFromDatabase.GetDateFromDb(date, time);
+                return readFromDatabase.ReturnAppointmentFromDatabase(date, time);
             }
             else
             {
@@ -176,7 +176,7 @@ namespace Res2019.Logic
                 return null;
             }
         }
-
+        //error
         private void SaveAppointmentToDataBase(IAppointment appointment, ICustomer customer, IMyServices service)
         {
             saveToDatabase.SaveToDatabaseEventLog += emailConfirmation.OnSavedToDatabaseEventLog;
@@ -187,7 +187,9 @@ namespace Res2019.Logic
                 //saveToDatabase.SaveToSql(appointment, customer, service);
                 //saveToDatabase.SaveToSql_New("1", "1", "1");
                 saveToDatabase.SaveToSql_New(
-                    readFromDatabase.GetDateFromDb("1", "1").AppointmentDate, "1", "1");
+                    readFromDatabase.GetDateFromDb(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id,
+                    readFromDatabase.GetCustomerFromDb(customer).CustomerId,
+                    readFromDatabase.GetServiceFromDb(service).ServiceId);
 
             }
         }

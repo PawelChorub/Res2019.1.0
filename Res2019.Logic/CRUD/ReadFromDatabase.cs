@@ -108,9 +108,9 @@ namespace Res2019
             }
             return app;
         }
-        public IAppointmentDetails GetDateFromDb(string dataWizyty, string godzinaWizyty)
+        public IDate GetDateFromDb(string dataWizyty, string godzinaWizyty)
         {
-            IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
+            IDate app = kernel.Get<IDate>();
 
             try
             {
@@ -123,10 +123,10 @@ namespace Res2019
                 {
                     while (reader.Read())
                     {
-                        app.AppointmentDate = reader["date"].ToString();
-                        app.AppointmentTime = reader["time"].ToString();
-                        app.AppointmentLength = reader["length"].ToString();
-                        app.AppointmentDuration = reader["duration"].ToString();
+                        app.DateDate = reader["date"].ToString();
+                        app.DateTime = reader["time"].ToString();
+                        app.DateLength = reader["length"].ToString();
+                        app.DateDuration = reader["duration"].ToString();
                         //app.CustomerForename = reader["customerForename"].ToString();
                         //app.CustomerSurname = reader["customerSurname"].ToString();
                         //app.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
@@ -155,10 +155,10 @@ namespace Res2019
             ICustomer output = null;
             try
             {
-                sqlConnection.Open();
+                sqlConnection_New.Open();
                 sqlQuery = string.Format("SELECT * FROM //tableName// WHERE customerForename = '{0}' AND customerSurname = '{1}' AND customerTelephoneNumber = '{2}')",
                                     customer.CustomerForename, customer.CustomerSurname, customer.CustomerTelephoneNumber);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
@@ -170,7 +170,7 @@ namespace Res2019
                         output.CustomerId = reader["customer_id"].ToString();
                     }
                 }
-                sqlConnection.Close();
+                sqlConnection_New.Close();
 
             }
             catch (Exception)
@@ -184,10 +184,10 @@ namespace Res2019
             IMyServices output = null;
             try
             {
-                sqlConnection.Open();
+                sqlConnection_New.Open();
                 sqlQuery = string.Format("SELECT * FROM service WHERE serviceName = '{0}')",
                                     service.ServiceName);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
@@ -197,7 +197,7 @@ namespace Res2019
                         output.ServiceName = reader["serviceName"].ToString();                     
                     }
                 }
-                sqlConnection.Close();
+                sqlConnection_New.Close();
 
             }
             catch (Exception)

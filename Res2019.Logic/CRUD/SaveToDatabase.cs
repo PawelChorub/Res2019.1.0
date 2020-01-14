@@ -65,15 +65,15 @@ namespace Res2019
         {
             try
             {
-                sqlConnection.Open();
+                sqlConnection_New.Open();
                 sqlQuery = string.Format("INSERT INTO date (date, time, length, duration) VALUES ('{0}','{1}','{2}', '{3}')",
                      date.DateDate,
                      date.DateTime,
                      date.DateLength,
                      date.DateDuration);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
                 sqlCommand.ExecuteNonQuery();
-                sqlConnection.Close();
+                sqlConnection_New.Close();
             }
             catch (Exception)
             {
@@ -85,14 +85,14 @@ namespace Res2019
         {
             try
             {
-                sqlConnection.Open();
+                sqlConnection_New.Open();
                 sqlQuery = string.Format("INSERT INTO customer (customerForename, customerSurname, customerTelephoneNumber) VALUES ('{0}','{1}','{2}')",
                      customer.CustomerForename,
                      customer.CustomerSurname,
                      customer.CustomerTelephoneNumber);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
                 sqlCommand.ExecuteNonQuery();
-                sqlConnection.Close();
+                sqlConnection_New.Close();
             }
             catch (Exception)
             {
