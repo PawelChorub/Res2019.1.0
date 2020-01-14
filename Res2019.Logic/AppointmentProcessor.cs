@@ -36,7 +36,7 @@ namespace Res2019.Logic
             smsConfirmation = kernel.Get<SmsConfirmation>();
 
         }
-
+        //***
         public void BuildAppointment(IAppointment appointment, ICustomer customer, IMyServices service)
         {
             bool IsTimeAvailable = false;

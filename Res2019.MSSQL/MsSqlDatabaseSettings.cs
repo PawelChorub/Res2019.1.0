@@ -13,12 +13,17 @@ namespace Res2019.MSSQL
         public string MsSqlUserName { get; set; } = "User=sa";
         public string MsSqlUserPassword { get; set; } = "Password=12trzy";
         public string MsSqlDatabaseName { get; set; } = "Database=ReservationSystem";
+        public string MsSqlDatabaseName_New { get; set; } = "Database=ReservationSystemNew";
         public string MsSqlReservationTableName { get; set; } = "ReservationTable";
         public string MsSqlUsersTableName { get; set; } = "UsersTable";
 
         public string MsSqlConnectionStringBuild()
         {
             return MsSqlServerName + ";" + MsSqlUserName + ";" + MsSqlUserPassword + ";" + MsSqlDatabaseName;
+        }
+        public string MsSqlConnectionStringBuild_New()
+        {
+            return MsSqlServerName + ";" + MsSqlUserName + ";" + MsSqlUserPassword + ";" + MsSqlDatabaseName_New;
         }
         public string UseReservationTableName()
         {

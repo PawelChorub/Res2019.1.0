@@ -66,47 +66,47 @@ namespace Res2019
             return listOfApp;
         }
         // old
-        //public IAppointmentDetails ReturnAppointmentFromDatabase(string dataWizyty, string godzinaWizyty)
-        //{
-        //    IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
+        public IAppointmentDetails ReturnAppointmentFromDatabase(string dataWizyty, string godzinaWizyty)
+        {
+            IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
 
-        //    try
-        //    {               
-        //        sqlConnection.Open();
-        //        sqlQuery = string.Format("SELECT * FROM ReservationTable WHERE appointmentDate = '{0}' AND appointmentTime = '{1}'", dataWizyty, godzinaWizyty);
+            try
+            {
+                sqlConnection.Open();
+                sqlQuery = string.Format("SELECT * FROM ReservationTable WHERE appointmentDate = '{0}' AND appointmentTime = '{1}'", dataWizyty, godzinaWizyty);
 
-        //        sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-        //        reader = sqlCommand.ExecuteReader();
-        //        if (reader.HasRows)
-        //        {
-        //            while (reader.Read())
-        //            {
-        //                app.AppointmentDate = reader["appointmentDate"].ToString();
-        //                app.AppointmentTime = reader["appointmentTime"].ToString();
-        //                app.AppointmentLength = reader["appointmentLength"].ToString();
-        //                app.AppointmentDuration = reader["appointmentDuration"].ToString();
-        //                app.CustomerForename = reader["customerForename"].ToString();
-        //                app.CustomerSurname = reader["customerSurname"].ToString();
-        //                app.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
-        //                app.CustomerEmail = reader["customerEmail"].ToString();
-        //                app.ServiceName = reader["serviceName"].ToString();
-        //                app.IsOccupied = reader["isOccupied"].ToString();                       
-        //            }
-        //        }
-        //        else
-        //        {
-        //            app = null;
-        //        }
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        app.AppointmentDate = reader["appointmentDate"].ToString();
+                        app.AppointmentTime = reader["appointmentTime"].ToString();
+                        app.AppointmentLength = reader["appointmentLength"].ToString();
+                        app.AppointmentDuration = reader["appointmentDuration"].ToString();
+                        app.CustomerForename = reader["customerForename"].ToString();
+                        app.CustomerSurname = reader["customerSurname"].ToString();
+                        app.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
+                        app.CustomerEmail = reader["customerEmail"].ToString();
+                        app.ServiceName = reader["serviceName"].ToString();
+                        app.IsOccupied = reader["isOccupied"].ToString();
+                    }
+                }
+                else
+                {
+                    app = null;
+                }
 
-        //        sqlConnection.Close();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.ToString());
+                sqlConnection.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
 
-        //    }
-        //    return app;
-        //}
+            }
+            return app;
+        }
         public IAppointmentDetails GetDateFromDb(string dataWizyty, string godzinaWizyty)
         {
             IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
@@ -155,7 +155,7 @@ namespace Res2019
             try
             {
                 sqlConnection.Open();
-                sqlQuery = string.Format("SELECT FROM //tableName// WHERE customerForename = '{0}' AND customerSurname = '{1}' AND customerTelephoneNumber = '{2}')",
+                sqlQuery = string.Format("SELECT * FROM //tableName// WHERE customerForename = '{0}' AND customerSurname = '{1}' AND customerTelephoneNumber = '{2}')",
                                     customer.CustomerForename, customer.CustomerSurname, customer.CustomerTelephoneNumber);
                 sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
@@ -169,6 +169,8 @@ namespace Res2019
                         output.CustomerId = reader["customer_id"].ToString();
                     }
                 }
+                sqlConnection.Close();
+
             }
             catch (Exception)
             {
@@ -182,7 +184,7 @@ namespace Res2019
             try
             {
                 sqlConnection.Open();
-                sqlQuery = string.Format("SELECT FROM //tableName// WHERE serviceName = '{0}')",
+                sqlQuery = string.Format("SELECT * FROM service WHERE serviceName = '{0}')",
                                     service.ServiceName);
                 sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
@@ -194,6 +196,8 @@ namespace Res2019
                         output.ServiceName = reader["serviceName"].ToString();                     
                     }
                 }
+                sqlConnection.Close();
+
             }
             catch (Exception)
             {

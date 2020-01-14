@@ -5,6 +5,8 @@
         string MsSqlConnectionStringBuild();
         string UseReservationTableName();
         string UseUsersTable();
+        string MsSqlConnectionStringBuild_New();
+
 
     }
 }
