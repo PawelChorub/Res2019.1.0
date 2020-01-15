@@ -108,6 +108,149 @@ namespace Res2019
             }
             return app;
         }
+        public IAppointmentDetails GetAppointmentDetails_By_ID_FromDatabase(string id)
+        {
+            IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
+            IDate date = kernel.Get<IDate>();
+            ICustomer customer = kernel.Get<ICustomer>();
+            IMyServices service = kernel.Get<IMyServices>();
+
+
+            var customer_id = "";
+            var date_id = "";
+            var service_id = "";
+
+            try
+            {
+                sqlConnection_New.Open();
+                sqlQuery = string.Format("SELECT * FROM appointment WHERE appointment_id = '{0}'", id);
+
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        customer_id = reader["customer_id"].ToString();
+                        service_id = reader["service_id"].ToString();
+                        date_id = reader["date_id"].ToString();                     
+                    }
+                }
+                sqlConnection_New.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            date = GetDateFromDb_Specially_ById(date_id);
+            customer = GetCustomerFromDb_ById(customer_id);
+            service = GetServiceFromDb_ById(date_id);
+
+            app.CustomerForename = customer.CustomerForename;
+            app.CustomerSurname = customer.CustomerSurname;
+            app.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
+            app.AppointmentDate = date.DateDate;
+            app.AppointmentTime = date.DateTime;
+            app.ServiceName = service.ServiceName;
+            return app;
+        }
+
+        private IMyServices GetServiceFromDb_ById(string id)
+        {
+            IMyServices service = kernel.Get<IMyServices>();
+
+            try
+            {
+                sqlConnection_New.Open();
+                sqlQuery = string.Format("SELECT * FROM service WHERE service_id = '{0}'", id);
+
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        service.ServiceName = reader["serviceName"].ToString();                      
+                    }
+                }
+                sqlConnection_New.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return service;
+
+        }
+
+        private ICustomer GetCustomerFromDb_ById(string id)
+        {
+            ICustomer output = kernel.Get<ICustomer>();
+            try
+            {
+                sqlConnection_New.Open();
+                sqlQuery = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'",
+                                    id);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        output.CustomerForename = reader["forename"].ToString();
+                        output.CustomerSurname = reader["surname"].ToString();
+                        output.CustomerTelephoneNumber = reader["telephoneNumber"].ToString();
+                        output.CustomerId = reader["customer_id"].ToString();
+                    }
+                }
+                sqlConnection_New.Close();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return output;
+
+        }
+
+        private IDate GetDateFromDb_Specially_ById(string id)
+        {
+            IDate output = kernel.Get<IDate>();
+
+            try
+            {
+                sqlConnection_New.Open();
+                sqlQuery = string.Format("SELECT * FROM date WHERE date_id = '{0}'", id);
+
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        output.DateDate = reader["day"].ToString();
+                        output.DateTime = reader["time"].ToString();
+                        output.DateLength = reader["length"].ToString();
+                        output.DateDuration = reader["duration"].ToString();
+                        output.Date_Id = reader["date_id"].ToString();
+                    }
+                }
+                else
+                {
+                    output = null;
+                }
+
+                sqlConnection_New.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+
+            }
+            return output;
+        }
+
         public string GetAppointment_ID_FromDb(string day, string time)
         {
             IDate app = kernel.Get<IDate>();

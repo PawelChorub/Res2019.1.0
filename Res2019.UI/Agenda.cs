@@ -165,12 +165,17 @@ namespace Res2019
 
         private void OnLabelClick_Click(object sender, EventArgs e)
         {
+            //test
             IReadFromDatabase readFromDatabase = kernel.Get<IReadFromDatabase>();
-            //setTimeFromLabel = businessLogic.SetTimeByLabel(label.Name);
-            //setDateFromLabel = GetDateFromLabel(label.Name);
+
             string m = readFromDatabase.GetAppointment_ID_FromDb(setDateFromLabel, setTimeFromLabel);
             MessageBox.Show(m);
-            //****************
+            if(m != "")
+            {
+                readFromDatabase.GetAppointmentDetails_By_ID_FromDatabase(m);
+
+            }
+            // end test
             AddOrRemoveAppointmentForm addOrRemove = new AddOrRemoveAppointmentForm(setDateFromLabel, setTimeFromLabel);
             addOrRemove.ShowDialog();
             SectionSetToDefaultMulti();

@@ -16,6 +16,9 @@ namespace Res2019
 
         string GetAppointment_ID_FromDb(string day, string time);
 
+        IAppointmentDetails GetAppointmentDetails_By_ID_FromDatabase(string id);
+
+
 
 
     }
