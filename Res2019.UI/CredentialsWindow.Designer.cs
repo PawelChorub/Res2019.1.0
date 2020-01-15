@@ -47,6 +47,7 @@
             this.passwordTb.PasswordChar = '*';
             this.passwordTb.Size = new System.Drawing.Size(440, 20);
             this.passwordTb.TabIndex = 13;
+            this.passwordTb.Text = "password";
             this.passwordTb.WordWrap = false;
             // 
             // loginTb
@@ -59,6 +60,7 @@
             this.loginTb.Name = "loginTb";
             this.loginTb.Size = new System.Drawing.Size(440, 20);
             this.loginTb.TabIndex = 12;
+            this.loginTb.Text = "user";
             this.loginTb.WordWrap = false;
             // 
             // loginBtn

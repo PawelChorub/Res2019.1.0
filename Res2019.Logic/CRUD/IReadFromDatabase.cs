@@ -12,5 +12,8 @@ namespace Res2019
         ICustomer GetCustomerFromDb(ICustomer customer);
         IMyServices GetServiceFromDb(IMyServices service);
 
+        IDate GetDateFromDb_Specially(string dataWizyty, string godzinaWizyty);
+
+
     }
 }

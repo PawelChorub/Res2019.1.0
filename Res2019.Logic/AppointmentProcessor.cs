@@ -182,14 +182,18 @@ namespace Res2019.Logic
             saveToDatabase.SaveToDatabaseEventLog += emailConfirmation.OnSavedToDatabaseEventLog;
             saveToDatabase.SaveToDatabaseEventLog += smsConfirmation.OnSavedToDatabaseEventLog;
 
+            var x = readFromDatabase.GetDateFromDb_Specially(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id;
+            var y = readFromDatabase.GetCustomerFromDb(customer).CustomerId;
+            var z = readFromDatabase.GetServiceFromDb(service).ServiceId;
+
             if (CheckObjectsIsItsNotNull(appointment, customer, service))
             {
                 //saveToDatabase.SaveToSql(appointment, customer, service);
-                //saveToDatabase.SaveToSql_New("1", "1", "1");
-                saveToDatabase.SaveToSql_New(
-                    readFromDatabase.GetDateFromDb(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id,
-                    readFromDatabase.GetCustomerFromDb(customer).CustomerId,
-                    readFromDatabase.GetServiceFromDb(service).ServiceId);
+                saveToDatabase.SaveToSql_New("1", "1", "1");
+                //saveToDatabase.SaveToSql_New(
+                //    readFromDatabase.GetDateFromDb(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id,
+                //    readFromDatabase.GetCustomerFromDb(customer).CustomerId,
+                //    readFromDatabase.GetServiceFromDb(service).ServiceId);
 
             }
         }
