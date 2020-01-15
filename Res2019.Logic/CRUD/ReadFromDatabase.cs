@@ -77,41 +77,43 @@ namespace Res2019
         {
             IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
 
-            try
-            {
-                sqlConnection.Open();
-                sqlQuery = string.Format("SELECT * FROM ReservationTable WHERE appointmentDate = '{0}' AND appointmentTime = '{1}'", dataWizyty, godzinaWizyty);
+            string id = GetAppointment_ID_FromDb(dataWizyty, godzinaWizyty);
+            app = GetAppointmentDetails_By_ID_FromDatabase(id);
+            //try
+            //{
+            //    sqlConnection.Open();
+            //    sqlQuery = string.Format("SELECT * FROM ReservationTable WHERE appointmentDate = '{0}' AND appointmentTime = '{1}'", dataWizyty, godzinaWizyty);
 
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        app.AppointmentDate = reader["appointmentDate"].ToString();
-                        app.AppointmentTime = reader["appointmentTime"].ToString();
-                        app.AppointmentLength = reader["appointmentLength"].ToString();
-                        app.AppointmentDuration = reader["appointmentDuration"].ToString();
-                        app.CustomerForename = reader["customerForename"].ToString();
-                        app.CustomerSurname = reader["customerSurname"].ToString();
-                        app.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
-                        app.CustomerEmail = reader["customerEmail"].ToString();
-                        app.ServiceName = reader["serviceName"].ToString();
-                        app.IsOccupied = reader["isOccupied"].ToString();
-                    }
-                }
-                else
-                {
-                    app = null;
-                }
+            //    sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+            //    reader = sqlCommand.ExecuteReader();
+            //    if (reader.HasRows)
+            //    {
+            //        while (reader.Read())
+            //        {
+            //            app.AppointmentDate = reader["appointmentDate"].ToString();
+            //            app.AppointmentTime = reader["appointmentTime"].ToString();
+            //            app.AppointmentLength = reader["appointmentLength"].ToString();
+            //            app.AppointmentDuration = reader["appointmentDuration"].ToString();
+            //            app.CustomerForename = reader["customerForename"].ToString();
+            //            app.CustomerSurname = reader["customerSurname"].ToString();
+            //            app.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
+            //            app.CustomerEmail = reader["customerEmail"].ToString();
+            //            app.ServiceName = reader["serviceName"].ToString();
+            //            app.IsOccupied = reader["isOccupied"].ToString();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        app = null;
+            //    }
 
-                sqlConnection.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
+            //    sqlConnection.Close();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.ToString());
 
-            }
+            //}
             return app;
         }
         public IAppointmentDetails GetAppointmentDetails_By_ID_FromDatabase(string id)
