@@ -165,6 +165,12 @@ namespace Res2019
 
         private void OnLabelClick_Click(object sender, EventArgs e)
         {
+            IReadFromDatabase readFromDatabase = kernel.Get<IReadFromDatabase>();
+            //setTimeFromLabel = businessLogic.SetTimeByLabel(label.Name);
+            //setDateFromLabel = GetDateFromLabel(label.Name);
+            string m = readFromDatabase.GetAppointment_ID_FromDb(setDateFromLabel, setTimeFromLabel);
+            MessageBox.Show(m);
+            //****************
             AddOrRemoveAppointmentForm addOrRemove = new AddOrRemoveAppointmentForm(setDateFromLabel, setTimeFromLabel);
             addOrRemove.ShowDialog();
             SectionSetToDefaultMulti();
@@ -172,7 +178,7 @@ namespace Res2019
         }
         private void OnLabelDoubleClick_Click(object sender, EventArgs e)
         {
-            //zmiana statusu na zrealizowane - przejscie do kasy itd, feature...
+     
         }
        
         private string GetDateFromLabel(string labelName)

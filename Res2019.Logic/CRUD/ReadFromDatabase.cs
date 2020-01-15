@@ -108,6 +108,39 @@ namespace Res2019
             }
             return app;
         }
+        public string GetAppointment_ID_FromDb(string day, string time)
+        {
+            IDate app = kernel.Get<IDate>();
+
+            app = GetDateFromDb_Specially(day, time);
+
+            string search = app.Date_Id;
+
+            string output = "";
+            try
+            {
+                sqlConnection_New.Open();
+                sqlQuery = string.Format("SELECT * FROM appointment WHERE date_id = '{0}'", search);
+
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        output = reader["appointment_id"].ToString();             
+                    }
+                }
+                sqlConnection_New.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+
+            }
+            return output;
+        }
+
         public IDate GetDateFromDb(string dataWizyty, string godzinaWizyty)
         {
             IDate app = kernel.Get<IDate>();
@@ -165,14 +198,6 @@ namespace Res2019
                         app.DateDuration = reader["duration"].ToString();
                         app.Date_Id = reader["date_id"].ToString();
                     }
-                }
-                else
-                {// do zapisu prototyp
-                    app.DateDate = "2020-20-02";
-                    app.DateTime = "10:00";
-                    app.DateLength = "00:30";
-                    app.DateDuration = "1";
-                    app.Date_Id = "111";
                 }
 
                 sqlConnection_New.Close();

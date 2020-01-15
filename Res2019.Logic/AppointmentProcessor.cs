@@ -179,17 +179,38 @@ namespace Res2019.Logic
         //error
         private void SaveAppointmentToDataBase(IAppointment appointment, ICustomer customer, IMyServices service)
         {
+            IDate date = kernel.Get<IDate>();
+
             saveToDatabase.SaveToDatabaseEventLog += emailConfirmation.OnSavedToDatabaseEventLog;
             saveToDatabase.SaveToDatabaseEventLog += smsConfirmation.OnSavedToDatabaseEventLog;
 
             var x = readFromDatabase.GetDateFromDb_Specially(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id;
+
             var y = readFromDatabase.GetCustomerFromDb(customer).CustomerId;
+
             var z = readFromDatabase.GetServiceFromDb(service).ServiceId;
 
             if (CheckObjectsIsItsNotNull(appointment, customer, service))
             {
+                if (string.IsNullOrEmpty(x))
+                {
+                    date.DateDate = appointment.AppointmentDate;
+                    date.DateTime = appointment.AppointmentTime;
+                    date.DateLength = appointment.AppointmentLength;
+                    date.DateDuration = appointment.AppointmentDuration;
+                    saveToDatabase.SaveNewDateToSql(date);
+
+                    var xFromDB = readFromDatabase.GetDateFromDb_Specially(date.DateDate, date.DateTime).Date_Id;
+                    saveToDatabase.SaveToSql_New(xFromDB, y, z);
+
+                }
+                else
+                {
+                    MessageBox.Show("Termin zajęty NEW");
+                }
+
                 //saveToDatabase.SaveToSql(appointment, customer, service);
-                saveToDatabase.SaveToSql_New("1", "1", "1");
+                //saveToDatabase.SaveToSql_New("1", "1", "1");
                 //saveToDatabase.SaveToSql_New(
                 //    readFromDatabase.GetDateFromDb(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id,
                 //    readFromDatabase.GetCustomerFromDb(customer).CustomerId,

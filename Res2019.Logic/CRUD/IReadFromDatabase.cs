@@ -14,6 +14,9 @@ namespace Res2019
 
         IDate GetDateFromDb_Specially(string dataWizyty, string godzinaWizyty);
 
+        string GetAppointment_ID_FromDb(string day, string time);
+
+
 
     }
 }
