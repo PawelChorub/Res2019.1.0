@@ -66,6 +66,12 @@ namespace Res2019
             }
             return listOfApp;
         }
+        // new concept:
+        //1. instead of:         public IAppointmentDetails ReturnAppointmentFromDatabase(string dataWizyty, string godzinaWizyty)
+        // do:         public string GetAppointment_ID_FromDb(string day, string time)
+        //2. next do:         public IAppointmentDetails GetAppointmentDetails_By_ID_FromDatabase(string id)
+        // output old app = new app. Done.
+
         // old
         public IAppointmentDetails ReturnAppointmentFromDatabase(string dataWizyty, string godzinaWizyty)
         {
