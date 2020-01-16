@@ -145,7 +145,12 @@ namespace Res2019.Logic
             if (!string.IsNullOrWhiteSpace(appointment.AppointmentDate) && !string.IsNullOrWhiteSpace(appointment.AppointmentTime))
 
             {
-                removeFromDatabase.RemoveAppointmentFromDatabase(appointment.AppointmentDate, appointment.AppointmentTime);
+                string id = readFromDatabase.GetAppointment_ID_FromDb(appointment.AppointmentDate, appointment.AppointmentTime);
+                string date_id = readFromDatabase.GetDateFromDb_Specially(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id;
+                //removeFromDatabase.RemoveAppointmentFromDatabase(appointment.AppointmentDate, appointment.AppointmentTime);
+                removeFromDatabase.DeleteAppointmentFromDatabase_NEW(id);
+                removeFromDatabase.DeleteDateFromDatabase_NEW(date_id);
+               
             }
             else
             {
