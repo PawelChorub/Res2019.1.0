@@ -86,7 +86,7 @@ namespace Res2019
             try
             {
                 sqlConnection_New.Open();
-                sqlQuery = string.Format("INSERT INTO customer (customerForename, customerSurname, customerTelephoneNumber) VALUES ('{0}','{1}','{2}')",
+                sqlQuery = string.Format("INSERT INTO customer (forename, surname, telephoneNumber) VALUES ('{0}','{1}','{2}')",
                      customer.CustomerForename,
                      customer.CustomerSurname,
                      customer.CustomerTelephoneNumber);

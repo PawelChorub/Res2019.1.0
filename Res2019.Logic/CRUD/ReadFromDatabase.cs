@@ -27,45 +27,101 @@ namespace Res2019
 
         private readonly static string table = connectionString.UseReservationTableName();
 
-        public List<IAppointmentDetails> ReturnListOfAppointmentsFromDatabase(string date)
+        //new
+        public List<string> GetDateFromDb_Specially_ByDay(string dataWizyty)
         {
-            List<IAppointmentDetails> listOfApp = new List<IAppointmentDetails>();
+            List<string> output = new List<string>();
 
             try
             {
-                sqlConnection.Open();
-                sqlQuery = string.Format("SELECT * FROM {1} WHERE appointmentDate = '{0}'", date, table);
+                sqlConnection_New.Open();
+                sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}'", dataWizyty);
 
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
-
-                        app.AppointmentDate = reader["appointmentDate"].ToString();
-                        app.AppointmentTime = reader["appointmentTime"].ToString();
-                        app.AppointmentLength = reader["appointmentLength"].ToString();
-                        app.AppointmentDuration = reader["appointmentDuration"].ToString();
-                        app.CustomerForename = reader["customerForename"].ToString();
-                        app.CustomerSurname = reader["customerSurname"].ToString();
-                        app.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
-                        app.CustomerEmail = reader["customerEmail"].ToString();
-                        app.ServiceName = reader["serviceName"].ToString();
-                        app.IsOccupied = reader["isOccupied"].ToString();
-
-                        listOfApp.Add(app);                        
+                        output.Add(reader["date_id"].ToString());
                     }
                 }
-                sqlConnection.Close();
+                sqlConnection_New.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+
             }
+            return output;
+        }
+
+        public List<IAppointmentDetails> ReturnListOfAppointmentsFromDatabase(string date)
+        {
+            List<IAppointmentDetails> listOfApp = new List<IAppointmentDetails>();
+
+            var date_id_List = GetDateFromDb_Specially_ByDay(date);
+
+            foreach (var item in date_id_List)
+            {
+                if (!string.IsNullOrEmpty(item))
+                {
+                    try
+                    {
+                        listOfApp.Add(GetAppointmentDetails_By_date_ID_FromDatabase(item));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                    }
+
+                }
+
+            }
+
             return listOfApp;
         }
+        //oryg
+        //public List<IAppointmentDetails> ReturnListOfAppointmentsFromDatabase(string date)
+        //{
+        //    List<IAppointmentDetails> listOfApp = new List<IAppointmentDetails>();
+
+        //    try
+        //    {
+        //        sqlConnection.Open();
+        //        sqlQuery = string.Format("SELECT * FROM {1} WHERE appointmentDate = '{0}'", date, table);
+
+        //        sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+        //        reader = sqlCommand.ExecuteReader();
+        //        if (reader.HasRows)
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
+
+        //                app.AppointmentDate = reader["appointmentDate"].ToString();
+        //                app.AppointmentTime = reader["appointmentTime"].ToString();
+        //                app.AppointmentLength = reader["appointmentLength"].ToString();
+        //                app.AppointmentDuration = reader["appointmentDuration"].ToString();
+        //                app.CustomerForename = reader["customerForename"].ToString();
+        //                app.CustomerSurname = reader["customerSurname"].ToString();
+        //                app.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
+        //                app.CustomerEmail = reader["customerEmail"].ToString();
+        //                app.ServiceName = reader["serviceName"].ToString();
+        //                app.IsOccupied = reader["isOccupied"].ToString();
+
+        //                listOfApp.Add(app);
+        //            }
+        //        }
+        //        sqlConnection.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.ToString());
+        //    }
+        //    return listOfApp;
+        //}
+
         // new concept:
         //1. instead of:         public IAppointmentDetails ReturnAppointmentFromDatabase(string dataWizyty, string godzinaWizyty)
         // do:         public string GetAppointment_ID_FromDb(string day, string time)
@@ -116,6 +172,7 @@ namespace Res2019
             //}
             return app;
         }
+        // ustawic lentghy
         public IAppointmentDetails GetAppointmentDetails_By_ID_FromDatabase(string id)
         {
             IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
@@ -141,7 +198,7 @@ namespace Res2019
                     {
                         customer_id = reader["customer_id"].ToString();
                         service_id = reader["service_id"].ToString();
-                        date_id = reader["date_id"].ToString();                     
+                        date_id = reader["date_id"].ToString();
                     }
                 }
                 sqlConnection_New.Close();
@@ -159,6 +216,56 @@ namespace Res2019
             app.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
             app.AppointmentDate = date.DateDate;
             app.AppointmentTime = date.DateTime;
+            app.AppointmentDuration = date.DateDuration;
+            app.AppointmentLength = date.DateLength;
+            app.ServiceName = service.ServiceName;
+            return app;
+        }
+        public IAppointmentDetails GetAppointmentDetails_By_date_ID_FromDatabase(string id)
+        {
+            IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
+            IDate date = kernel.Get<IDate>();
+            ICustomer customer = kernel.Get<ICustomer>();
+            IMyServices service = kernel.Get<IMyServices>();
+
+
+            var customer_id = "";
+            var date_id = "";
+            var service_id = "";
+
+            try
+            {
+                sqlConnection_New.Open();
+                sqlQuery = string.Format("SELECT * FROM appointment WHERE date_id = '{0}'", id);
+
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        customer_id = reader["customer_id"].ToString();
+                        service_id = reader["service_id"].ToString();
+                        date_id = reader["date_id"].ToString();
+                    }
+                }
+                sqlConnection_New.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            date = GetDateFromDb_Specially_ById(date_id);
+            customer = GetCustomerFromDb_ById(customer_id);
+            service = GetServiceFromDb_ById(date_id);
+
+            app.CustomerForename = customer.CustomerForename;
+            app.CustomerSurname = customer.CustomerSurname;
+            app.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
+            app.AppointmentDate = date.DateDate;
+            app.AppointmentTime = date.DateTime;
+            app.AppointmentDuration = date.DateDuration;
+            app.AppointmentLength = date.DateLength;
             app.ServiceName = service.ServiceName;
             return app;
         }
@@ -360,6 +467,7 @@ namespace Res2019
             }
             return app;
         }
+
 
 
         public ICustomer GetCustomerFromDb(ICustomer customer)

@@ -51,7 +51,7 @@ namespace Res2019.Logic
             for (int i = 0; i < newTimeAppointmentInMinutes; i++)
             {
                 timeToCalculate = appointmentTime.AddMinutes(i).ToShortTimeString();
-
+                // kolizja z następnym terminem 
                 if (readFromDatabase.GetDateFromDb(appointment.AppointmentDate, timeToCalculate) == null)
                 {
                     IsTimeAvailable = true;
@@ -176,7 +176,6 @@ namespace Res2019.Logic
                 return null;
             }
         }
-        //error
         private void SaveAppointmentToDataBase(IAppointment appointment, ICustomer customer, IMyServices service)
         {
             IDate date = kernel.Get<IDate>();
@@ -192,6 +191,12 @@ namespace Res2019.Logic
 
             if (CheckObjectsIsItsNotNull(appointment, customer, service))
             {
+                if (string.IsNullOrEmpty(y))    
+                {
+                    saveToDatabase.SaveNewCustomerToSql(customer);
+                    y = readFromDatabase.GetCustomerFromDb(customer).CustomerId;
+                }
+
                 if (string.IsNullOrEmpty(x))
                 {
                     date.DateDate = appointment.AppointmentDate;
