@@ -26,9 +26,34 @@ namespace Res2019
         private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings();
 
         private static SqlConnection sqlConnection = new SqlConnection(connectionString.MsSqlConnectionStringBuild());
+        private static SqlConnection sqlConnection_New = new SqlConnection(connectionString.MsSqlConnectionStringBuild_New());
         private static SqlCommand sqlCommand;
         private string sqlQuery = "";
         private readonly static string table = connectionString.UseReservationTableName();
+
+
+        public void ModifyToSql_NEW(string date_id, string customer_id, string service_id)
+        {
+    
+            try
+            {
+                sqlConnection_New.Open();
+                sqlQuery = string.Format("UPDATE appointment SET customer_id = '{0}'," +
+                    "service_id = '{1}', date_id = '{2}'",
+                    customer_id,
+                    service_id,
+                    date_id);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection_New.Close();
+
+                //OnUpdatedToDatabase(appointmentDetails);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Nieudana modyfikacja wizyty podczas zapisu do bazy. Szczegóły: " + ex.ToString());
+            }
+        }
 
         public void ModifyToSql(IAppointmentDetails appointmentDetails)
         {

@@ -183,21 +183,21 @@ namespace Res2019.Logic
             saveToDatabase.SaveToDatabaseEventLog += emailConfirmation.OnSavedToDatabaseEventLog;
             saveToDatabase.SaveToDatabaseEventLog += smsConfirmation.OnSavedToDatabaseEventLog;
 
-            var x = readFromDatabase.GetDateFromDb_Specially(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id;
+            var date_id = readFromDatabase.GetDateFromDb_Specially(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id;
 
-            var y = readFromDatabase.GetCustomerFromDb(customer).CustomerId;
+            var customer_id = readFromDatabase.GetCustomerFromDb(customer).CustomerId;
 
-            var z = readFromDatabase.GetServiceFromDb(service).ServiceId;
+            var service_id = readFromDatabase.GetServiceFromDb(service).ServiceId;
 
             if (CheckObjectsIsItsNotNull(appointment, customer, service))
             {
-                if (string.IsNullOrEmpty(y))    
+                if (string.IsNullOrEmpty(customer_id))    
                 {
                     saveToDatabase.SaveNewCustomerToSql(customer);
-                    y = readFromDatabase.GetCustomerFromDb(customer).CustomerId;
+                    customer_id = readFromDatabase.GetCustomerFromDb(customer).CustomerId;
                 }
 
-                if (string.IsNullOrEmpty(x))
+                if (string.IsNullOrEmpty(date_id))
                 {
                     date.DateDate = appointment.AppointmentDate;
                     date.DateTime = appointment.AppointmentTime;
@@ -205,22 +205,13 @@ namespace Res2019.Logic
                     date.DateDuration = appointment.AppointmentDuration;
                     saveToDatabase.SaveNewDateToSql(date);
 
-                    var xFromDB = readFromDatabase.GetDateFromDb_Specially(date.DateDate, date.DateTime).Date_Id;
-                    saveToDatabase.SaveToSql_New(xFromDB, y, z);
-
+                    date_id = readFromDatabase.GetDateFromDb_Specially(date.DateDate, date.DateTime).Date_Id;
+                    saveToDatabase.SaveToSql_New(date_id, customer_id, service_id);
                 }
                 else
                 {
                     MessageBox.Show("Termin zajęty NEW");
                 }
-
-                //saveToDatabase.SaveToSql(appointment, customer, service);
-                //saveToDatabase.SaveToSql_New("1", "1", "1");
-                //saveToDatabase.SaveToSql_New(
-                //    readFromDatabase.GetDateFromDb(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id,
-                //    readFromDatabase.GetCustomerFromDb(customer).CustomerId,
-                //    readFromDatabase.GetServiceFromDb(service).ServiceId);
-
             }
         }
 
