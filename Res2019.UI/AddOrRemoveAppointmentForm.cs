@@ -79,12 +79,13 @@ namespace Res2019
         {
             try
             {
-                IAppointmentDetails appointmentDetails = businessLogic.ReadSingleAppointment(date, time);
-
+                IAppointmentDetails appointmentDetails;
+                appointmentDetails = businessLogic.ReadSingleAppointment(date, time);
+                // propsy nie moga byc null, nie obiekt
                 if (appointmentDetails != null)
                 {
                     AppointmentModify am = new AppointmentModify(
-                        date, time, appointmentDetails.CustomerForename, appointmentDetails.CustomerSurname, 
+                        date, time, appointmentDetails.CustomerForename, appointmentDetails.CustomerSurname,
                         appointmentDetails.CustomerTelephoneNumber, appointmentDetails.AppointmentDuration);
                     am.Show();
                 }
@@ -97,6 +98,27 @@ namespace Res2019
             {
                 MessageBox.Show("Błąd : \n" + ex);
             }
+
+            //try
+            //{
+            //    IAppointmentDetails appointmentDetails = businessLogic.ReadSingleAppointment(date, time);
+
+            //    if (appointmentDetails != null)
+            //    {
+            //        AppointmentModify am = new AppointmentModify(
+            //            date, time, appointmentDetails.CustomerForename, appointmentDetails.CustomerSurname, 
+            //            appointmentDetails.CustomerTelephoneNumber, appointmentDetails.AppointmentDuration);
+            //        am.Show();
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Nie możesz modyfikować pustego pola.");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Błąd : \n" + ex);
+            //}
         }
     }
 }

@@ -31,18 +31,42 @@ namespace Res2019
         private string sqlQuery = "";
         private readonly static string table = connectionString.UseReservationTableName();
 
-
-        public void ModifyToSql_NEW(string date_id, string customer_id, string service_id)
+        public void UpdateDateToDb_NEW(IDate date, IAppointment appointment)
         {
-    
+            try
+            {
+                sqlConnection_New.Open();
+                sqlQuery = string.Format("UPDATE date SET day = '{0}'," +
+                    "time = '{1}', length = '{2}', duration = '{3}' WHERE date_id = '{4}'",
+                    date.DateDay,
+                    date.DateTime,
+                    appointment.AppointmentLength,
+                    appointment.AppointmentDuration,
+                    date.Date_Id);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection_New.Close();
+
+                //OnUpdatedToDatabase(appointmentDetails);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Nieudana modyfikacja wizyty podczas zapisu do bazy. Szczegóły: " + ex.ToString());
+            }
+
+        }
+        public void ModifyToSql_NEW(IDate date, ICustomer customer, IMyServices service)
+                    //public void ModifyToSql_NEW(string date_id, string customer_id, string service_id)
+        {
+
             try
             {
                 sqlConnection_New.Open();
                 sqlQuery = string.Format("UPDATE appointment SET customer_id = '{0}'," +
                     "service_id = '{1}', date_id = '{2}'",
-                    customer_id,
-                    service_id,
-                    date_id);
+                    customer.CustomerId,
+                    service.ServiceId,
+                    date.Date_Id);
                 sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection_New.Close();

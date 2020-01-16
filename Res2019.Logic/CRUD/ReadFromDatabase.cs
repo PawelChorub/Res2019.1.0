@@ -81,95 +81,18 @@ namespace Res2019
 
             return listOfApp;
         }
-        //oryg
-        //public List<IAppointmentDetails> ReturnListOfAppointmentsFromDatabase(string date)
-        //{
-        //    List<IAppointmentDetails> listOfApp = new List<IAppointmentDetails>();
-
-        //    try
-        //    {
-        //        sqlConnection.Open();
-        //        sqlQuery = string.Format("SELECT * FROM {1} WHERE appointmentDate = '{0}'", date, table);
-
-        //        sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-        //        reader = sqlCommand.ExecuteReader();
-        //        if (reader.HasRows)
-        //        {
-        //            while (reader.Read())
-        //            {
-        //                IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
-
-        //                app.AppointmentDate = reader["appointmentDate"].ToString();
-        //                app.AppointmentTime = reader["appointmentTime"].ToString();
-        //                app.AppointmentLength = reader["appointmentLength"].ToString();
-        //                app.AppointmentDuration = reader["appointmentDuration"].ToString();
-        //                app.CustomerForename = reader["customerForename"].ToString();
-        //                app.CustomerSurname = reader["customerSurname"].ToString();
-        //                app.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
-        //                app.CustomerEmail = reader["customerEmail"].ToString();
-        //                app.ServiceName = reader["serviceName"].ToString();
-        //                app.IsOccupied = reader["isOccupied"].ToString();
-
-        //                listOfApp.Add(app);
-        //            }
-        //        }
-        //        sqlConnection.Close();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.ToString());
-        //    }
-        //    return listOfApp;
-        //}
-
-        // new concept:
-        //1. instead of:         public IAppointmentDetails ReturnAppointmentFromDatabase(string dataWizyty, string godzinaWizyty)
-        // do:         public string GetAppointment_ID_FromDb(string day, string time)
-        //2. next do:         public IAppointmentDetails GetAppointmentDetails_By_ID_FromDatabase(string id)
-        // output old app = new app. Done.
-
-        // old
+        // new
         public IAppointmentDetails ReturnAppointmentFromDatabase(string dataWizyty, string godzinaWizyty)
         {
-            IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
-
+            IAppointmentDetails app = null;
             string id = GetAppointment_ID_FromDb(dataWizyty, godzinaWizyty);
-            app = GetAppointmentDetails_By_ID_FromDatabase(id);
-            //try
-            //{
-            //    sqlConnection.Open();
-            //    sqlQuery = string.Format("SELECT * FROM ReservationTable WHERE appointmentDate = '{0}' AND appointmentTime = '{1}'", dataWizyty, godzinaWizyty);
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                app = kernel.Get<IAppointmentDetails>();
+                app = GetAppointmentDetails_By_ID_FromDatabase(id);
 
-            //    sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-            //    reader = sqlCommand.ExecuteReader();
-            //    if (reader.HasRows)
-            //    {
-            //        while (reader.Read())
-            //        {
-            //            app.AppointmentDate = reader["appointmentDate"].ToString();
-            //            app.AppointmentTime = reader["appointmentTime"].ToString();
-            //            app.AppointmentLength = reader["appointmentLength"].ToString();
-            //            app.AppointmentDuration = reader["appointmentDuration"].ToString();
-            //            app.CustomerForename = reader["customerForename"].ToString();
-            //            app.CustomerSurname = reader["customerSurname"].ToString();
-            //            app.CustomerTelephoneNumber = reader["customerTelephoneNumber"].ToString();
-            //            app.CustomerEmail = reader["customerEmail"].ToString();
-            //            app.ServiceName = reader["serviceName"].ToString();
-            //            app.IsOccupied = reader["isOccupied"].ToString();
-            //        }
-            //    }
-            //    else
-            //    {
-            //        app = null;
-            //    }
+            }
 
-            //    sqlConnection.Close();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.ToString());
-
-            //}
             return app;
         }
         // ustawic lentghy
@@ -180,45 +103,48 @@ namespace Res2019
             ICustomer customer = kernel.Get<ICustomer>();
             IMyServices service = kernel.Get<IMyServices>();
 
-
-            var customer_id = "";
-            var date_id = "";
-            var service_id = "";
-
-            try
+            if (!string.IsNullOrEmpty(id))
             {
-                sqlConnection_New.Open();
-                sqlQuery = string.Format("SELECT * FROM appointment WHERE appointment_id = '{0}'", id);
+                var customer_id = "";
+                var date_id = "";
+                var service_id = "";
 
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
+                try
                 {
-                    while (reader.Read())
-                    {
-                        customer_id = reader["customer_id"].ToString();
-                        service_id = reader["service_id"].ToString();
-                        date_id = reader["date_id"].ToString();
-                    }
-                }
-                sqlConnection_New.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            date = GetDateFromDb_Specially_ById(date_id);
-            customer = GetCustomerFromDb_ById(customer_id);
-            service = GetServiceFromDb_ById(date_id);
+                    sqlConnection_New.Open();
+                    sqlQuery = string.Format("SELECT * FROM appointment WHERE appointment_id = '{0}'", id);
 
-            app.CustomerForename = customer.CustomerForename;
-            app.CustomerSurname = customer.CustomerSurname;
-            app.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
-            app.AppointmentDate = date.DateDate;
-            app.AppointmentTime = date.DateTime;
-            app.AppointmentDuration = date.DateDuration;
-            app.AppointmentLength = date.DateLength;
-            app.ServiceName = service.ServiceName;
+                    sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                    reader = sqlCommand.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            customer_id = reader["customer_id"].ToString();
+                            service_id = reader["service_id"].ToString();
+                            date_id = reader["date_id"].ToString();
+                        }
+                    }
+                    sqlConnection_New.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                date = GetDateFromDb_Specially_ById(date_id);
+                customer = GetCustomerFromDb_ById(customer_id);
+                service = GetServiceFromDb_ById(date_id);
+
+                app.CustomerForename = customer.CustomerForename;
+                app.CustomerSurname = customer.CustomerSurname;
+                app.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
+                app.AppointmentDate = date.DateDay;
+                app.AppointmentTime = date.DateTime;
+                app.AppointmentDuration = date.DateDuration;
+                app.AppointmentLength = date.DateLength;
+                app.ServiceName = service.ServiceName;
+
+            }
             return app;
         }
         public IAppointmentDetails GetAppointmentDetails_By_date_ID_FromDatabase(string id)
@@ -262,7 +188,7 @@ namespace Res2019
             app.CustomerForename = customer.CustomerForename;
             app.CustomerSurname = customer.CustomerSurname;
             app.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
-            app.AppointmentDate = date.DateDate;
+            app.AppointmentDate = date.DateDay;
             app.AppointmentTime = date.DateTime;
             app.AppointmentDuration = date.DateDuration;
             app.AppointmentLength = date.DateLength;
@@ -344,7 +270,7 @@ namespace Res2019
                 {
                     while (reader.Read())
                     {
-                        output.DateDate = reader["day"].ToString();
+                        output.DateDay = reader["day"].ToString();
                         output.DateTime = reader["time"].ToString();
                         output.DateLength = reader["length"].ToString();
                         output.DateDuration = reader["duration"].ToString();
@@ -414,7 +340,7 @@ namespace Res2019
                 {
                     while (reader.Read())
                     {
-                        app.DateDate = reader["day"].ToString();
+                        app.DateDay = reader["day"].ToString();
                         app.DateTime = reader["time"].ToString();
                         app.DateLength = reader["length"].ToString();
                         app.DateDuration = reader["duration"].ToString();
@@ -450,7 +376,7 @@ namespace Res2019
                 {
                     while (reader.Read())
                     {
-                        app.DateDate = reader["day"].ToString();
+                        app.DateDay = reader["day"].ToString();
                         app.DateTime = reader["time"].ToString();
                         app.DateLength = reader["length"].ToString();
                         app.DateDuration = reader["duration"].ToString();

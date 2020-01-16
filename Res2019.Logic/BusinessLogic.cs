@@ -79,6 +79,7 @@ namespace Res2019.Logic
         public IAppointmentDetails ReadSingleAppointment(string date, string time)
         {
             return appointmentProcessor.ReadAppointment(date, time);
+//*
         }
         public List<IAppointmentDetails> ReadListOfAppointments(string date)
         {

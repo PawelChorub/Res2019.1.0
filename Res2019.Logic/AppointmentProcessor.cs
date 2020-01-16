@@ -152,7 +152,7 @@ namespace Res2019.Logic
                 MessageBox.Show("Wizyta nie została usunięta, z powodu niewystarczających danych!");
             }
         }
-
+//*
         public IAppointmentDetails ReadAppointment(string date, string time)
         {
             if (!string.IsNullOrWhiteSpace(date) && !string.IsNullOrWhiteSpace(time))
@@ -199,13 +199,13 @@ namespace Res2019.Logic
 
                 if (string.IsNullOrEmpty(date_id))
                 {
-                    date.DateDate = appointment.AppointmentDate;
+                    date.DateDay = appointment.AppointmentDate;
                     date.DateTime = appointment.AppointmentTime;
                     date.DateLength = appointment.AppointmentLength;
                     date.DateDuration = appointment.AppointmentDuration;
                     saveToDatabase.SaveNewDateToSql(date);
 
-                    date_id = readFromDatabase.GetDateFromDb_Specially(date.DateDate, date.DateTime).Date_Id;
+                    date_id = readFromDatabase.GetDateFromDb_Specially(date.DateDay, date.DateTime).Date_Id;
                     saveToDatabase.SaveToSql_New(date_id, customer_id, service_id);
                 }
                 else
@@ -232,21 +232,35 @@ namespace Res2019.Logic
 
         private void UpdateAppointmentToDatabase(IAppointment appointment, ICustomer customer, IMyServices service)
         {
-            updateToDatabase.UpdatedToDatabase += emailConfirmation.OnUpdatedToDatabaseEventLog;
-            updateToDatabase.UpdatedToDatabase += smsConfirmation.OnUpdatedToDatabaseEventLog;
+            //updateToDatabase.UpdatedToDatabase += emailConfirmation.OnUpdatedToDatabaseEventLog;
+            //updateToDatabase.UpdatedToDatabase += smsConfirmation.OnUpdatedToDatabaseEventLog;
+            var date_id = readFromDatabase.GetDateFromDb_Specially(appointment.AppointmentDate, appointment.AppointmentTime);
+            var customer_id = readFromDatabase.GetCustomerFromDb(customer);
+            var service_id = readFromDatabase.GetServiceFromDb(service);
 
             if (CheckObjectsIsItsNotNull(appointment, customer, service))
             {
-                appointmentDetails.AppointmentDate = appointment.AppointmentDate;
-                appointmentDetails.AppointmentTime = appointment.AppointmentTime;
-                appointmentDetails.AppointmentLength = appointment.AppointmentLength;
-                appointmentDetails.AppointmentDuration = appointment.AppointmentDuration;
-                appointmentDetails.CustomerForename = customer.CustomerForename;
-                appointmentDetails.CustomerSurname = customer.CustomerSurname;
-                appointmentDetails.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
-                appointmentDetails.ServiceName = service.ServiceName;
+                if (customer_id != null)
+                {
+                    saveToDatabase.SaveNewCustomerToSql(customer);
+                    customer_id = readFromDatabase.GetCustomerFromDb(customer);
+                }
 
-                updateToDatabase.ModifyToSql(appointmentDetails);
+                //appointmentDetails.AppointmentDate = appointment.AppointmentDate;
+                //appointmentDetails.AppointmentTime = appointment.AppointmentTime;
+                //appointmentDetails.AppointmentLength = appointment.AppointmentLength;
+                //appointmentDetails.AppointmentDuration = appointment.AppointmentDuration;
+                //appointmentDetails.CustomerForename = customer.CustomerForename;
+                //appointmentDetails.CustomerSurname = customer.CustomerSurname;
+                //appointmentDetails.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
+                //appointmentDetails.ServiceName = service.ServiceName;
+
+                // date jest pusty???
+
+                updateToDatabase.UpdateDateToDb_NEW(date_id, appointment);
+
+                updateToDatabase.ModifyToSql_NEW(date_id, customer_id, service_id);
+                //updateToDatabase.ModifyToSql(appointmentDetails);
             }
         }
 

@@ -67,7 +67,7 @@ namespace Res2019
             {
                 sqlConnection_New.Open();
                 sqlQuery = string.Format("INSERT INTO date (day, time, length, duration) VALUES ('{0}','{1}','{2}', '{3}')",
-                     date.DateDate,
+                     date.DateDay,
                      date.DateTime,
                      date.DateLength,
                      date.DateDuration);
