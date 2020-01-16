@@ -257,7 +257,7 @@ namespace Res2019
             }
             date = GetDateFromDb_Specially_ById(date_id);
             customer = GetCustomerFromDb_ById(customer_id);
-            service = GetServiceFromDb_ById(date_id);
+            service = GetServiceFromDb_ById(service_id);
 
             app.CustomerForename = customer.CustomerForename;
             app.CustomerSurname = customer.CustomerSurname;
