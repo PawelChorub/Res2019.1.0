@@ -18,7 +18,6 @@ namespace Res2019
         readonly IKernel kernel = new StandardKernel(new DI_Container());
         private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings();
     
-        private static SqlConnection sqlConnection = new SqlConnection(connectionString.MsSqlConnectionStringBuild());
         private static SqlConnection sqlConnection_New = new SqlConnection(connectionString.MsSqlConnectionStringBuild_New());
         
         private static SqlCommand sqlCommand;
@@ -28,7 +27,7 @@ namespace Res2019
         private readonly static string table = connectionString.UseReservationTableName();
 
         //new
-        public List<string> GetDateFromDb_Specially_ByDay(string dataWizyty)
+        public List<string> GetDateFromDb_ByDay(string dataWizyty)
         {
             List<string> output = new List<string>();
 
@@ -60,7 +59,7 @@ namespace Res2019
         {
             List<IAppointmentDetails> listOfApp = new List<IAppointmentDetails>();
 
-            var date_id_List = GetDateFromDb_Specially_ByDay(date);
+            var date_id_List = GetDateFromDb_ByDay(date);
 
             foreach (var item in date_id_List)
             {
@@ -68,37 +67,32 @@ namespace Res2019
                 {
                     try
                     {
-                        listOfApp.Add(GetAppointmentDetails_By_date_ID_FromDatabase(item));
+                        listOfApp.Add(GetAppointmentDetailsByDate_id(item));
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.ToString());
                     }
-
                 }
-
             }
-
             return listOfApp;
         }
         // new
         public IAppointmentDetails ReturnAppointmentFromDatabase(string dataWizyty, string godzinaWizyty)
         {
-            IAppointmentDetails app = null;
-            string id = GetAppointment_ID_FromDb(dataWizyty, godzinaWizyty);
+            IAppointmentDetails appointment = null;
+            string id = GetAppointment_idByDayAndTime(dataWizyty, godzinaWizyty);
             if (!string.IsNullOrWhiteSpace(id))
             {
-                app = kernel.Get<IAppointmentDetails>();
-                app = GetAppointmentDetails_By_ID_FromDatabase(id);
-
+                appointment = kernel.Get<IAppointmentDetails>();
+                appointment = GetAppointmentDetailsByAppointment_id(id);
             }
-
-            return app;
+            return appointment;
         }
         // ustawic lentghy
-        public IAppointmentDetails GetAppointmentDetails_By_ID_FromDatabase(string id)
+        public IAppointmentDetails GetAppointmentDetailsByAppointment_id(string id)
         {
-            IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
+            IAppointmentDetails appointment = kernel.Get<IAppointmentDetails>();
             IDate date = kernel.Get<IDate>();
             ICustomer customer = kernel.Get<ICustomer>();
             IMyServices service = kernel.Get<IMyServices>();
@@ -131,29 +125,27 @@ namespace Res2019
                 {
                     MessageBox.Show(ex.ToString());
                 }
-                date = GetDateFromDb_Specially_ById(date_id);
-                customer = GetCustomerFromDb_ById(customer_id);
-                service = GetServiceFromDb_ById(date_id);
+                date = GetDateByDate_id(date_id);
+                customer = GetCustomerByCustomer_id(customer_id);
+                service = GetServiceByService_id(date_id);
 
-                app.CustomerForename = customer.CustomerForename;
-                app.CustomerSurname = customer.CustomerSurname;
-                app.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
-                app.AppointmentDate = date.DateDay;
-                app.AppointmentTime = date.DateTime;
-                app.AppointmentDuration = date.DateDuration;
-                app.AppointmentLength = date.DateLength;
-                app.ServiceName = service.ServiceName;
-
+                appointment.CustomerForename = customer.CustomerForename;
+                appointment.CustomerSurname = customer.CustomerSurname;
+                appointment.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
+                appointment.AppointmentDate = date.DateDay;
+                appointment.AppointmentTime = date.DateTime;
+                appointment.AppointmentDuration = date.DateDuration;
+                appointment.AppointmentLength = date.DateLength;
+                appointment.ServiceName = service.ServiceName;
             }
-            return app;
+            return appointment;
         }
-        public IAppointmentDetails GetAppointmentDetails_By_date_ID_FromDatabase(string id)
+        public IAppointmentDetails GetAppointmentDetailsByDate_id(string id)
         {
-            IAppointmentDetails app = kernel.Get<IAppointmentDetails>();
+            IAppointmentDetails appointment = kernel.Get<IAppointmentDetails>();
             IDate date = kernel.Get<IDate>();
             ICustomer customer = kernel.Get<ICustomer>();
             IMyServices service = kernel.Get<IMyServices>();
-
 
             var customer_id = "";
             var date_id = "";
@@ -181,22 +173,22 @@ namespace Res2019
             {
                 MessageBox.Show(ex.ToString());
             }
-            date = GetDateFromDb_Specially_ById(date_id);
-            customer = GetCustomerFromDb_ById(customer_id);
-            service = GetServiceFromDb_ById(service_id);
+            date = GetDateByDate_id(date_id);
+            customer = GetCustomerByCustomer_id(customer_id);
+            service = GetServiceByService_id(service_id);
 
-            app.CustomerForename = customer.CustomerForename;
-            app.CustomerSurname = customer.CustomerSurname;
-            app.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
-            app.AppointmentDate = date.DateDay;
-            app.AppointmentTime = date.DateTime;
-            app.AppointmentDuration = date.DateDuration;
-            app.AppointmentLength = date.DateLength;
-            app.ServiceName = service.ServiceName;
-            return app;
+            appointment.CustomerForename = customer.CustomerForename;
+            appointment.CustomerSurname = customer.CustomerSurname;
+            appointment.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
+            appointment.AppointmentDate = date.DateDay;
+            appointment.AppointmentTime = date.DateTime;
+            appointment.AppointmentDuration = date.DateDuration;
+            appointment.AppointmentLength = date.DateLength;
+            appointment.ServiceName = service.ServiceName;
+            return appointment;
         }
 
-        private IMyServices GetServiceFromDb_ById(string id)
+        private IMyServices GetServiceByService_id(string id)
         {
             IMyServices service = kernel.Get<IMyServices>();
 
@@ -224,9 +216,9 @@ namespace Res2019
 
         }
 
-        private ICustomer GetCustomerFromDb_ById(string id)
+        private ICustomer GetCustomerByCustomer_id(string id)
         {
-            ICustomer output = kernel.Get<ICustomer>();
+            ICustomer customer = kernel.Get<ICustomer>();
             try
             {
                 sqlConnection_New.Open();
@@ -238,26 +230,25 @@ namespace Res2019
                 {
                     while (reader.Read())
                     {
-                        output.CustomerForename = reader["forename"].ToString();
-                        output.CustomerSurname = reader["surname"].ToString();
-                        output.CustomerTelephoneNumber = reader["telephoneNumber"].ToString();
-                        output.CustomerId = reader["customer_id"].ToString();
+                        customer.CustomerForename = reader["forename"].ToString();
+                        customer.CustomerSurname = reader["surname"].ToString();
+                        customer.CustomerTelephoneNumber = reader["telephoneNumber"].ToString();
+                        customer.CustomerId = reader["customer_id"].ToString();
                     }
                 }
                 sqlConnection_New.Close();
-
             }
             catch (Exception)
             {
                 throw;
             }
-            return output;
+            return customer;
 
         }
 
-        private IDate GetDateFromDb_Specially_ById(string id)
+        private IDate GetDateByDate_id(string id)
         {
-            IDate output = kernel.Get<IDate>();
+            IDate date = kernel.Get<IDate>();
 
             try
             {
@@ -270,16 +261,16 @@ namespace Res2019
                 {
                     while (reader.Read())
                     {
-                        output.DateDay = reader["day"].ToString();
-                        output.DateTime = reader["time"].ToString();
-                        output.DateLength = reader["length"].ToString();
-                        output.DateDuration = reader["duration"].ToString();
-                        output.Date_Id = reader["date_id"].ToString();
+                        date.DateDay = reader["day"].ToString();
+                        date.DateTime = reader["time"].ToString();
+                        date.DateLength = reader["length"].ToString();
+                        date.DateDuration = reader["duration"].ToString();
+                        date.Date_Id = reader["date_id"].ToString();
                     }
                 }
                 else
                 {
-                    output = null;
+                    date = null;
                 }
 
                 sqlConnection_New.Close();
@@ -289,16 +280,16 @@ namespace Res2019
                 MessageBox.Show(ex.ToString());
 
             }
-            return output;
+            return date;
         }
 
-        public string GetAppointment_ID_FromDb(string day, string time)
+        public string GetAppointment_idByDayAndTime(string day, string time)
         {
-            IDate app = kernel.Get<IDate>();
+            IDate date = kernel.Get<IDate>();
 
-            app = GetDateFromDb_Specially(day, time);
+            date = GetDateFromDb_Specially(day, time);
 
-            string search = app.Date_Id;
+            string search = date.Date_Id;
 
             string output = "";
             try
@@ -325,14 +316,14 @@ namespace Res2019
             return output;
         }
 
-        public IDate GetDateFromDb(string dataWizyty, string godzinaWizyty)
+        public IDate GetDateByDayAndTime(string day, string time)
         {
-            IDate app = kernel.Get<IDate>();
+            IDate date = kernel.Get<IDate>();
 
             try
             {
                 sqlConnection_New.Open();
-                sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}' AND time = '{1}'", dataWizyty, godzinaWizyty);
+                sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}' AND time = '{1}'", day, time);
 
                 sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
                 reader = sqlCommand.ExecuteReader();
@@ -340,16 +331,16 @@ namespace Res2019
                 {
                     while (reader.Read())
                     {
-                        app.DateDay = reader["day"].ToString();
-                        app.DateTime = reader["time"].ToString();
-                        app.DateLength = reader["length"].ToString();
-                        app.DateDuration = reader["duration"].ToString();
-                        app.Date_Id = reader["date_id"].ToString();
+                        date.DateDay = reader["day"].ToString();
+                        date.DateTime = reader["time"].ToString();
+                        date.DateLength = reader["length"].ToString();
+                        date.DateDuration = reader["duration"].ToString();
+                        date.Date_Id = reader["date_id"].ToString();
                     }
                 }
                 else
                 {
-                    app = null;
+                    date = null;
                 }
 
                 sqlConnection_New.Close();
@@ -357,9 +348,8 @@ namespace Res2019
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-
             }
-            return app;
+            return date;
         }
         public IDate GetDateFromDb_Specially(string dataWizyty, string godzinaWizyty)
         {

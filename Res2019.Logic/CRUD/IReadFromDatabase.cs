@@ -5,7 +5,7 @@ namespace Res2019
 {
     public interface IReadFromDatabase
     {
-        IDate GetDateFromDb(string dataWizyty, string godzinaWizyty);
+        IDate GetDateByDayAndTime(string dataWizyty, string godzinaWizyty);
         List<IAppointmentDetails> ReturnListOfAppointmentsFromDatabase(string date);
         IAppointmentDetails ReturnAppointmentFromDatabase(string dataWizyty, string godzinaWizyty);
 
@@ -14,9 +14,9 @@ namespace Res2019
 
         IDate GetDateFromDb_Specially(string dataWizyty, string godzinaWizyty);
 
-        string GetAppointment_ID_FromDb(string day, string time);
+        string GetAppointment_idByDayAndTime(string day, string time);
 
-        IAppointmentDetails GetAppointmentDetails_By_ID_FromDatabase(string id);
+        IAppointmentDetails GetAppointmentDetailsByAppointment_id(string id);
 
 
 

@@ -168,11 +168,11 @@ namespace Res2019
             //test
             IReadFromDatabase readFromDatabase = kernel.Get<IReadFromDatabase>();
 
-            string m = readFromDatabase.GetAppointment_ID_FromDb(setDateFromLabel, setTimeFromLabel);
+            string m = readFromDatabase.GetAppointment_idByDayAndTime(setDateFromLabel, setTimeFromLabel);
             MessageBox.Show(m);
             if(m != "")
             {
-                readFromDatabase.GetAppointmentDetails_By_ID_FromDatabase(m);
+                readFromDatabase.GetAppointmentDetailsByAppointment_id(m);
 
             }
             // end test
