@@ -242,10 +242,11 @@ namespace Res2019.Logic
             var date_id = readFromDatabase.GetDateFromDb_Specially(appointment.AppointmentDate, appointment.AppointmentTime);
             var customer_id = readFromDatabase.GetCustomerFromDb(customer);
             var service_id = readFromDatabase.GetServiceFromDb(service);
+            var appointmentToModify_id = readFromDatabase.GetAppointment_ID_FromDb(appointment.AppointmentDate, appointment.AppointmentTime);
 
             if (CheckObjectsIsItsNotNull(appointment, customer, service))
             {
-                if (customer_id != null)
+                if (string.IsNullOrWhiteSpace(customer_id.CustomerId))
                 {
                     saveToDatabase.SaveNewCustomerToSql(customer);
                     customer_id = readFromDatabase.GetCustomerFromDb(customer);
@@ -264,7 +265,9 @@ namespace Res2019.Logic
 
                 updateToDatabase.UpdateDateToDb_NEW(date_id, appointment);
 
-                updateToDatabase.ModifyToSql_NEW(date_id, customer_id, service_id);
+                // dodaj where do appointment table
+
+                updateToDatabase.ModifyToSql_NEW(date_id, customer_id, service_id, appointmentToModify_id);
                 //updateToDatabase.ModifyToSql(appointmentDetails);
             }
         }

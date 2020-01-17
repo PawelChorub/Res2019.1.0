@@ -12,7 +12,7 @@ namespace Res2019
         void ModifyToSql(IAppointmentDetails appointmentDetails);
 
         //void ModifyToSql_NEW(string date_id, string customer_id, string service_id);
-        void ModifyToSql_NEW(IDate date, ICustomer customer, IMyServices service);
+        void ModifyToSql_NEW(IDate date, ICustomer customer, IMyServices service, string appointmentToModify_id);
 
         void UpdateDateToDb_NEW(IDate date, IAppointment appointment);
 

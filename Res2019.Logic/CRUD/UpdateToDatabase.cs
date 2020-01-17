@@ -55,7 +55,7 @@ namespace Res2019
             }
 
         }
-        public void ModifyToSql_NEW(IDate date, ICustomer customer, IMyServices service)
+        public void ModifyToSql_NEW(IDate date, ICustomer customer, IMyServices service, string appointmentToModify_id)
                     //public void ModifyToSql_NEW(string date_id, string customer_id, string service_id)
         {
 
@@ -63,10 +63,11 @@ namespace Res2019
             {
                 sqlConnection_New.Open();
                 sqlQuery = string.Format("UPDATE appointment SET customer_id = '{0}'," +
-                    "service_id = '{1}', date_id = '{2}'",
+                    "service_id = '{1}', date_id = '{2}' WHERE appointment_id = '{3}'",
                     customer.CustomerId,
                     service.ServiceId,
-                    date.Date_Id);
+                    date.Date_Id,
+                    appointmentToModify_id);
                 sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection_New.Close();
