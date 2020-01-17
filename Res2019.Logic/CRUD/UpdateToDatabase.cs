@@ -46,8 +46,6 @@ namespace Res2019
                 sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection_New.Close();
-
-                //OnUpdatedToDatabase(appointmentDetails);
             }
             catch (Exception ex)
             {
@@ -56,9 +54,7 @@ namespace Res2019
 
         }
         public void ModifyToSql_NEW(IDate date, ICustomer customer, IMyServices service, string appointmentToModify_id)
-                    //public void ModifyToSql_NEW(string date_id, string customer_id, string service_id)
         {
-
             try
             {
                 sqlConnection_New.Open();
@@ -73,38 +69,6 @@ namespace Res2019
                 sqlConnection_New.Close();
 
                 //OnUpdatedToDatabase(appointmentDetails);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Nieudana modyfikacja wizyty podczas zapisu do bazy. Szczegóły: " + ex.ToString());
-            }
-        }
-
-        public void ModifyToSql(IAppointmentDetails appointmentDetails)
-        {
-            try
-            {
-                string isOccupied = "true";
-                sqlConnection.Open();
-                sqlQuery = string.Format("UPDATE {9} SET appointmentLength = '{2}'," +
-                    "appointmentDuration = '{3}', customerForename = '{4}', customerSurname = '{5}'," +
-                    "customerTelephoneNumber = '{6}', serviceName = '{7}', isOccupied = '{8}' WHERE appointmentDate = '{0}' AND appointmentTime = '{1}'",
-                    appointmentDetails.AppointmentDate,
-                    appointmentDetails.AppointmentTime,
-                    appointmentDetails.AppointmentLength,
-                    appointmentDetails.AppointmentDuration,
-                    appointmentDetails.CustomerForename,
-                    appointmentDetails.CustomerSurname,
-                    appointmentDetails.CustomerTelephoneNumber,
-                    appointmentDetails.ServiceName,
-                    isOccupied,
-                    table
-                    );
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection.Close();
-
-                OnUpdatedToDatabase(appointmentDetails);
             }
             catch (Exception ex)
             {

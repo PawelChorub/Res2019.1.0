@@ -143,21 +143,19 @@ namespace Res2019.Logic
         public void DeleteAppointment(IAppointment appointment)
         {
             if (!string.IsNullOrWhiteSpace(appointment.AppointmentDate) && !string.IsNullOrWhiteSpace(appointment.AppointmentTime))
-
             {
                 string id = readFromDatabase.GetAppointment_ID_FromDb(appointment.AppointmentDate, appointment.AppointmentTime);
                 string date_id = readFromDatabase.GetDateFromDb_Specially(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id;
-                //removeFromDatabase.RemoveAppointmentFromDatabase(appointment.AppointmentDate, appointment.AppointmentTime);
+
                 removeFromDatabase.DeleteAppointmentFromDatabase_NEW(id);
-                removeFromDatabase.DeleteDateFromDatabase_NEW(date_id);
-               
+                removeFromDatabase.DeleteDateFromDatabase_NEW(date_id);               
             }
             else
             {
                 MessageBox.Show("Wizyta nie została usunięta, z powodu niewystarczających danych!");
             }
         }
-//*
+
         public IAppointmentDetails ReadAppointment(string date, string time)
         {
             if (!string.IsNullOrWhiteSpace(date) && !string.IsNullOrWhiteSpace(time))
@@ -252,23 +250,9 @@ namespace Res2019.Logic
                     customer_id = readFromDatabase.GetCustomerFromDb(customer);
                 }
 
-                //appointmentDetails.AppointmentDate = appointment.AppointmentDate;
-                //appointmentDetails.AppointmentTime = appointment.AppointmentTime;
-                //appointmentDetails.AppointmentLength = appointment.AppointmentLength;
-                //appointmentDetails.AppointmentDuration = appointment.AppointmentDuration;
-                //appointmentDetails.CustomerForename = customer.CustomerForename;
-                //appointmentDetails.CustomerSurname = customer.CustomerSurname;
-                //appointmentDetails.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
-                //appointmentDetails.ServiceName = service.ServiceName;
-
-                // date jest pusty???
-
                 updateToDatabase.UpdateDateToDb_NEW(date_id, appointment);
 
-                // dodaj where do appointment table
-
                 updateToDatabase.ModifyToSql_NEW(date_id, customer_id, service_id, appointmentToModify_id);
-                //updateToDatabase.ModifyToSql(appointmentDetails);
             }
         }
 
