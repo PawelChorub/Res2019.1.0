@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Res2019.Library
 {
-    public class DateLibrary : IDateLibrary
+    public class DayLibrary : IDayLibrary
     {
-        public string AppointmentDate { get; set; }
+        public string AppointmentDay { get; set; }
     }
 }

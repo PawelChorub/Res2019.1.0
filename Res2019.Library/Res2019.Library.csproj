@@ -44,11 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DateLibrary.cs" />
+    <Compile Include="DayLibrary.cs" />
     <Compile Include="DurationLibrary.cs" />
     <Compile Include="EmailLibrary.cs" />
     <Compile Include="ForenameLibrary.cs" />
-    <Compile Include="IDateLibrary.cs" />
+    <Compile Include="IDayLibrary.cs" />
     <Compile Include="IDurationLibrary.cs" />
     <Compile Include="IEmailLibrary.cs" />
     <Compile Include="IForenameLibrary.cs" />

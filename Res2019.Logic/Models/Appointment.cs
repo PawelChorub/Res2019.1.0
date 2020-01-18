@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Res2019.Logic.Models
 {
-    public class Appointment : IDateLibrary, ITimeLibrary, ILengthLibrary, IDurationLibrary, IOccupiedLibrary, IAppointment
+    public class Appointment : IDayLibrary, ITimeLibrary, ILengthLibrary, IDurationLibrary, IOccupiedLibrary, IAppointment
     {
         
         public string AppointmentId { get; set; }
-        public string AppointmentDate { get; set; }
+        public string AppointmentDay { get; set; }
         public string AppointmentTime { get; set; }
         public string AppointmentLength { get; set; }
         public string AppointmentDuration { get; set; }

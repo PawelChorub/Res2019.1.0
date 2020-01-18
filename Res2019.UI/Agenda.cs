@@ -164,17 +164,6 @@ namespace Res2019
 
         private void OnLabelClick_Click(object sender, EventArgs e)
         {
-            //test
-            IReadFromDatabase readFromDatabase = kernel.Get<IReadFromDatabase>();
-
-            string m = readFromDatabase.GetAppointment_idByDayAndTime(setDateFromLabel, setTimeFromLabel);
-            MessageBox.Show(m);
-            if(m != "")
-            {
-                readFromDatabase.GetAppointmentDetailsByAppointment_id(m);
-
-            }
-            // end test
             AddOrRemoveAppointmentForm addOrRemove = new AddOrRemoveAppointmentForm(setDateFromLabel, setTimeFromLabel);
             addOrRemove.ShowDialog();
             SectionSetToDefaultMulti();

@@ -129,7 +129,7 @@ namespace Res2019
                 appointment.CustomerForename = customer.CustomerForename;
                 appointment.CustomerSurname = customer.CustomerSurname;
                 appointment.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
-                appointment.AppointmentDate = date.DateDay;
+                appointment.AppointmentDay = date.DateDay;
                 appointment.AppointmentTime = date.DateTime;
                 appointment.AppointmentDuration = date.DateDuration;
                 appointment.AppointmentLength = date.DateLength;
@@ -177,7 +177,7 @@ namespace Res2019
             appointment.CustomerForename = customer.CustomerForename;
             appointment.CustomerSurname = customer.CustomerSurname;
             appointment.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
-            appointment.AppointmentDate = date.DateDay;
+            appointment.AppointmentDay = date.DateDay;
             appointment.AppointmentTime = date.DateTime;
             appointment.AppointmentDuration = date.DateDuration;
             appointment.AppointmentLength = date.DateLength;

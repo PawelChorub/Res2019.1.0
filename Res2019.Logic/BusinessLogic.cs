@@ -41,7 +41,7 @@ namespace Res2019.Logic
         public void AppointmentDetails(string date, string time, string length, string duration, string fname, string sname, string tel, string _service)
         {
            
-            appointment.AppointmentDate = date;
+            appointment.AppointmentDay = date;
             appointment.AppointmentTime = time;
             appointment.AppointmentLength = length;
             appointment.AppointmentDuration = duration;
@@ -56,7 +56,7 @@ namespace Res2019.Logic
 
         public void ModifyAppointmentDetails(string date, string time, string length, string duration, string fname, string sname, string tel, string _service, string existAppDuration)
         {
-            appointment.AppointmentDate = date;
+            appointment.AppointmentDay = date;
             appointment.AppointmentTime = time;
             appointment.AppointmentLength = length;
             appointment.AppointmentDuration = duration;
@@ -70,7 +70,7 @@ namespace Res2019.Logic
         }
         public void DeleteAppointment(string date, string time)
         {
-            appointment.AppointmentDate = date;
+            appointment.AppointmentDay = date;
             appointment.AppointmentTime = time;
 
             appointmentProcessor.DeleteAppointment(appointment);

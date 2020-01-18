@@ -52,7 +52,7 @@ namespace Res2019.Logic
             {
                 timeToCalculate = appointmentTime.AddMinutes(i).ToShortTimeString();
                 // kolizja z następnym terminem 
-                if (readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDate, timeToCalculate).Date_Id == null)
+                if (readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDay, timeToCalculate).Date_Id == null)
                 {
                     IsTimeAvailable = true;
                 }
@@ -103,7 +103,7 @@ namespace Res2019.Logic
                 {   // sprawdź po minucie czy wolny zakres terminów
                     timeToCalculate = appointmentTime.AddMinutes(i).ToShortTimeString();
 
-                    if (readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDate, timeToCalculate).Date_Id == null)
+                    if (readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDay, timeToCalculate).Date_Id == null)
                     {
                         IsTimeAvailable = true;
                     }
@@ -142,10 +142,10 @@ namespace Res2019.Logic
 
         public void DeleteAppointment(IAppointment appointment)
         {
-            if (!string.IsNullOrWhiteSpace(appointment.AppointmentDate) && !string.IsNullOrWhiteSpace(appointment.AppointmentTime))
+            if (!string.IsNullOrWhiteSpace(appointment.AppointmentDay) && !string.IsNullOrWhiteSpace(appointment.AppointmentTime))
             {
-                string id = readFromDatabase.GetAppointment_idByDayAndTime(appointment.AppointmentDate, appointment.AppointmentTime);
-                string date_id = readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id;
+                string id = readFromDatabase.GetAppointment_idByDayAndTime(appointment.AppointmentDay, appointment.AppointmentTime);
+                string date_id = readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDay, appointment.AppointmentTime).Date_Id;
 
                 removeFromDatabase.DeleteAppointmentFromDatabase_NEW(id);
                 removeFromDatabase.DeleteDateFromDatabase_NEW(date_id);               
@@ -186,7 +186,7 @@ namespace Res2019.Logic
             saveToDatabase.SaveToDatabaseEventLog += emailConfirmation.OnSavedToDatabaseEventLog;
             saveToDatabase.SaveToDatabaseEventLog += smsConfirmation.OnSavedToDatabaseEventLog;
 
-            var date_id = readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id;
+            var date_id = readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDay, appointment.AppointmentTime).Date_Id;
 
             var customer_id = readFromDatabase.GetCustomerFromDb(customer).CustomerId;
 
@@ -202,7 +202,7 @@ namespace Res2019.Logic
 
                 if (string.IsNullOrEmpty(date_id))
                 {
-                    date.DateDay = appointment.AppointmentDate;
+                    date.DateDay = appointment.AppointmentDay;
                     date.DateTime = appointment.AppointmentTime;
                     date.DateLength = appointment.AppointmentLength;
                     date.DateDuration = appointment.AppointmentDuration;
@@ -220,7 +220,7 @@ namespace Res2019.Logic
 
         private static bool CheckObjectsIsItsNotNull(IAppointment appointment, ICustomer customer, IMyServices service)
         {
-            if ((!string.IsNullOrWhiteSpace(appointment.AppointmentDate)) &&
+            if ((!string.IsNullOrWhiteSpace(appointment.AppointmentDay)) &&
                     (!string.IsNullOrWhiteSpace(appointment.AppointmentTime)) &&
                     (!string.IsNullOrWhiteSpace(appointment.AppointmentLength)) &&
                     (!string.IsNullOrWhiteSpace(appointment.AppointmentDuration)) &&
@@ -237,10 +237,10 @@ namespace Res2019.Logic
         {
             //updateToDatabase.UpdatedToDatabase += emailConfirmation.OnUpdatedToDatabaseEventLog;
             //updateToDatabase.UpdatedToDatabase += smsConfirmation.OnUpdatedToDatabaseEventLog;
-            var date_id = readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDate, appointment.AppointmentTime);
+            var date_id = readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDay, appointment.AppointmentTime);
             var customer_id = readFromDatabase.GetCustomerFromDb(customer);
             var service_id = readFromDatabase.GetServiceFromDb(service);
-            var appointmentToModify_id = readFromDatabase.GetAppointment_idByDayAndTime(appointment.AppointmentDate, appointment.AppointmentTime);
+            var appointmentToModify_id = readFromDatabase.GetAppointment_idByDayAndTime(appointment.AppointmentDay, appointment.AppointmentTime);
 
             if (CheckObjectsIsItsNotNull(appointment, customer, service))
             {
