@@ -70,8 +70,8 @@ namespace Res2019
             day5Label.Text = businessLogic.DateSet(day5Label.Text, -1);
             day6Label.Text = businessLogic.DateSet(day6Label.Text, -1);
             day7Label.Text = businessLogic.DateSet(day7Label.Text, -1);
-            SectionSetToDefaultMulti();                     //ustaw labele na default
-            SectionFillMulti();                             // wypelnij wszystkie
+            SectionSetToDefaultMulti();                     
+            SectionFillMulti();                             
         }
         private void NextBtn_Click(object sender, EventArgs e)
         {
@@ -82,8 +82,8 @@ namespace Res2019
             day5Label.Text = businessLogic.DateSet(day5Label.Text, 1);
             day6Label.Text = businessLogic.DateSet(day6Label.Text, 1);
             day7Label.Text = businessLogic.DateSet(day7Label.Text, 1);
-            SectionSetToDefaultMulti();                     //ustaw labele na default
-            SectionFillMulti();                             // wypelnij wszystkie
+            SectionSetToDefaultMulti();                     
+            SectionFillMulti();                             
         }
         private void JumpToDateButton_Click(object sender, EventArgs e)
         {
@@ -146,7 +146,7 @@ namespace Res2019
             {
                 label.Text = businessLogic.SetTimeByLabel(label.Name) + " - " + labelTextBuffer;
             }
-            label.BringToFront();
+            //label.BringToFront();
             setTimeFromLabel = businessLogic.SetTimeByLabel(label.Name);           
             setDateFromLabel = GetDateFromLabel(label.Name);
          }

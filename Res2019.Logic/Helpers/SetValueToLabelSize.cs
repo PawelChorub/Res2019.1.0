@@ -12,8 +12,8 @@ namespace Res2019
         // ustawia rozmiar labela na podstawie wyboru uzytkownika;
         public string TimeToMultiplierCalculate(string valueIn)
         {
-            TimeOfAppointment toa = new TimeOfAppointment();
-            string output = toa.GetAppointmentTimeKey(valueIn).ToString();
+            TimeOfAppointment timeOfAppointment = new TimeOfAppointment();
+            string output = timeOfAppointment.GetAppointmentTimeKey(valueIn).ToString();
 
             return output;
         }
