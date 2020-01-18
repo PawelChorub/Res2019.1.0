@@ -74,11 +74,11 @@ namespace Res2019
             }
             return listOfApp;
         }
-        // new
-        public IAppointmentDetails ReturnAppointmentFromDatabase(string dataWizyty, string godzinaWizyty)
+
+        public IAppointmentDetails GetAppointmentByAppointment_id(string day, string time)
         {
             IAppointmentDetails appointment = null;
-            string id = GetAppointment_idByDayAndTime(dataWizyty, godzinaWizyty);
+            string id = GetAppointment_idByDayAndTime(day, time);
             if (!string.IsNullOrWhiteSpace(id))
             {
                 appointment = kernel.Get<IAppointmentDetails>();
@@ -86,7 +86,7 @@ namespace Res2019
             }
             return appointment;
         }
-        // ustawic lentghy
+
         public IAppointmentDetails GetAppointmentDetailsByAppointment_id(string id)
         {
             IAppointmentDetails appointment = kernel.Get<IAppointmentDetails>();
@@ -104,7 +104,6 @@ namespace Res2019
                 {
                     sqlConnection_New.Open();
                     sqlQuery = string.Format("SELECT * FROM appointment WHERE appointment_id = '{0}'", id);
-
                     sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
                     reader = sqlCommand.ExecuteReader();
                     if (reader.HasRows)
@@ -122,21 +121,27 @@ namespace Res2019
                 {
                     MessageBox.Show(ex.ToString());
                 }
-                date = GetDateByDate_id(date_id);
-                customer = GetCustomerByCustomer_id(customer_id);
-                service = GetServiceByService_id(date_id);
-
-                appointment.CustomerForename = customer.CustomerForename;
-                appointment.CustomerSurname = customer.CustomerSurname;
-                appointment.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
-                appointment.AppointmentDay = date.DateDay;
-                appointment.AppointmentTime = date.DateTime;
-                appointment.AppointmentDuration = date.DateDuration;
-                appointment.AppointmentLength = date.DateLength;
-                appointment.ServiceName = service.ServiceName;
+                SetDetails(appointment, out date, out customer, out service, customer_id, date_id, service_id);
             }
             return appointment;
         }
+
+        private void SetDetails(IAppointmentDetails appointment, out IDate date, out ICustomer customer, out IMyServices service, string customer_id, string date_id, string service_id)
+        {
+            date = GetDateByDate_id(date_id);
+            customer = GetCustomerByCustomer_id(customer_id);
+            service = GetServiceByService_id(service_id);
+
+            appointment.CustomerForename = customer.CustomerForename;
+            appointment.CustomerSurname = customer.CustomerSurname;
+            appointment.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
+            appointment.AppointmentDay = date.DateDay;
+            appointment.AppointmentTime = date.DateTime;
+            appointment.AppointmentDuration = date.DateDuration;
+            appointment.AppointmentLength = date.DateLength;
+            appointment.ServiceName = service.ServiceName;
+        }
+
         public IAppointmentDetails GetAppointmentDetailsByDate_id(string id)
         {
             IAppointmentDetails appointment = kernel.Get<IAppointmentDetails>();
@@ -170,18 +175,8 @@ namespace Res2019
             {
                 MessageBox.Show(ex.ToString());
             }
-            date = GetDateByDate_id(date_id);
-            customer = GetCustomerByCustomer_id(customer_id);
-            service = GetServiceByService_id(service_id);
+            SetDetails(appointment, out date, out customer, out service, customer_id, date_id, service_id);
 
-            appointment.CustomerForename = customer.CustomerForename;
-            appointment.CustomerSurname = customer.CustomerSurname;
-            appointment.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
-            appointment.AppointmentDay = date.DateDay;
-            appointment.AppointmentTime = date.DateTime;
-            appointment.AppointmentDuration = date.DateDuration;
-            appointment.AppointmentLength = date.DateLength;
-            appointment.ServiceName = service.ServiceName;
             return appointment;
         }
 
