@@ -287,7 +287,7 @@ namespace Res2019
         {
             IDate date = kernel.Get<IDate>();
 
-            date = GetDateFromDb_Specially(day, time);
+            date = GetDateByDayAndTime(day, time);
 
             string search = date.Date_Id;
 
@@ -316,42 +316,42 @@ namespace Res2019
             return output;
         }
 
-        public IDate GetDateByDayAndTime(string day, string time)
-        {
-            IDate date = kernel.Get<IDate>();
+        //public IDate GetDateByDayAndTime(string day, string time)
+        //{
+        //    IDate date = kernel.Get<IDate>();
 
-            try
-            {
-                sqlConnection_New.Open();
-                sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}' AND time = '{1}'", day, time);
+        //    try
+        //    {
+        //        sqlConnection_New.Open();
+        //        sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}' AND time = '{1}'", day, time);
 
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        date.DateDay = reader["day"].ToString();
-                        date.DateTime = reader["time"].ToString();
-                        date.DateLength = reader["length"].ToString();
-                        date.DateDuration = reader["duration"].ToString();
-                        date.Date_Id = reader["date_id"].ToString();
-                    }
-                }
-                else
-                {
-                    date = null;
-                }
+        //        sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+        //        reader = sqlCommand.ExecuteReader();
+        //        if (reader.HasRows)
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                date.DateDay = reader["day"].ToString();
+        //                date.DateTime = reader["time"].ToString();
+        //                date.DateLength = reader["length"].ToString();
+        //                date.DateDuration = reader["duration"].ToString();
+        //                date.Date_Id = reader["date_id"].ToString();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            date = null;
+        //        }
 
-                sqlConnection_New.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            return date;
-        }
-        public IDate GetDateFromDb_Specially(string dataWizyty, string godzinaWizyty)
+        //        sqlConnection_New.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.ToString());
+        //    }
+        //    return date;
+        //}
+        public IDate GetDateByDayAndTime(string dataWizyty, string godzinaWizyty)
         {
             IDate app = kernel.Get<IDate>();
 

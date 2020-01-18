@@ -52,7 +52,7 @@ namespace Res2019.Logic
             {
                 timeToCalculate = appointmentTime.AddMinutes(i).ToShortTimeString();
                 // kolizja z następnym terminem 
-                if (readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDate, timeToCalculate) == null)
+                if (readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDate, timeToCalculate).Date_Id == null)
                 {
                     IsTimeAvailable = true;
                 }
@@ -103,7 +103,7 @@ namespace Res2019.Logic
                 {   // sprawdź po minucie czy wolny zakres terminów
                     timeToCalculate = appointmentTime.AddMinutes(i).ToShortTimeString();
 
-                    if (readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDate, timeToCalculate) == null)
+                    if (readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDate, timeToCalculate).Date_Id == null)
                     {
                         IsTimeAvailable = true;
                     }
@@ -145,7 +145,7 @@ namespace Res2019.Logic
             if (!string.IsNullOrWhiteSpace(appointment.AppointmentDate) && !string.IsNullOrWhiteSpace(appointment.AppointmentTime))
             {
                 string id = readFromDatabase.GetAppointment_idByDayAndTime(appointment.AppointmentDate, appointment.AppointmentTime);
-                string date_id = readFromDatabase.GetDateFromDb_Specially(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id;
+                string date_id = readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id;
 
                 removeFromDatabase.DeleteAppointmentFromDatabase_NEW(id);
                 removeFromDatabase.DeleteDateFromDatabase_NEW(date_id);               
@@ -186,7 +186,7 @@ namespace Res2019.Logic
             saveToDatabase.SaveToDatabaseEventLog += emailConfirmation.OnSavedToDatabaseEventLog;
             saveToDatabase.SaveToDatabaseEventLog += smsConfirmation.OnSavedToDatabaseEventLog;
 
-            var date_id = readFromDatabase.GetDateFromDb_Specially(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id;
+            var date_id = readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDate, appointment.AppointmentTime).Date_Id;
 
             var customer_id = readFromDatabase.GetCustomerFromDb(customer).CustomerId;
 
@@ -208,7 +208,7 @@ namespace Res2019.Logic
                     date.DateDuration = appointment.AppointmentDuration;
                     saveToDatabase.SaveNewDateToSql(date);
 
-                    date_id = readFromDatabase.GetDateFromDb_Specially(date.DateDay, date.DateTime).Date_Id;
+                    date_id = readFromDatabase.GetDateByDayAndTime(date.DateDay, date.DateTime).Date_Id;
                     saveToDatabase.SaveToSql_New(date_id, customer_id, service_id);
                 }
                 else
@@ -237,7 +237,7 @@ namespace Res2019.Logic
         {
             //updateToDatabase.UpdatedToDatabase += emailConfirmation.OnUpdatedToDatabaseEventLog;
             //updateToDatabase.UpdatedToDatabase += smsConfirmation.OnUpdatedToDatabaseEventLog;
-            var date_id = readFromDatabase.GetDateFromDb_Specially(appointment.AppointmentDate, appointment.AppointmentTime);
+            var date_id = readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDate, appointment.AppointmentTime);
             var customer_id = readFromDatabase.GetCustomerFromDb(customer);
             var service_id = readFromDatabase.GetServiceFromDb(service);
             var appointmentToModify_id = readFromDatabase.GetAppointment_idByDayAndTime(appointment.AppointmentDate, appointment.AppointmentTime);
