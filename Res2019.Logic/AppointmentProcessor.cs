@@ -160,7 +160,7 @@ namespace Res2019.Logic
         {
             if (!string.IsNullOrWhiteSpace(date) && !string.IsNullOrWhiteSpace(time))
             {
-                return readFromDatabase.GetAppointmentByAppointment_id(date, time);
+                return readFromDatabase.GetAppointmentByAppointment_date(date, time);
             }
             else
             {

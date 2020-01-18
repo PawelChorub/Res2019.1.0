@@ -5,11 +5,7 @@ using Res2019.MSSQL;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 
 namespace Res2019
 {
@@ -24,22 +20,21 @@ namespace Res2019
         private static SqlDataReader reader;
         private string sqlQuery = "";
 
-        public List<string> GetDateFromDb_ByDay(string dataWizyty)
+        public List<string> GetDate_idListFromDb_ByDay(string day)
         {
-            List<string> output = new List<string>();
+            List<string> date_idCollection = new List<string>();
 
             try
             {
                 sqlConnection_New.Open();
-                sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}'", dataWizyty);
-
+                sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}'", day);
                 sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        output.Add(reader["date_id"].ToString());
+                        date_idCollection.Add(reader["date_id"].ToString());
                     }
                 }
                 sqlConnection_New.Close();
@@ -47,24 +42,23 @@ namespace Res2019
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-
             }
-            return output;
+            return date_idCollection;
         }
 
-        public List<IAppointmentDetails> ReturnListOfAppointmentsFromDatabase(string date)
+        public List<IAppointmentDetails> ReturnListOfAppointmentsFromDatabase(string day)
         {
-            List<IAppointmentDetails> listOfApp = new List<IAppointmentDetails>();
+            List<IAppointmentDetails> appointmentList = new List<IAppointmentDetails>();
 
-            var date_id_List = GetDateFromDb_ByDay(date);
+            var date_idCollection = GetDate_idListFromDb_ByDay(day);
 
-            foreach (var item in date_id_List)
+            foreach (var date_id in date_idCollection)
             {
-                if (!string.IsNullOrEmpty(item))
+                if (!string.IsNullOrEmpty(date_id))
                 {
                     try
                     {
-                        listOfApp.Add(GetAppointmentDetailsByDate_id(item));
+                        appointmentList.Add(GetAppointmentDetailsByDate_id(date_id));
                     }
                     catch (Exception ex)
                     {
@@ -72,10 +66,10 @@ namespace Res2019
                     }
                 }
             }
-            return listOfApp;
+            return appointmentList;
         }
 
-        public IAppointmentDetails GetAppointmentByAppointment_id(string day, string time)
+        public IAppointmentDetails GetAppointmentByAppointment_date(string day, string time)
         {
             IAppointmentDetails appointment = null;
             string id = GetAppointment_idByDayAndTime(day, time);
