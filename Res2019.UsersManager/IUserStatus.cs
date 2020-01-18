@@ -2,8 +2,8 @@
 {
     public interface IUserStatus
     {
-        bool ReturnStatus();
-        string ReturnUser();
+        bool GetUserStatus();
+        string GetUser();
         void SetStatus(bool isLogged, string userName);
     }
 }

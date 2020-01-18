@@ -25,11 +25,9 @@ namespace Res2019
 
         private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings();
 
-        private static SqlConnection sqlConnection = new SqlConnection(connectionString.MsSqlConnectionStringBuild());
         private static SqlConnection sqlConnection_New = new SqlConnection(connectionString.MsSqlConnectionStringBuild_New());
         private static SqlCommand sqlCommand;
         private string sqlQuery = "";
-        private readonly static string table = connectionString.UseReservationTableName();
 
         public void UpdateDateToDb_NEW(IDate date, IAppointment appointment)
         {

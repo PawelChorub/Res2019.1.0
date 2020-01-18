@@ -9,17 +9,16 @@ namespace Res2019.UserManager
         private static bool IsLoggedIn;// { get; set; }
         private static string User;// { get; set; }
 
-        // zwróć status
-        public bool ReturnStatus()
+        public bool GetUserStatus()
         {
             return IsLoggedIn;
         }
-        // zwróć usera
-        public string ReturnUser()
+
+        public string GetUser()
         {
             return User;
         }
-        // ustaw czy zalogowany czy nie
+
         public void SetStatus(bool isLogged, string userName)
         {
             if (isLogged)

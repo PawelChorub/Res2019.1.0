@@ -17,7 +17,7 @@ namespace Res2019.UserManager
         private IUserStatus userStatus;
         private ISCryptHashing sCryptHash;
         private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings();
-        private static SqlConnection sqlConnection = new SqlConnection(connectionString.MsSqlConnectionStringBuild());
+        private static SqlConnection sqlConnection = new SqlConnection(connectionString.MsSqlConnectionStringBuild_New());
         private static SqlCommand sqlCommand;
         private static SqlDataReader sqlDataReader;
         private string sqlQuery = "";

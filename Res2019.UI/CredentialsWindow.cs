@@ -30,7 +30,7 @@ namespace Res2019.UI
         private void LoginBtn_Click(object sender, EventArgs e)
         {
             accountManager.VerifyUserAccount(loginTb.Text, passwordTb.Text);
-            if (userStatus.ReturnStatus())
+            if (userStatus.GetUserStatus())
             {
                 Agenda agenda = new Agenda();
                 agenda.Show();

@@ -81,7 +81,7 @@ namespace Res2019.UI
             try
             {
                 login = UsersComboBox.SelectedItem.ToString();
-                if (!((userStatus.ReturnUser() == login) && (userStatus.ReturnStatus())))
+                if (!((userStatus.GetUser() == login) && (userStatus.GetUserStatus())))
                 {
                     accountManager.RemoveUserAccount(login);
                     MessageBox.Show(string.Format("Użytkownik : {0} został usunięty.", login));

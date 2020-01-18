@@ -24,43 +24,10 @@ namespace Res2019
       
         private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings();
 
-        private static SqlConnection sqlConnection = new SqlConnection(connectionString.MsSqlConnectionStringBuild());
         private static SqlConnection sqlConnection_New = new SqlConnection(connectionString.MsSqlConnectionStringBuild_New());
         private static SqlCommand sqlCommand;
         private string sqlQuery = "";
 
-        private readonly static string table = connectionString.UseReservationTableName();
-
-        public void SaveToSql(IAppointment appointment, ICustomer customer, IMyServices service)
-        {
-            try
-            {
-                string isOccupied = "true";
-                sqlConnection.Open();
-                sqlQuery = string.Format("INSERT INTO {9} (appointmentDate, appointmentTime, appointmentLength," +
-                    "appointmentDuration, customerForename, customerSurname, customerTelephoneNumber, serviceName, isOccupied)" +
-                    "VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}')",
-                     appointment.AppointmentDate,
-                     appointment.AppointmentTime,
-                     appointment.AppointmentLength,
-                     appointment.AppointmentDuration,
-                     customer.CustomerForename,
-                     customer.CustomerSurname,
-                     customer.CustomerTelephoneNumber,
-                     service.ServiceName,
-                     isOccupied,
-                     table);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection.Close();
-
-                OnSaveToDatabaseEventLog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Wystąpił nieoczekiwany błąd podczas zapisu do bazy, szczegóły: " + ex.ToString());
-            }
-        }
         public void SaveNewDateToSql(IDate date)
         {
             try

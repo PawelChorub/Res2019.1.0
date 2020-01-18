@@ -146,7 +146,6 @@ namespace Res2019
             {
                 label.Text = businessLogic.SetTimeByLabel(label.Name) + " - " + labelTextBuffer;
             }
-            //label.BringToFront();
             setTimeFromLabel = businessLogic.SetTimeByLabel(label.Name);           
             setDateFromLabel = GetDateFromLabel(label.Name);
          }
@@ -201,7 +200,7 @@ namespace Res2019
 
         private void SetUserName()
         {
-            UserBtn.Text = "Zalogowano : " + userStatus.ReturnUser();
+            UserBtn.Text = "Zalogowano : " + userStatus.GetUser();
         }
 
         private void LogOutBtn_Click(object sender, EventArgs e)

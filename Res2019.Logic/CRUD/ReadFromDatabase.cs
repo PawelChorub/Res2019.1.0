@@ -24,9 +24,6 @@ namespace Res2019
         private static SqlDataReader reader;
         private string sqlQuery = "";
 
-        private readonly static string table = connectionString.UseReservationTableName();
-
-        //new
         public List<string> GetDateFromDb_ByDay(string dataWizyty)
         {
             List<string> output = new List<string>();
@@ -238,9 +235,9 @@ namespace Res2019
                 }
                 sqlConnection_New.Close();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                MessageBox.Show(ex.ToString());
             }
             return customer;
 
@@ -278,7 +275,6 @@ namespace Res2019
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-
             }
             return date;
         }
@@ -311,46 +307,10 @@ namespace Res2019
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-
             }
             return output;
         }
 
-        //public IDate GetDateByDayAndTime(string day, string time)
-        //{
-        //    IDate date = kernel.Get<IDate>();
-
-        //    try
-        //    {
-        //        sqlConnection_New.Open();
-        //        sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}' AND time = '{1}'", day, time);
-
-        //        sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
-        //        reader = sqlCommand.ExecuteReader();
-        //        if (reader.HasRows)
-        //        {
-        //            while (reader.Read())
-        //            {
-        //                date.DateDay = reader["day"].ToString();
-        //                date.DateTime = reader["time"].ToString();
-        //                date.DateLength = reader["length"].ToString();
-        //                date.DateDuration = reader["duration"].ToString();
-        //                date.Date_Id = reader["date_id"].ToString();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            date = null;
-        //        }
-
-        //        sqlConnection_New.Close();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.ToString());
-        //    }
-        //    return date;
-        //}
         public IDate GetDateByDayAndTime(string dataWizyty, string godzinaWizyty)
         {
             IDate app = kernel.Get<IDate>();

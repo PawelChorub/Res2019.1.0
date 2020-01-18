@@ -15,7 +15,6 @@ namespace Res2019.UsersManager
             Bind<IAccountManager>().To<AccountManager>();
             Bind<IUserStatus>().To<UserStatus>();
             Bind<ISCryptHashing>().To<SCryptHashing>();
-            
         }
     }
 }
