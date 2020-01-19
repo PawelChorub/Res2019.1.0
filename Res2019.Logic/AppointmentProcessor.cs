@@ -147,8 +147,8 @@ namespace Res2019.Logic
                 string id = readFromDatabase.GetAppointment_id(appointment.AppointmentDay, appointment.AppointmentTime);
                 string date_id = readFromDatabase.GetDate(appointment.AppointmentDay, appointment.AppointmentTime).Date_Id;
 
-                removeFromDatabase.DeleteAppointmentFromDatabase_NEW(id);
-                removeFromDatabase.DeleteDateFromDatabase_NEW(date_id);               
+                removeFromDatabase.DeleteAppointment(id);
+                removeFromDatabase.DeleteDate(date_id);               
             }
             else
             {

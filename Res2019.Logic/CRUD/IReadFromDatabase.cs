@@ -6,16 +6,11 @@ namespace Res2019
     public interface IReadFromDatabase
     {
         List<IAppointmentDetails> GetListOfAppointment(string date);
-        IAppointmentDetails GetAppointment(string dataWizyty, string godzinaWizyty);
+        IAppointmentDetails GetAppointment(string day, string time);
         ICustomer GetCustomer(ICustomer customer);
         IMyServices GetService(IMyServices service);
-        IDate GetDate(string dataWizyty, string godzinaWizyty);
+        IDate GetDate(string day, string time);
         string GetAppointment_id(string day, string time);
-
         IAppointmentDetails GetAppointment(string id);
-
-
-
-
     }
 }

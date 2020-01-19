@@ -18,35 +18,51 @@ namespace Res2019
         private static SqlCommand sqlCommand;
         private string sqlQuery = "";
 
-        public void DeleteDateFromDatabase_NEW(string id)
+        public void DeleteDate(string date_id)
         {
-            if (!string.IsNullOrWhiteSpace(id))
+            try
             {
-                sqlConnection_New.Open();
-                sqlQuery = string.Format("DELETE FROM date WHERE date_id = '{0}'", id);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection_New.Close();
+                if (!string.IsNullOrWhiteSpace(date_id))
+                {
+                    sqlConnection_New.Open();
+                    sqlQuery = string.Format("DELETE FROM date WHERE date_id = '{0}'", date_id);
+                    sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                    sqlCommand.ExecuteNonQuery();
+                    sqlConnection_New.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Musisz podać godzinę wizyty, którą chcesz usunąć!");
+                }
+
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Musisz podać godzinę wizyty, którą chcesz usunąć!");
+                MessageBox.Show(ex.Message);
             }
         }
 
-        public void DeleteAppointmentFromDatabase_NEW(string id)
+        public void DeleteAppointment(string appointment_id)
         {
-            if (!string.IsNullOrWhiteSpace(id))
+            try
             {
-                sqlConnection_New.Open();
-                sqlQuery = string.Format("DELETE FROM appointment WHERE appointment_id = '{0}'", id);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection_New.Close();
+                if (!string.IsNullOrWhiteSpace(appointment_id))
+                {
+                    sqlConnection_New.Open();
+                    sqlQuery = string.Format("DELETE FROM appointment WHERE appointment_id = '{0}'", appointment_id);
+                    sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                    sqlCommand.ExecuteNonQuery();
+                    sqlConnection_New.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Musisz podać godzinę wizyty, którą chcesz usunąć!");
+                }
+
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Musisz podać godzinę wizyty, którą chcesz usunąć!");
+                MessageBox.Show(ex.Message);
             }
         }
     }

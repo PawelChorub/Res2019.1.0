@@ -68,7 +68,6 @@ namespace Res2019
             return appointmentList;
         }
 
-
         public IAppointmentDetails GetAppointment(string day, string time)
         {
             IAppointmentDetails appointment = null;
@@ -119,29 +118,24 @@ namespace Res2019
             }
             return appointment;
         }
-        // tutaj dac .appId zamiast         public string GetAppointment_id(string day, string time)
 
         public string GetAppointment_id(string day, string time)
         {
             IDate date = kernel.Get<IDate>();
-
             date = GetDate(day, time);
-
-            string search = date.Date_Id;
-
-            string output = "";
+            string date_id = date.Date_Id;
+            string appointment_id = "";
             try
             {
                 sqlConnection.Open();
-                sqlQuery = string.Format("SELECT * FROM appointment WHERE date_id = '{0}'", search);
-
+                sqlQuery = string.Format("SELECT * FROM appointment WHERE date_id = '{0}'", date_id);
                 sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        output = reader["appointment_id"].ToString();
+                        appointment_id = reader["appointment_id"].ToString();
                     }
                 }
                 sqlConnection.Close();
@@ -150,7 +144,7 @@ namespace Res2019
             {
                 MessageBox.Show(ex.ToString());
             }
-            return output;
+            return appointment_id;
         }
 
         private void SetAppointmentDetails(IAppointmentDetails appointment, out IDate date, out ICustomer customer, out IMyServices service, string customer_id, string date_id, string service_id)
@@ -184,7 +178,6 @@ namespace Res2019
             {
                 sqlConnection.Open();
                 sqlQuery = string.Format("SELECT * FROM appointment WHERE date_id = '{0}'", _date_id);
-
                 sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
@@ -240,7 +233,7 @@ namespace Res2019
             }
             return date;
         }
-        // dodać obiekt klasy date => model
+
         public IDate GetDate(string day, string time)
         {
             IDate date = kernel.Get<IDate>();
@@ -248,7 +241,6 @@ namespace Res2019
             {
                 sqlConnection.Open();
                 sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}' AND time = '{1}'", day, time);
-
                 sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
@@ -270,6 +262,7 @@ namespace Res2019
             }
             return date;
         }
+
         private ICustomer GetCustomer(string customer_id)
         {
             ICustomer customer = kernel.Get<ICustomer>();
@@ -298,6 +291,7 @@ namespace Res2019
             }
             return customer;
         }
+
         public ICustomer GetCustomer(ICustomer _customer)
         {
             ICustomer customer = kernel.Get<ICustomer>();
@@ -326,6 +320,7 @@ namespace Res2019
             }
             return customer;
         }
+
         public IMyServices GetService(IMyServices service)
         {
             IMyServices output = kernel.Get<IMyServices>();
@@ -357,6 +352,7 @@ namespace Res2019
             }
             return output;
         }
+
         private IMyServices GetService(string service_id)
         {
             IMyServices service = kernel.Get<IMyServices>();
@@ -382,7 +378,5 @@ namespace Res2019
             }
             return service;
         }
-
-
     }
 }

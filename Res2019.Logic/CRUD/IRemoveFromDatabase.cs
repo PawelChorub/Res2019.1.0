@@ -2,7 +2,7 @@
 {
     public interface IRemoveFromDatabase
     {
-        void DeleteDateFromDatabase_NEW(string id);
-        void DeleteAppointmentFromDatabase_NEW(string id);
+        void DeleteDate(string id);
+        void DeleteAppointment(string id);
     }
 }
