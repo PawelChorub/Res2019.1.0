@@ -250,9 +250,9 @@ namespace Res2019.Logic
                     customer_id = readFromDatabase.GetCustomer(customer);
                 }
 
-                updateToDatabase.UpdateDateToDb_NEW(date_id, appointment);
+                updateToDatabase.UpdateDate(date_id, appointment);
 
-                updateToDatabase.ModifyToSql_NEW(date_id, customer_id, service_id, appointmentToModify_id);
+                updateToDatabase.UpdateAppointment(date_id, customer_id, service_id, appointmentToModify_id);
             }
         }
 

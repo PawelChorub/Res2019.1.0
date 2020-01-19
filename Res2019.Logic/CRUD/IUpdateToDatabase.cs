@@ -9,7 +9,7 @@ namespace Res2019
     {
         event UpdatedToDatabaseHandler UpdatedToDatabase;
 
-        void ModifyToSql_NEW(IDate date, ICustomer customer, IMyServices service, string appointmentToModify_id);
-        void UpdateDateToDb_NEW(IDate date, IAppointment appointment);
+        void UpdateAppointment(IDate date, ICustomer customer, IMyServices service, string appointmentToModify_id);
+        void UpdateDate(IDate date, IAppointment appointment);
     }
 }

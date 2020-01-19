@@ -18,9 +18,13 @@ namespace Res2019
 
         public event UpdatedToDatabaseHandler UpdatedToDatabase;
 
-        protected virtual void OnUpdatedToDatabase(IAppointmentDetails appointmentDetails)
+        protected virtual void OnUpdatedToDatabase(IDate date, ICustomer customer, IMyServices service)
         {
-            UpdatedToDatabase?.Invoke(this, new AppointmentEventArgs() { AppointmentDetails = appointmentDetails});
+            UpdatedToDatabase?.Invoke(this, new AppointmentEventArgs() {
+                Date = date,
+                Customer = customer,
+                Service = service
+            });
         }
 
         private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings();
@@ -29,7 +33,7 @@ namespace Res2019
         private static SqlCommand sqlCommand;
         private string sqlQuery = "";
 
-        public void UpdateDateToDb_NEW(IDate date, IAppointment appointment)
+        public void UpdateDate(IDate date, IAppointment appointment)
         {
             try
             {
@@ -51,7 +55,7 @@ namespace Res2019
             }
 
         }
-        public void ModifyToSql_NEW(IDate date, ICustomer customer, IMyServices service, string appointmentToModify_id)
+        public void UpdateAppointment(IDate date, ICustomer customer, IMyServices service, string appointmentToModify_id)
         {
             try
             {
@@ -66,7 +70,7 @@ namespace Res2019
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection_New.Close();
 
-                //OnUpdatedToDatabase(appointmentDetails);
+                OnUpdatedToDatabase(date, customer, service);
             }
             catch (Exception ex)
             {

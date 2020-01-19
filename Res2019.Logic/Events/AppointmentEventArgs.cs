@@ -5,6 +5,8 @@ namespace Res2019.Logic.Events
 {
     public class AppointmentEventArgs : EventArgs
     {
-        public IAppointmentDetails AppointmentDetails { get; set; }
+        public IDate Date { get; set; }
+        public ICustomer Customer { get; set; }
+        public IMyServices Service { get; set; }
     }
 }

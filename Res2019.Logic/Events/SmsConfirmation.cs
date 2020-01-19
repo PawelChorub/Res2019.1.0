@@ -16,10 +16,10 @@ namespace Res2019.Logic.Events
         public void OnUpdatedToDatabaseEventLog(object source, AppointmentEventArgs e)
         {
             MessageBox.Show("Not implemented service. Fake Message: Wysłano SMS z potwierdzeniem zmiany wizyty na: "
-                + e.AppointmentDetails.AppointmentDay 
-                + " godz :" + e.AppointmentDetails.AppointmentTime
-                + " dla : " + e.AppointmentDetails.CustomerForename 
-                + " " + e.AppointmentDetails.CustomerSurname);
+                + e.Date.DateDay 
+                + " godz :" + e.Date.DateTime
+                + " dla : " + e.Customer.CustomerForename
+                + " " + e.Customer.CustomerSurname);
         }
     }
 }
