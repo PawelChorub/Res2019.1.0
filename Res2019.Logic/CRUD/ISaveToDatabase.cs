@@ -7,8 +7,8 @@ namespace Res2019
     {
         event SaveToDatabaseHandler SaveToDatabaseEventLog;
 
-        void SaveToSql_New(string date_id, string customer_id, string service_id);
-        void SaveNewDateToSql(IDate date);
-        void SaveNewCustomerToSql(ICustomer customer);
+        void SaveAppointment(string date_id, string customer_id, string service_id);
+        void SaveDate(IDate date);
+        void SaveCustomer(ICustomer customer);
     }
 }

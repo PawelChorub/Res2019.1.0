@@ -28,7 +28,7 @@ namespace Res2019
         private static SqlCommand sqlCommand;
         private string sqlQuery = "";
 
-        public void SaveNewDateToSql(IDate date)
+        public void SaveDate(IDate date)
         {
             try
             {
@@ -42,13 +42,12 @@ namespace Res2019
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection_New.Close();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                MessageBox.Show("Wystąpił nieoczekiwany błąd podczas zapisu do bazy, szczegóły: " + ex.ToString());
             }
         }
-        public void SaveNewCustomerToSql(ICustomer customer)
+        public void SaveCustomer(ICustomer customer)
         {
             try
             {
@@ -61,14 +60,12 @@ namespace Res2019
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection_New.Close();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                MessageBox.Show("Wystąpił nieoczekiwany błąd podczas zapisu do bazy, szczegóły: " + ex.ToString());
             }
         }
-        //public void SaveToSql_NEW(IAppointment appointment, ICustomer customer, IMyServices service)
-        public void SaveToSql_New(string date_id, string customer_id, string service_id)
+        public void SaveAppointment(string date_id, string customer_id, string service_id)
         {
             try
             {
@@ -81,6 +78,7 @@ namespace Res2019
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection_New.Close();
 
+                OnSaveToDatabaseEventLog();
             }
             catch (Exception ex)
             {

@@ -196,7 +196,7 @@ namespace Res2019.Logic
             {
                 if (string.IsNullOrEmpty(customer_id))    
                 {
-                    saveToDatabase.SaveNewCustomerToSql(customer);
+                    saveToDatabase.SaveCustomer(customer);
                     customer_id = readFromDatabase.GetCustomer(customer).CustomerId;
                 }
 
@@ -206,10 +206,10 @@ namespace Res2019.Logic
                     date.DateTime = appointment.AppointmentTime;
                     date.DateLength = appointment.AppointmentLength;
                     date.DateDuration = appointment.AppointmentDuration;
-                    saveToDatabase.SaveNewDateToSql(date);
+                    saveToDatabase.SaveDate(date);
 
                     date_id = readFromDatabase.GetDate(date.DateDay, date.DateTime).Date_Id;
-                    saveToDatabase.SaveToSql_New(date_id, customer_id, service_id);
+                    saveToDatabase.SaveAppointment(date_id, customer_id, service_id);
                 }
                 else
                 {
@@ -246,7 +246,7 @@ namespace Res2019.Logic
             {
                 if (string.IsNullOrWhiteSpace(customer_id.CustomerId))
                 {
-                    saveToDatabase.SaveNewCustomerToSql(customer);
+                    saveToDatabase.SaveCustomer(customer);
                     customer_id = readFromDatabase.GetCustomer(customer);
                 }
 
