@@ -3,6 +3,6 @@
     public interface IMsSqlDatabaseSettings
     {
         string UseUsersTable();
-        string MsSqlConnectionStringBuild_New();
+        string MsSqlConnectionStringBuild();
     }
 }

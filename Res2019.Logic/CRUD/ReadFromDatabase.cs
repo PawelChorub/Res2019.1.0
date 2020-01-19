@@ -14,7 +14,7 @@ namespace Res2019
         readonly IKernel kernel = new StandardKernel(new DI_Container());
         private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings();
     
-        private static SqlConnection sqlConnection = new SqlConnection(connectionString.MsSqlConnectionStringBuild_New());
+        private static SqlConnection sqlConnection = new SqlConnection(connectionString.MsSqlConnectionStringBuild());
         private static SqlCommand sqlCommand;
         private static SqlDataReader reader;
         private string sqlQuery = "";

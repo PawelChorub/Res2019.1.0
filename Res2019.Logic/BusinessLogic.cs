@@ -38,15 +38,14 @@ namespace Res2019.Logic
             timeFromLabel = kernel.Get<ITimeFromLabel>();
         }
 
-        public void AppointmentDetails(string date, string time, string length, string duration, string fname, string sname, string tel, string _service)
+        public void AppointmentDetails(string date, string time, string length, string duration, string forename, string surname, string tel, string _service)
         {
-           
             appointment.AppointmentDay = date;
             appointment.AppointmentTime = time;
             appointment.AppointmentLength = length;
             appointment.AppointmentDuration = duration;
-            customer.CustomerForename = fname;
-            customer.CustomerSurname = sname;
+            customer.CustomerForename = forename;
+            customer.CustomerSurname = surname;
             customer.CustomerEmail = "email";
             customer.CustomerTelephoneNumber = tel;
             service.ServiceName = _service;
@@ -54,14 +53,14 @@ namespace Res2019.Logic
             appointmentProcessor.BuildAppointment(appointment, customer, service);
         }
 
-        public void ModifyAppointmentDetails(string date, string time, string length, string duration, string fname, string sname, string tel, string _service, string existAppDuration)
+        public void ModifyAppointmentDetails(string date, string time, string length, string duration, string forename, string surname, string tel, string _service, string existAppDuration)
         {
             appointment.AppointmentDay = date;
             appointment.AppointmentTime = time;
             appointment.AppointmentLength = length;
             appointment.AppointmentDuration = duration;
-            customer.CustomerForename = fname;
-            customer.CustomerSurname = sname;
+            customer.CustomerForename = forename;
+            customer.CustomerSurname = surname;
             customer.CustomerEmail = "email";
             customer.CustomerTelephoneNumber = tel;
             service.ServiceName = _service;
@@ -79,13 +78,12 @@ namespace Res2019.Logic
         public IAppointmentDetails ReadSingleAppointment(string date, string time)
         {
             return appointmentProcessor.ReadAppointment(date, time);
-//*
+
         }
         public List<IAppointmentDetails> ReadListOfAppointments(string date)
         {
             return appointmentProcessor.ReadAppointmentsToList(date);
         }
-        //---DayCounting
 
         public string DateSet(string date, int manipulation)
         {
