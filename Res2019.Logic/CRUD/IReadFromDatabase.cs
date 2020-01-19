@@ -5,14 +5,14 @@ namespace Res2019
 {
     public interface IReadFromDatabase
     {
-        List<IAppointmentDetails> ReturnListOfAppointmentsFromDatabase(string date);
-        IAppointmentDetails GetAppointmentByAppointment_date(string dataWizyty, string godzinaWizyty);
-        ICustomer GetCustomerFromDb(ICustomer customer);
-        IMyServices GetServiceFromDb(IMyServices service);
-        IDate GetDateByDayAndTime(string dataWizyty, string godzinaWizyty);
-        string GetAppointment_idByDayAndTime(string day, string time);
+        List<IAppointmentDetails> GetListOfAppointment(string date);
+        IAppointmentDetails GetAppointment(string dataWizyty, string godzinaWizyty);
+        ICustomer GetCustomer(ICustomer customer);
+        IMyServices GetService(IMyServices service);
+        IDate GetDate(string dataWizyty, string godzinaWizyty);
+        string GetAppointment_id(string day, string time);
 
-        IAppointmentDetails GetAppointmentDetailsByAppointment_id(string id);
+        IAppointmentDetails GetAppointment(string id);
 
 
 

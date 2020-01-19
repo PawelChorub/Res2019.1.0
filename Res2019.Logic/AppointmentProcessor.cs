@@ -52,7 +52,7 @@ namespace Res2019.Logic
             {
                 timeToCalculate = appointmentTime.AddMinutes(i).ToShortTimeString();
                 // kolizja z następnym terminem 
-                if (readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDay, timeToCalculate).Date_Id == null)
+                if (readFromDatabase.GetDate(appointment.AppointmentDay, timeToCalculate).Date_Id == null)
                 {
                     IsTimeAvailable = true;
                 }
@@ -103,7 +103,7 @@ namespace Res2019.Logic
                 {   // sprawdź po minucie czy wolny zakres terminów
                     timeToCalculate = appointmentTime.AddMinutes(i).ToShortTimeString();
 
-                    if (readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDay, timeToCalculate).Date_Id == null)
+                    if (readFromDatabase.GetDate(appointment.AppointmentDay, timeToCalculate).Date_Id == null)
                     {
                         IsTimeAvailable = true;
                     }
@@ -144,8 +144,8 @@ namespace Res2019.Logic
         {
             if (!string.IsNullOrWhiteSpace(appointment.AppointmentDay) && !string.IsNullOrWhiteSpace(appointment.AppointmentTime))
             {
-                string id = readFromDatabase.GetAppointment_idByDayAndTime(appointment.AppointmentDay, appointment.AppointmentTime);
-                string date_id = readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDay, appointment.AppointmentTime).Date_Id;
+                string id = readFromDatabase.GetAppointment_id(appointment.AppointmentDay, appointment.AppointmentTime);
+                string date_id = readFromDatabase.GetDate(appointment.AppointmentDay, appointment.AppointmentTime).Date_Id;
 
                 removeFromDatabase.DeleteAppointmentFromDatabase_NEW(id);
                 removeFromDatabase.DeleteDateFromDatabase_NEW(date_id);               
@@ -160,7 +160,7 @@ namespace Res2019.Logic
         {
             if (!string.IsNullOrWhiteSpace(date) && !string.IsNullOrWhiteSpace(time))
             {
-                return readFromDatabase.GetAppointmentByAppointment_date(date, time);
+                return readFromDatabase.GetAppointment(date, time);
             }
             else
             {
@@ -172,7 +172,7 @@ namespace Res2019.Logic
         {
             if (!string.IsNullOrWhiteSpace(date))
             {
-                return readFromDatabase.ReturnListOfAppointmentsFromDatabase(date);
+                return readFromDatabase.GetListOfAppointment(date);
             }
             else
             {
@@ -186,18 +186,18 @@ namespace Res2019.Logic
             saveToDatabase.SaveToDatabaseEventLog += emailConfirmation.OnSavedToDatabaseEventLog;
             saveToDatabase.SaveToDatabaseEventLog += smsConfirmation.OnSavedToDatabaseEventLog;
 
-            var date_id = readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDay, appointment.AppointmentTime).Date_Id;
+            var date_id = readFromDatabase.GetDate(appointment.AppointmentDay, appointment.AppointmentTime).Date_Id;
 
-            var customer_id = readFromDatabase.GetCustomerFromDb(customer).CustomerId;
+            var customer_id = readFromDatabase.GetCustomer(customer).CustomerId;
 
-            var service_id = readFromDatabase.GetServiceFromDb(service).ServiceId;
+            var service_id = readFromDatabase.GetService(service).ServiceId;
 
             if (CheckObjectsIsItsNotNull(appointment, customer, service))
             {
                 if (string.IsNullOrEmpty(customer_id))    
                 {
                     saveToDatabase.SaveNewCustomerToSql(customer);
-                    customer_id = readFromDatabase.GetCustomerFromDb(customer).CustomerId;
+                    customer_id = readFromDatabase.GetCustomer(customer).CustomerId;
                 }
 
                 if (string.IsNullOrEmpty(date_id))
@@ -208,7 +208,7 @@ namespace Res2019.Logic
                     date.DateDuration = appointment.AppointmentDuration;
                     saveToDatabase.SaveNewDateToSql(date);
 
-                    date_id = readFromDatabase.GetDateByDayAndTime(date.DateDay, date.DateTime).Date_Id;
+                    date_id = readFromDatabase.GetDate(date.DateDay, date.DateTime).Date_Id;
                     saveToDatabase.SaveToSql_New(date_id, customer_id, service_id);
                 }
                 else
@@ -237,17 +237,17 @@ namespace Res2019.Logic
         {
             //updateToDatabase.UpdatedToDatabase += emailConfirmation.OnUpdatedToDatabaseEventLog;
             //updateToDatabase.UpdatedToDatabase += smsConfirmation.OnUpdatedToDatabaseEventLog;
-            var date_id = readFromDatabase.GetDateByDayAndTime(appointment.AppointmentDay, appointment.AppointmentTime);
-            var customer_id = readFromDatabase.GetCustomerFromDb(customer);
-            var service_id = readFromDatabase.GetServiceFromDb(service);
-            var appointmentToModify_id = readFromDatabase.GetAppointment_idByDayAndTime(appointment.AppointmentDay, appointment.AppointmentTime);
+            var date_id = readFromDatabase.GetDate(appointment.AppointmentDay, appointment.AppointmentTime);
+            var customer_id = readFromDatabase.GetCustomer(customer);
+            var service_id = readFromDatabase.GetService(service);
+            var appointmentToModify_id = readFromDatabase.GetAppointment_id(appointment.AppointmentDay, appointment.AppointmentTime);
 
             if (CheckObjectsIsItsNotNull(appointment, customer, service))
             {
                 if (string.IsNullOrWhiteSpace(customer_id.CustomerId))
                 {
                     saveToDatabase.SaveNewCustomerToSql(customer);
-                    customer_id = readFromDatabase.GetCustomerFromDb(customer);
+                    customer_id = readFromDatabase.GetCustomer(customer);
                 }
 
                 updateToDatabase.UpdateDateToDb_NEW(date_id, appointment);

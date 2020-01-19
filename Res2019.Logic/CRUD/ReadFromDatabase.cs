@@ -14,21 +14,20 @@ namespace Res2019
         readonly IKernel kernel = new StandardKernel(new DI_Container());
         private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings();
     
-        private static SqlConnection sqlConnection_New = new SqlConnection(connectionString.MsSqlConnectionStringBuild_New());
-        
+        private static SqlConnection sqlConnection = new SqlConnection(connectionString.MsSqlConnectionStringBuild_New());
         private static SqlCommand sqlCommand;
         private static SqlDataReader reader;
         private string sqlQuery = "";
 
-        public List<string> GetDate_idListFromDb_ByDay(string day)
+        public List<string> GetDate_idList(string day)
         {
             List<string> date_idCollection = new List<string>();
 
             try
             {
-                sqlConnection_New.Open();
+                sqlConnection.Open();
                 sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}'", day);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
@@ -37,7 +36,7 @@ namespace Res2019
                         date_idCollection.Add(reader["date_id"].ToString());
                     }
                 }
-                sqlConnection_New.Close();
+                sqlConnection.Close();
             }
             catch (Exception ex)
             {
@@ -46,11 +45,11 @@ namespace Res2019
             return date_idCollection;
         }
 
-        public List<IAppointmentDetails> ReturnListOfAppointmentsFromDatabase(string day)
+        public List<IAppointmentDetails> GetListOfAppointment(string day)
         {
             List<IAppointmentDetails> appointmentList = new List<IAppointmentDetails>();
 
-            var date_idCollection = GetDate_idListFromDb_ByDay(day);
+            var date_idCollection = GetDate_idList(day);
 
             foreach (var date_id in date_idCollection)
             {
@@ -58,7 +57,7 @@ namespace Res2019
                 {
                     try
                     {
-                        appointmentList.Add(GetAppointmentDetailsByDate_id(date_id));
+                        appointmentList.Add(GetAppointmentDetails(date_id));
                     }
                     catch (Exception ex)
                     {
@@ -69,26 +68,27 @@ namespace Res2019
             return appointmentList;
         }
 
-        public IAppointmentDetails GetAppointmentByAppointment_date(string day, string time)
+
+        public IAppointmentDetails GetAppointment(string day, string time)
         {
             IAppointmentDetails appointment = null;
-            string id = GetAppointment_idByDayAndTime(day, time);
+            string id = GetAppointment_id(day, time);
             if (!string.IsNullOrWhiteSpace(id))
             {
                 appointment = kernel.Get<IAppointmentDetails>();
-                appointment = GetAppointmentDetailsByAppointment_id(id);
+                appointment = GetAppointment(id);
             }
             return appointment;
         }
 
-        public IAppointmentDetails GetAppointmentDetailsByAppointment_id(string id)
+        public IAppointmentDetails GetAppointment(string appointment_id)
         {
             IAppointmentDetails appointment = kernel.Get<IAppointmentDetails>();
             IDate date = kernel.Get<IDate>();
             ICustomer customer = kernel.Get<ICustomer>();
             IMyServices service = kernel.Get<IMyServices>();
 
-            if (!string.IsNullOrEmpty(id))
+            if (!string.IsNullOrEmpty(appointment_id))
             {
                 var customer_id = "";
                 var date_id = "";
@@ -96,9 +96,9 @@ namespace Res2019
 
                 try
                 {
-                    sqlConnection_New.Open();
-                    sqlQuery = string.Format("SELECT * FROM appointment WHERE appointment_id = '{0}'", id);
-                    sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                    sqlConnection.Open();
+                    sqlQuery = string.Format("SELECT * FROM appointment WHERE appointment_id = '{0}'", appointment_id);
+                    sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                     reader = sqlCommand.ExecuteReader();
                     if (reader.HasRows)
                     {
@@ -109,22 +109,55 @@ namespace Res2019
                             date_id = reader["date_id"].ToString();
                         }
                     }
-                    sqlConnection_New.Close();
+                    sqlConnection.Close();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
                 }
-                SetDetails(appointment, out date, out customer, out service, customer_id, date_id, service_id);
+                SetAppointmentDetails(appointment, out date, out customer, out service, customer_id, date_id, service_id);
             }
             return appointment;
         }
+        // tutaj dac .appId zamiast         public string GetAppointment_id(string day, string time)
 
-        private void SetDetails(IAppointmentDetails appointment, out IDate date, out ICustomer customer, out IMyServices service, string customer_id, string date_id, string service_id)
+        public string GetAppointment_id(string day, string time)
         {
-            date = GetDateByDate_id(date_id);
-            customer = GetCustomerByCustomer_id(customer_id);
-            service = GetServiceByService_id(service_id);
+            IDate date = kernel.Get<IDate>();
+
+            date = GetDate(day, time);
+
+            string search = date.Date_Id;
+
+            string output = "";
+            try
+            {
+                sqlConnection.Open();
+                sqlQuery = string.Format("SELECT * FROM appointment WHERE date_id = '{0}'", search);
+
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        output = reader["appointment_id"].ToString();
+                    }
+                }
+                sqlConnection.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return output;
+        }
+
+        private void SetAppointmentDetails(IAppointmentDetails appointment, out IDate date, out ICustomer customer, out IMyServices service, string customer_id, string date_id, string service_id)
+        {
+            date = GetDate(date_id);
+            customer = GetCustomer(customer_id);
+            service = GetService(service_id);
 
             appointment.CustomerForename = customer.CustomerForename;
             appointment.CustomerSurname = customer.CustomerSurname;
@@ -136,7 +169,7 @@ namespace Res2019
             appointment.ServiceName = service.ServiceName;
         }
 
-        public IAppointmentDetails GetAppointmentDetailsByDate_id(string id)
+        public IAppointmentDetails GetAppointmentDetails(string _date_id)
         {
             IAppointmentDetails appointment = kernel.Get<IAppointmentDetails>();
             IDate date = kernel.Get<IDate>();
@@ -149,10 +182,10 @@ namespace Res2019
 
             try
             {
-                sqlConnection_New.Open();
-                sqlQuery = string.Format("SELECT * FROM appointment WHERE date_id = '{0}'", id);
+                sqlConnection.Open();
+                sqlQuery = string.Format("SELECT * FROM appointment WHERE date_id = '{0}'", _date_id);
 
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
@@ -163,85 +196,26 @@ namespace Res2019
                         date_id = reader["date_id"].ToString();
                     }
                 }
-                sqlConnection_New.Close();
+                sqlConnection.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
-            SetDetails(appointment, out date, out customer, out service, customer_id, date_id, service_id);
+            SetAppointmentDetails(appointment, out date, out customer, out service, customer_id, date_id, service_id);
 
             return appointment;
         }
 
-        private IMyServices GetServiceByService_id(string id)
-        {
-            IMyServices service = kernel.Get<IMyServices>();
-
-            try
-            {
-                sqlConnection_New.Open();
-                sqlQuery = string.Format("SELECT * FROM service WHERE service_id = '{0}'", id);
-
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        service.ServiceName = reader["serviceName"].ToString();                      
-                    }
-                }
-                sqlConnection_New.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            return service;
-
-        }
-
-        private ICustomer GetCustomerByCustomer_id(string id)
-        {
-            ICustomer customer = kernel.Get<ICustomer>();
-            try
-            {
-                sqlConnection_New.Open();
-                sqlQuery = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'",
-                                    id);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        customer.CustomerForename = reader["forename"].ToString();
-                        customer.CustomerSurname = reader["surname"].ToString();
-                        customer.CustomerTelephoneNumber = reader["telephoneNumber"].ToString();
-                        customer.CustomerId = reader["customer_id"].ToString();
-                    }
-                }
-                sqlConnection_New.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            return customer;
-
-        }
-
-        private IDate GetDateByDate_id(string id)
+        private IDate GetDate(string date_id)
         {
             IDate date = kernel.Get<IDate>();
-
             try
             {
-                sqlConnection_New.Open();
-                sqlQuery = string.Format("SELECT * FROM date WHERE date_id = '{0}'", id);
+                sqlConnection.Open();
+                sqlQuery = string.Format("SELECT * FROM date WHERE date_id = '{0}'", date_id);
 
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
@@ -258,8 +232,7 @@ namespace Res2019
                 {
                     date = null;
                 }
-
-                sqlConnection_New.Close();
+                sqlConnection.Close();
             }
             catch (Exception ex)
             {
@@ -267,112 +240,101 @@ namespace Res2019
             }
             return date;
         }
-
-        public string GetAppointment_idByDayAndTime(string day, string time)
+        // dodać obiekt klasy date => model
+        public IDate GetDate(string day, string time)
         {
             IDate date = kernel.Get<IDate>();
-
-            date = GetDateByDayAndTime(day, time);
-
-            string search = date.Date_Id;
-
-            string output = "";
             try
             {
-                sqlConnection_New.Open();
-                sqlQuery = string.Format("SELECT * FROM appointment WHERE date_id = '{0}'", search);
+                sqlConnection.Open();
+                sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}' AND time = '{1}'", day, time);
 
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        output = reader["appointment_id"].ToString();             
+                        date.DateDay = reader["day"].ToString();
+                        date.DateTime = reader["time"].ToString();
+                        date.DateLength = reader["length"].ToString();
+                        date.DateDuration = reader["duration"].ToString();
+                        date.Date_Id = reader["date_id"].ToString();
                     }
                 }
-                sqlConnection_New.Close();
+                sqlConnection.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
-            return output;
+            return date;
         }
-
-        public IDate GetDateByDayAndTime(string dataWizyty, string godzinaWizyty)
+        private ICustomer GetCustomer(string customer_id)
         {
-            IDate app = kernel.Get<IDate>();
-
+            ICustomer customer = kernel.Get<ICustomer>();
             try
             {
-                sqlConnection_New.Open();
-                sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}' AND time = '{1}'", dataWizyty, godzinaWizyty);
-
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                sqlConnection.Open();
+                sqlQuery = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'",
+                                    customer_id);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        app.DateDay = reader["day"].ToString();
-                        app.DateTime = reader["time"].ToString();
-                        app.DateLength = reader["length"].ToString();
-                        app.DateDuration = reader["duration"].ToString();
-                        app.Date_Id = reader["date_id"].ToString();
+                        customer.CustomerForename = reader["forename"].ToString();
+                        customer.CustomerSurname = reader["surname"].ToString();
+                        customer.CustomerTelephoneNumber = reader["telephoneNumber"].ToString();
+                        customer.CustomerId = reader["customer_id"].ToString();
                     }
                 }
-
-                sqlConnection_New.Close();
+                sqlConnection.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-
             }
-            return app;
+            return customer;
         }
-
-
-
-        public ICustomer GetCustomerFromDb(ICustomer customer)
+        public ICustomer GetCustomer(ICustomer _customer)
         {
-            ICustomer output = kernel.Get<ICustomer>();
+            ICustomer customer = kernel.Get<ICustomer>();
             try
             {
-                sqlConnection_New.Open();
+                sqlConnection.Open();
                 sqlQuery = string.Format("SELECT * FROM customer WHERE forename = '{0}' AND surname = '{1}' AND telephoneNumber = '{2}'",
-                                    customer.CustomerForename, customer.CustomerSurname, customer.CustomerTelephoneNumber);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                                    _customer.CustomerForename, _customer.CustomerSurname, _customer.CustomerTelephoneNumber);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        output.CustomerForename = reader["forename"].ToString();
-                        output.CustomerSurname = reader["surname"].ToString();
-                        output.CustomerTelephoneNumber = reader["telephoneNumber"].ToString();
-                        output.CustomerId = reader["customer_id"].ToString();
+                        customer.CustomerForename = reader["forename"].ToString();
+                        customer.CustomerSurname = reader["surname"].ToString();
+                        customer.CustomerTelephoneNumber = reader["telephoneNumber"].ToString();
+                        customer.CustomerId = reader["customer_id"].ToString();
                     }
                 }
-                sqlConnection_New.Close();
-
+                sqlConnection.Close();
             }
             catch (Exception)
             {
                 throw;
             }
-            return output;
+            return customer;
         }
-        public IMyServices GetServiceFromDb(IMyServices service)
+        public IMyServices GetService(IMyServices service)
         {
             IMyServices output = kernel.Get<IMyServices>();
             try
             {
-                sqlConnection_New.Open();
+                sqlConnection.Open();
                 sqlQuery = string.Format("SELECT * FROM service WHERE serviceName = '{0}'",
                                     service.ServiceName);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
@@ -382,17 +344,45 @@ namespace Res2019
                         output.ServiceName = reader["serviceName"].ToString();                     
                     }
                 }
-                sqlConnection_New.Close();
-
+                sqlConnection.Close();
             }
             catch (Exception)
             {
-                sqlConnection_New.Close();
+                if (sqlConnection.State.Equals("Open"))
+                {
+                    sqlConnection.Close();
+                }
 
                 throw;
             }
             return output;
         }
+        private IMyServices GetService(string service_id)
+        {
+            IMyServices service = kernel.Get<IMyServices>();
+            try
+            {
+                sqlConnection.Open();
+                sqlQuery = string.Format("SELECT * FROM service WHERE service_id = '{0}'", service_id);
+
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        service.ServiceName = reader["serviceName"].ToString();
+                    }
+                }
+                sqlConnection.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return service;
+        }
+
 
     }
 }
