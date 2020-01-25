@@ -352,10 +352,30 @@ namespace Res2019
             }
             return output;
         }
+        private static IMsSqlDataAccess msSqlDataAccess = MsSqlManager.CreateMsSqlDataAccess();
+        private string query = "";
+
+        private IMyServices GetService_New(string service_id)
+        {
+            IMyServices service = kernel.Get<IMyServices>();
+
+            query = string.Format("SELECT * FROM service WHERE service_id = '{0}'", service_id);
+            string[] columns = new string[] { "service_id", "serviceName" };
+            var gotData = msSqlDataAccess.GetData(query, columns);
+            var serviceArr = gotData.ToArray();
+
+            service.ServiceId = serviceArr[0];
+            service.ServiceName = serviceArr[1];
+
+            return service;
+        }
 
         private IMyServices GetService(string service_id)
         {
-            IMyServices service = kernel.Get<IMyServices>();
+            //test
+            GetService_New(service_id);
+               //end
+               IMyServices service = kernel.Get<IMyServices>();
             try
             {
                 sqlConnection.Open();
