@@ -45,8 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMsSqlDataAccess.cs" />
     <Compile Include="IMsSqlDatabaseSettings.cs" />
+    <Compile Include="MsSqlDataAccess.cs" />
     <Compile Include="MsSqlDatabaseSettings.cs" />
+    <Compile Include="MsSqlManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

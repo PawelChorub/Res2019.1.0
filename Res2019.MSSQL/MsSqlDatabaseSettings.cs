@@ -35,23 +35,5 @@ namespace Res2019.MSSQL
             return MsSqlUsersTableName;
         }
 
-        private static SqlConnection sqlConnection_New = new SqlConnection(MsSqlConnectionStringBuildStatic());
-        private static SqlCommand sqlCommand;
-
-        public void SaveData(string sqlQuery)
-        {
-            try
-            {
-                sqlConnection_New.Open();
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection_New.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Wystąpił nieoczekiwany błąd podczas zapisu do bazy, szczegóły: " + ex.ToString());
-            }
-
-        }
     }
 }

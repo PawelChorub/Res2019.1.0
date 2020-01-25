@@ -12,7 +12,7 @@ namespace Res2019
     public class ReadFromDatabase : IReadFromDatabase
     {
         readonly IKernel kernel = new StandardKernel(new DI_Container());
-        private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings();
+        private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings_OLD();
     
         private static SqlConnection sqlConnection = new SqlConnection(connectionString.MsSqlConnectionStringBuild());
         private static SqlCommand sqlCommand;

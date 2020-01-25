@@ -27,7 +27,7 @@ namespace Res2019
             });
         }
 
-        private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings();
+        private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings_OLD();
 
         private static SqlConnection sqlConnection_New = new SqlConnection(connectionString.MsSqlConnectionStringBuild());
         private static SqlCommand sqlCommand;

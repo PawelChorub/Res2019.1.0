@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Res2019.Logic
 {
-    public class DatabaseManager
+    public static class DatabaseManager
     {
-        public static IMsSqlDatabaseSettings CreateMsSqlDatabaseSettings()
+        public static IMsSqlDatabaseSettings CreateMsSqlDatabaseSettings_OLD()
         {
             return new MsSqlDatabaseSettings();
         }
