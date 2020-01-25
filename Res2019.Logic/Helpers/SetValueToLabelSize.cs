@@ -14,7 +14,6 @@ namespace Res2019
         {
             TimeOfAppointment timeOfAppointment = new TimeOfAppointment();
             string output = timeOfAppointment.GetAppointmentTimeKey(valueIn).ToString();
-
             return output;
         }
     }
