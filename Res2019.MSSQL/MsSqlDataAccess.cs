@@ -17,17 +17,17 @@ namespace Res2019.MSSQL
             connectionString = MsSqlManager.CreateMsSqlDatabaseSettings();
         }
 
-        private static SqlConnection sqlConnection_New = new SqlConnection(MsSqlDatabaseSettings.MsSqlConnectionStringBuildStatic());
+        private static SqlConnection sqlConnection = new SqlConnection(MsSqlDatabaseSettings.MsSqlConnectionStringBuildStatic());
         private static SqlCommand sqlCommand;
 
         public void SaveData(string sqlQuery)
         {
             try
             {
-                sqlConnection_New.Open();
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+                sqlConnection.Open();
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 sqlCommand.ExecuteNonQuery();
-                sqlConnection_New.Close();
+                sqlConnection.Close();
             }
             catch (Exception ex)
             {
