@@ -30,22 +30,25 @@ namespace Res2019
 
         public void SaveDate(IDate date)
         {
-            try
-            {
-                sqlConnection_New.Open();
-                sqlQuery = string.Format("INSERT INTO date (day, time, length, duration) VALUES ('{0}','{1}','{2}', '{3}')",
-                     date.DateDay,
-                     date.DateTime,
-                     date.DateLength,
-                     date.DateDuration);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection_New.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Wystąpił nieoczekiwany błąd podczas zapisu do bazy, szczegóły: " + ex.ToString());
-            }
+
+            //try
+            //{
+            //    sqlConnection_New.Open();
+            string query = string.Format("INSERT INTO date (day, time, length, duration) VALUES ('{0}','{1}','{2}', '{3}')",
+                 date.DateDay,
+                 date.DateTime,
+                 date.DateLength,
+                 date.DateDuration);
+
+            connectionString.SaveData(query);
+            //    sqlCommand = new SqlCommand(sqlQuery, sqlConnection_New);
+            //    sqlCommand.ExecuteNonQuery();
+            //    sqlConnection_New.Close();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Wystąpił nieoczekiwany błąd podczas zapisu do bazy, szczegóły: " + ex.ToString());
+            //}
         }
         public void SaveCustomer(ICustomer customer)
         {

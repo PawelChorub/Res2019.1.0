@@ -4,5 +4,8 @@
     {
         string UseUsersTable();
         string MsSqlConnectionStringBuild();
+
+        void SaveData(string sqlQuery);
+
     }
 }
