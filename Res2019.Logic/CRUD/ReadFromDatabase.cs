@@ -13,7 +13,7 @@ namespace Res2019
     {
         readonly IKernel kernel = new StandardKernel(new DI_Container());
         private static IMsSqlDatabaseSettings connectionString = DatabaseManager.CreateMsSqlDatabaseSettings_OLD();
-    
+
         private static SqlConnection sqlConnection = new SqlConnection(connectionString.MsSqlConnectionStringBuild());
         private static SqlCommand sqlCommand;
         private static SqlDataReader reader;
@@ -320,40 +320,21 @@ namespace Res2019
             }
             return customer;
         }
-
-        public IMyServices GetService(IMyServices service)
-        {
-            IMyServices output = kernel.Get<IMyServices>();
-            try
-            {
-                sqlConnection.Open();
-                sqlQuery = string.Format("SELECT * FROM service WHERE serviceName = '{0}'",
-                                    service.ServiceName);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        output.ServiceId = reader["service_id"].ToString();
-                        output.ServiceName = reader["serviceName"].ToString();                     
-                    }
-                }
-                sqlConnection.Close();
-            }
-            catch (Exception)
-            {
-                if (sqlConnection.State.Equals("Open"))
-                {
-                    sqlConnection.Close();
-                }
-
-                throw;
-            }
-            return output;
-        }
         private static IMsSqlDataAccess msSqlDataAccess = MsSqlManager.CreateMsSqlDataAccess();
         private string query = "";
+
+        public IMyServices GetService(IMyServices _service)
+        {
+            IMyServices service = kernel.Get<IMyServices>();
+            query = string.Format("SELECT * FROM service WHERE serviceName = '{0}'", _service.ServiceName);
+            string[] columns = new string[] { "service_id", "serviceName" };
+            var receivedData = msSqlDataAccess.GetData(query, columns).ToArray();
+
+            service.ServiceId = receivedData[0];
+            service.ServiceName = receivedData[1];
+
+            return service;
+        }
 
         private IMyServices GetService_New(string service_id)
         {
