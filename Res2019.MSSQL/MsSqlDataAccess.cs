@@ -34,6 +34,5 @@ namespace Res2019.MSSQL
                 MessageBox.Show("Wystąpił nieoczekiwany błąd podczas zapisu do bazy, szczegóły: " + ex.Message);
             }
         }
-
     }
 }
