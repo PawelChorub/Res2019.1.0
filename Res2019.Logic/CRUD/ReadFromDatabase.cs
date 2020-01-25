@@ -357,45 +357,20 @@ namespace Res2019
 
         private IMyServices GetService_New(string service_id)
         {
-            IMyServices service = kernel.Get<IMyServices>();
-
-            query = string.Format("SELECT * FROM service WHERE service_id = '{0}'", service_id);
-            string[] columns = new string[] { "service_id", "serviceName" };
-            var gotData = msSqlDataAccess.GetData(query, columns);
-            var serviceArr = gotData.ToArray();
-
-            service.ServiceId = serviceArr[0];
-            service.ServiceName = serviceArr[1];
-
-            return service;
+            return null;
         }
 
         private IMyServices GetService(string service_id)
         {
-            //test
-            GetService_New(service_id);
-               //end
-               IMyServices service = kernel.Get<IMyServices>();
-            try
-            {
-                sqlConnection.Open();
-                sqlQuery = string.Format("SELECT * FROM service WHERE service_id = '{0}'", service_id);
+            IMyServices service = kernel.Get<IMyServices>();
 
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        service.ServiceName = reader["serviceName"].ToString();
-                    }
-                }
-                sqlConnection.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            query = string.Format("SELECT * FROM service WHERE service_id = '{0}'", service_id);
+            string[] columns = new string[] { "service_id", "serviceName" };
+            var receivedData = msSqlDataAccess.GetData(query, columns).ToArray();
+
+            service.ServiceId = receivedData[0];
+            service.ServiceName = receivedData[1];
+
             return service;
         }
     }
