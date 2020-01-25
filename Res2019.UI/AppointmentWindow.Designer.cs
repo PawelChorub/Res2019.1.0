@@ -1,6 +1,6 @@
 ﻿namespace Res2019
 {
-    partial class AppointmentForm
+    partial class AppointmentWindow
     {
         /// <summary>
         /// Required designer variable.

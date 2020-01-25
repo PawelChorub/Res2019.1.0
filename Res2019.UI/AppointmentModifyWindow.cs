@@ -12,19 +12,19 @@ using System.Windows.Forms;
 
 namespace Res2019
 {
-    public partial class AppointmentModify : Form
+    public partial class AppointmentModifyWindow : Form
     {
         IKernel kernel = new StandardKernel(new DI_Container());
         IBusinessLogic businessLogic;
         private string existAppointmentDuration;
 
-        public AppointmentModify()
+        public AppointmentModifyWindow()
         {
             businessLogic = kernel.Get<IBusinessLogic>();
             InitializeComponent();
         }
 
-        public AppointmentModify(string date, string time, string forename, string surname, string telephone, string appointmentDuration /*string service, string serviceLength*/)
+        public AppointmentModifyWindow(string date, string time, string forename, string surname, string telephone, string appointmentDuration /*string service, string serviceLength*/)
         {
             businessLogic = kernel.Get<IBusinessLogic>();
             InitializeComponent();

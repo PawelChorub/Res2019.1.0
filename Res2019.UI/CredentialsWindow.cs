@@ -32,9 +32,9 @@ namespace Res2019.UI
             accountManager.VerifyUserAccount(loginTb.Text, passwordTb.Text);
             if (userStatus.GetUserStatus())
             {
-                Agenda agenda = new Agenda();
-                agenda.Show();
-                agenda.BringToFront();
+                AgendaWindow agendaWindow = new AgendaWindow();
+                agendaWindow.Show();
+                agendaWindow.BringToFront();
                 Close();
             }
             else

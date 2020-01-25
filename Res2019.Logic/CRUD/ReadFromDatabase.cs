@@ -19,9 +19,9 @@ namespace Res2019
         private static SqlDataReader reader;
         private string sqlQuery = "";
 
-        public List<string> GetDate_idList(string day)
+        public List<string> GetListOfDate_id(string day)
         {
-            List<string> date_idCollection = new List<string>();
+            List<string> date_id = new List<string>();
 
             try
             {
@@ -33,7 +33,7 @@ namespace Res2019
                 {
                     while (reader.Read())
                     {
-                        date_idCollection.Add(reader["date_id"].ToString());
+                        date_id.Add(reader["date_id"].ToString());
                     }
                 }
                 sqlConnection.Close();
@@ -42,16 +42,16 @@ namespace Res2019
             {
                 MessageBox.Show(ex.ToString());
             }
-            return date_idCollection;
+            return date_id;
         }
 
         public List<IAppointmentDetails> GetListOfAppointment(string day)
         {
             List<IAppointmentDetails> appointmentList = new List<IAppointmentDetails>();
 
-            var date_idCollection = GetDate_idList(day);
+            var date_idList = GetListOfDate_id(day);
 
-            foreach (var date_id in date_idCollection)
+            foreach (var date_id in date_idList)
             {
                 if (!string.IsNullOrEmpty(date_id))
                 {
@@ -80,7 +80,7 @@ namespace Res2019
             return appointment;
         }
 
-        public IAppointmentDetails GetAppointment(string appointment_id)
+        private IAppointmentDetails GetAppointment(string appointment_id)
         {
             IAppointmentDetails appointment = kernel.Get<IAppointmentDetails>();
             IDate date = kernel.Get<IDate>();

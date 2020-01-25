@@ -5,19 +5,19 @@ using System.Windows.Forms;
 
 namespace Res2019
 {
-    public partial class AppointmentForm : Form
+    public partial class AppointmentWindow : Form
     {
         IKernel kernel = new StandardKernel(new DI_Container());
         IBusinessLogic businessLogic;
         public string Date { get; set; }
         public string Time { get; set; }
-        public AppointmentForm()
+        public AppointmentWindow()
         {
             businessLogic = kernel.Get<IBusinessLogic>();
             InitializeComponent();
         }
 
-        public AppointmentForm(string _date, string _time)
+        public AppointmentWindow(string _date, string _time)
         {
             businessLogic = kernel.Get<IBusinessLogic>();
             InitializeComponent();

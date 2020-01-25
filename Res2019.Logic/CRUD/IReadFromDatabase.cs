@@ -11,6 +11,6 @@ namespace Res2019
         IMyServices GetService(IMyServices service);
         IDate GetDate(string day, string time);
         string GetAppointment_id(string day, string time);
-        IAppointmentDetails GetAppointment(string id);
+        //IAppointmentDetails GetAppointment(string id);
     }
 }
