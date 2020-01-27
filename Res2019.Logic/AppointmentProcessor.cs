@@ -190,7 +190,7 @@ namespace Res2019.Logic
 
             var customer_id = readFromDatabase.GetCustomer(customer).CustomerId;
 
-            var service_id = readFromDatabase.GetService(service).ServiceId;
+            var service_id = readFromDatabase.GetService(service).Service_Id;
 
             if (CheckObjectsIsItsNotNull(appointment, customer, service))
             {

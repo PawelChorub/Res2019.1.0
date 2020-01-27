@@ -18,6 +18,10 @@ namespace Res2019
         private static SqlCommand sqlCommand;
         private static SqlDataReader reader;
         private string sqlQuery = "";
+        //*****************************
+        private static IMsSqlDataAccess msSqlDataAccess = MsSqlManager.CreateMsSqlDataAccess();
+        private string query = "";
+
 
         public List<string> GetListOfDate_id(string day)
         {
@@ -320,25 +324,19 @@ namespace Res2019
             }
             return customer;
         }
-        private static IMsSqlDataAccess msSqlDataAccess = MsSqlManager.CreateMsSqlDataAccess();
-        private string query = "";
 
         public IMyServices GetService(IMyServices _service)
         {
             IMyServices service = kernel.Get<IMyServices>();
+
             query = string.Format("SELECT * FROM service WHERE serviceName = '{0}'", _service.ServiceName);
             string[] columns = new string[] { "service_id", "serviceName" };
             var receivedData = msSqlDataAccess.GetData(query, columns).ToArray();
 
-            service.ServiceId = receivedData[0];
+            service.Service_Id = receivedData[0];
             service.ServiceName = receivedData[1];
 
             return service;
-        }
-
-        private IMyServices GetService_New(string service_id)
-        {
-            return null;
         }
 
         private IMyServices GetService(string service_id)
@@ -349,7 +347,7 @@ namespace Res2019
             string[] columns = new string[] { "service_id", "serviceName" };
             var receivedData = msSqlDataAccess.GetData(query, columns).ToArray();
 
-            service.ServiceId = receivedData[0];
+            service.Service_Id = receivedData[0];
             service.ServiceName = receivedData[1];
 
             return service;
