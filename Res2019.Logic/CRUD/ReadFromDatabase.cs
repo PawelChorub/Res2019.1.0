@@ -271,58 +271,24 @@ namespace Res2019
         private ICustomer GetCustomer(string customer_id)
         {
             ICustomer customer = kernel.Get<ICustomer>();
-            try
-            {
-                sqlConnection.Open();
-                sqlQuery = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'",
-                                    customer_id);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        customer.Forename = reader["forename"].ToString();
-                        customer.Surname = reader["surname"].ToString();
-                        customer.Telephone = reader["telephone"].ToString();
-                        customer.Customer_Id = reader["customer_id"].ToString();
-                    }
-                }
-                sqlConnection.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            ICustomerProcessor customerProcessor = kernel.Get<ICustomerProcessor>();
+
+            query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer_id);
+            var receivedData = msSqlDataAccess.GetData(query, customer).ToArray();
+
+            customer = customerProcessor.CreateCustomer(receivedData);
             return customer;
         }
 
         public ICustomer GetCustomer(ICustomer _customer)
         {
             ICustomer customer = kernel.Get<ICustomer>();
-            try
-            {
-                sqlConnection.Open();
-                sqlQuery = string.Format("SELECT * FROM customer WHERE forename = '{0}' AND surname = '{1}' AND telephone = '{2}'",
-                                    _customer.Forename, _customer.Surname, _customer.Telephone);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        customer.Forename = reader["forename"].ToString();
-                        customer.Surname = reader["surname"].ToString();
-                        customer.Telephone = reader["telephone"].ToString();
-                        customer.Customer_Id = reader["customer_id"].ToString();
-                    }
-                }
-                sqlConnection.Close();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            ICustomerProcessor customerProcessor = kernel.Get<ICustomerProcessor>();
+
+            query = string.Format("SELECT * FROM customer WHERE forename = '{0}' AND surname = '{1}' AND telephone = '{2}'", _customer.Forename, _customer.Surname, _customer.Telephone);
+            var receivedData = msSqlDataAccess.GetData(query, customer).ToArray();
+
+            customer = customerProcessor.CreateCustomer(receivedData);
             return customer;
         }
 
@@ -332,14 +298,10 @@ namespace Res2019
             IMyServicesProcessor myServicesProcessor = kernel.Get<IMyServicesProcessor>();
 
             query = string.Format("SELECT * FROM service WHERE name = '{0}'", _service.Name);
-            string[] columns = new string[] { "service_id", "name" };
             var receivedData = msSqlDataAccess.GetData(query, service).ToArray();
 
             service = myServicesProcessor.CreateService(receivedData);
-
             return service;
-            //return myServicesProcessor.CreateService(receivedData);
-
         }
 
         private IMyServices GetService(string service_id)
@@ -348,11 +310,9 @@ namespace Res2019
             IMyServicesProcessor myServicesProcessor = kernel.Get<IMyServicesProcessor>();
 
             query = string.Format("SELECT * FROM service WHERE service_id = '{0}'", service_id);
-            string[] columns = new string[] { "service_id", "name" };
             var receivedData = msSqlDataAccess.GetData(query, service).ToArray();
 
             service = myServicesProcessor.CreateService(receivedData);
-
             return service;
         }
     }

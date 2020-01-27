@@ -36,6 +36,7 @@ namespace Res2019.Logic
             Bind<EmailConfirmation>().ToSelf();
             Bind<SmsConfirmation>().ToSelf();
             Bind<IMyServicesProcessor>().To<MyServicesProcessor>();
+            Bind<ICustomerProcessor>().To<CustomerProcessor>();
 
 
 
