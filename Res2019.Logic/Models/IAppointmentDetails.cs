@@ -6,6 +6,8 @@
         string AppointmentDuration { get; set; }
         string AppointmentLength { get; set; }
         string AppointmentTime { get; set; }
+        string AppointmentId { get; set; }
+        
         string Email { get; set; }
         string Forename { get; set; }
         string Surname { get; set; }

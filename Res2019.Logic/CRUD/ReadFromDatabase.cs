@@ -94,32 +94,70 @@ namespace Res2019
             return appointment;
         }
 
-        private IAppointmentDetails GetAppointment(string appointment_id)
+        public void GetDetails(string search_id)
+        {
+            sqlQuery = string.Format("SELECT * FROM appointment WHERE appointment_id = '{0}'", search_id);
+            var col = new string[] { "appointment_id", "customer_id", "service_id", "date_id" };
+            var x = msSqlDataAccess.GetSingleRowDataList(sqlQuery, col).ToArray();
+            BuildAppointmentDetails(x);
+        }
+
+        public void BuildAppointmentDetails(string [] ids)
         {
             IAppointmentDetails appointment = kernel.Get<IAppointmentDetails>();
             IDate date = kernel.Get<IDate>();
             ICustomer customer = kernel.Get<ICustomer>();
             IMyServices service = kernel.Get<IMyServices>();
 
-            if (!string.IsNullOrEmpty(appointment_id))
+            date = GetDate(ids[3]);
+            customer = GetCustomer(ids[1]);
+            service = GetService(ids[2]);
+
+            appointment.Forename = customer.Forename;
+            appointment.Surname = customer.Surname;
+            appointment.Telephone = customer.Telephone;
+            appointment.AppointmentDay = date.Day;
+            appointment.AppointmentTime = date.Time;
+            appointment.AppointmentDuration = date.Duration;
+            appointment.AppointmentLength = date.Length;
+            appointment.Name = service.Name;
+
+            var x = appointment;
+            var y = x;
+
+        }
+
+        private IAppointmentDetails GetAppointment(string _appointment_id)
+        {
+            GetDetails("1032");
+
+            IAppointmentDetails appointment = kernel.Get<IAppointmentDetails>();
+            IDate date = kernel.Get<IDate>();
+            ICustomer customer = kernel.Get<ICustomer>();
+            IMyServices service = kernel.Get<IMyServices>();
+
+            if (!string.IsNullOrEmpty(_appointment_id))
             {
                 var customer_id = "";
                 var date_id = "";
                 var service_id = "";
+                var appointment_id = "";
 
                 try
                 {
                     sqlConnection.Open();
-                    sqlQuery = string.Format("SELECT * FROM appointment WHERE appointment_id = '{0}'", appointment_id);
+                    sqlQuery = string.Format("SELECT * FROM appointment WHERE appointment_id = '{0}'", _appointment_id);
                     sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                     reader = sqlCommand.ExecuteReader();
                     if (reader.HasRows)
                     {
                         while (reader.Read())
                         {
+                            // odczyt wszystkich kolumn w accesssie
                             customer_id = reader["customer_id"].ToString();
                             service_id = reader["service_id"].ToString();
                             date_id = reader["date_id"].ToString();
+                            appointment_id = reader["appointment_id"].ToString();
                         }
                     }
                     sqlConnection.Close();
@@ -132,13 +170,54 @@ namespace Res2019
             }
             return appointment;
         }
+        public IAppointmentDetails GetAppointmentDetails(string _date_id)
+        {
+            IAppointmentDetails appointment = kernel.Get<IAppointmentDetails>();
+            IDate date = kernel.Get<IDate>();
+            ICustomer customer = kernel.Get<ICustomer>();
+            IMyServices service = kernel.Get<IMyServices>();
 
+            var customer_id = "";
+            var date_id = "";
+            var service_id = "";
+            var appointment_id = "";
+
+            try
+            {
+                sqlConnection.Open();
+                sqlQuery = string.Format("SELECT * FROM appointment WHERE date_id = '{0}'", _date_id);
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        // odczyt wszystkich kolumn w accesssie, zwrot jako appDetails number
+
+                        customer_id = reader["customer_id"].ToString();
+                        service_id = reader["service_id"].ToString();
+                        date_id = reader["date_id"].ToString();
+                        appointment_id = reader["appointment_id"].ToString();
+                    }
+                }
+                sqlConnection.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            SetAppointmentDetails(appointment, out date, out customer, out service, customer_id, date_id, service_id);
+
+            return appointment;
+        }
         public string GetAppointment_id(string day, string time)
         {
             IDate date = kernel.Get<IDate>();
             date = GetDate(day, time);
             string date_id = date.Date_Id;
-            string appointment_id = "";
+            var customer_id = "";
+            var service_id = "";
+            var appointment_id = "";
             try
             {
                 sqlConnection.Open();
@@ -149,6 +228,11 @@ namespace Res2019
                 {
                     while (reader.Read())
                     {
+                        // odczyt wszystkich kolumn w accesssie
+
+                        customer_id = reader["customer_id"].ToString();
+                        service_id = reader["service_id"].ToString();
+                        date_id = reader["date_id"].ToString();
                         appointment_id = reader["appointment_id"].ToString();
                     }
                 }
@@ -177,42 +261,7 @@ namespace Res2019
             appointment.Name = service.Name;
         }
 
-        public IAppointmentDetails GetAppointmentDetails(string _date_id)
-        {
-            IAppointmentDetails appointment = kernel.Get<IAppointmentDetails>();
-            IDate date = kernel.Get<IDate>();
-            ICustomer customer = kernel.Get<ICustomer>();
-            IMyServices service = kernel.Get<IMyServices>();
 
-            var customer_id = "";
-            var date_id = "";
-            var service_id = "";
-
-            try
-            {
-                sqlConnection.Open();
-                sqlQuery = string.Format("SELECT * FROM appointment WHERE date_id = '{0}'", _date_id);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        customer_id = reader["customer_id"].ToString();
-                        service_id = reader["service_id"].ToString();
-                        date_id = reader["date_id"].ToString();
-                    }
-                }
-                sqlConnection.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            SetAppointmentDetails(appointment, out date, out customer, out service, customer_id, date_id, service_id);
-
-            return appointment;
-        }
 
         private IDate GetDate(string date_id)
         {
