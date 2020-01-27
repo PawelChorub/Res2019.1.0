@@ -38,14 +38,6 @@ namespace Res2019.MSSQL
 
         public List<string> GetSingleRowDataList(string sqlQuery, string[] column)
         {
-            //var modelPropetry = new List<string>();
-            //var property = model.GetType().GetProperties();
-            //foreach (var item in property)
-            //{
-            //    modelPropetry.Add(item.Name.ToLower());
-            //}
-            //var column = modelPropetry.ToArray();
-
             List<string> output = new List<string>();
             try
             {

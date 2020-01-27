@@ -37,7 +37,7 @@ namespace Res2019
         }
         public void SaveCustomer(ICustomer customer)
         {
-            query = string.Format("INSERT INTO customer (forename, surname, telephoneNumber) VALUES ('{0}','{1}','{2}')",
+            query = string.Format("INSERT INTO customer (forename, surname, telephone) VALUES ('{0}','{1}','{2}')",
                   customer.Forename,
                   customer.Surname,
                   customer.Telephone);
