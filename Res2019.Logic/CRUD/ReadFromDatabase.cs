@@ -1,6 +1,7 @@
 ﻿using Ninject;
 using Res2019.Logic;
 using Res2019.Logic.Models;
+using Res2019.Logic.Processors;
 using Res2019.MSSQL;
 using System;
 using System.Collections.Generic;
@@ -328,13 +329,16 @@ namespace Res2019
         public IMyServices GetService(IMyServices _service)
         {
             IMyServices service = kernel.Get<IMyServices>();
+            IMyServicesProcessor myServicesProcessor = kernel.Get<IMyServicesProcessor>();
 
             query = string.Format("SELECT * FROM service WHERE name = '{0}'", _service.Name);
             string[] columns = new string[] { "service_id", "name" };
             var receivedData = msSqlDataAccess.GetData(query, service).ToArray();
 
-            service.Service_Id = receivedData[0];
-            service.Name = receivedData[1];
+            //service.Service_Id = receivedData[0];
+            //service.Name = receivedData[1];
+
+            service = myServicesProcessor.CreateService(receivedData);
 
             return service;
         }
@@ -342,13 +346,16 @@ namespace Res2019
         private IMyServices GetService(string service_id)
         {
             IMyServices service = kernel.Get<IMyServices>();
+            IMyServicesProcessor myServicesProcessor = kernel.Get<IMyServicesProcessor>();
 
             query = string.Format("SELECT * FROM service WHERE service_id = '{0}'", service_id);
             string[] columns = new string[] { "service_id", "name" };
             var receivedData = msSqlDataAccess.GetData(query, service).ToArray();
 
-            service.Service_Id = receivedData[0];
-            service.Name = receivedData[1];
+            service = myServicesProcessor.CreateService(receivedData);
+
+            //service.Service_Id = receivedData[0];
+            //service.Name = receivedData[1];
 
             return service;
         }

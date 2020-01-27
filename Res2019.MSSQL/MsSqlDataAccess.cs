@@ -61,6 +61,45 @@ namespace Res2019.MSSQL
         //    }
         //    return output;
         //}
+        //public T GetData<T> (string sqlQuery, T model)
+        //{
+        //    var modelPropetry = new List<string>();
+        //    var property = model.GetType().GetProperties();
+        //    foreach (var item in property)
+        //    {
+        //        modelPropetry.Add(item.Name.ToLower());
+        //    }
+        //    var column = modelPropetry.ToArray();
+            
+        //    List<string> output = new List<string>();
+        //    T modelOut;
+
+        //    try
+        //    {
+        //        sqlConnection.Open();
+        //        sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+        //        reader = sqlCommand.ExecuteReader();
+        //        if (reader.HasRows)
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                for (int i = 0; i < column.Length; i++)
+        //                {
+        //                    output.Add(reader[column.ElementAt(i)].ToString());
+        //                }
+        //            }
+        //        }
+        //        sqlConnection.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Wystąpił nieoczekiwany błąd podczas odczytu z bazy, szczegóły: " + ex.Message);
+        //    }
+
+        //    var receivedData = output.ToArray();
+
+        //    return modelOut;
+        //}
         public List<string> GetData(string sqlQuery, object model)
         {
             var modelPropetry = new List<string>();
@@ -70,7 +109,7 @@ namespace Res2019.MSSQL
                 modelPropetry.Add(item.Name.ToLower());
             }
             var column = modelPropetry.ToArray();
-            
+
             List<string> output = new List<string>();
             try
             {

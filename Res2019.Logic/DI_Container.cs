@@ -3,6 +3,7 @@ using Ninject.Modules;
 using Res2019.Logic.Events;
 using Res2019.Logic.Helpers;
 using Res2019.Logic.Models;
+using Res2019.Logic.Processors;
 using Res2019.MSSQL;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,9 @@ namespace Res2019.Logic
             Bind<IDate>().To<Date>();
             Bind<EmailConfirmation>().ToSelf();
             Bind<SmsConfirmation>().ToSelf();
+            Bind<IMyServicesProcessor>().To<MyServicesProcessor>();
+
+
 
             Bind<IBusinessLogic>().To<BusinessLogic>();
         }
