@@ -35,8 +35,8 @@ namespace Res2019
         {
             query = string.Format("UPDATE date SET day = '{0}'," +
                 "time = '{1}', length = '{2}', duration = '{3}' WHERE date_id = '{4}'",
-                date.DateDay,
-                date.DateTime,
+                date.Day,
+                date.Time,
                 appointment.AppointmentLength,
                 appointment.AppointmentDuration,
                 date.Date_Id);

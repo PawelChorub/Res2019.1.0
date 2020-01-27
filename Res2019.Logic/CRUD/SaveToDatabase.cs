@@ -28,10 +28,10 @@ namespace Res2019
         public void SaveDate(IDate date)
         {
             query = string.Format("INSERT INTO date (day, time, length, duration) VALUES ('{0}','{1}','{2}', '{3}')",
-                 date.DateDay,
-                 date.DateTime,
-                 date.DateLength,
-                 date.DateDuration);
+                 date.Day,
+                 date.Time,
+                 date.Length,
+                 date.Duration);
 
             msSqlDataAccess.SaveData(query);
         }

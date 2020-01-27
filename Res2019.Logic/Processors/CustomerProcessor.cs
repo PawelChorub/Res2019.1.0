@@ -14,12 +14,14 @@ namespace Res2019.Logic.Processors
         public ICustomer CreateCustomer(params string[] model)
         {
             ICustomer customer = kernel.Get<ICustomer>();
-
-            customer.Customer_Id = model[0];
-            customer.Forename = model[1];
-            customer.Surname = model[2];
-            customer.Telephone = model[3];
-            customer.Email = model[4];
+            if (model.Length > 0)
+            {
+                customer.Customer_Id = model[0];
+                customer.Forename = model[1];
+                customer.Surname = model[2];
+                customer.Telephone = model[3];
+                customer.Email = model[4];
+            }
 
             return customer;
         }

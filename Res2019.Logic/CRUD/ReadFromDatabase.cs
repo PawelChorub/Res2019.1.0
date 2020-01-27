@@ -161,10 +161,10 @@ namespace Res2019
             appointment.Forename = customer.Forename;
             appointment.Surname = customer.Surname;
             appointment.Telephone = customer.Telephone;
-            appointment.AppointmentDay = date.DateDay;
-            appointment.AppointmentTime = date.DateTime;
-            appointment.AppointmentDuration = date.DateDuration;
-            appointment.AppointmentLength = date.DateLength;
+            appointment.AppointmentDay = date.Day;
+            appointment.AppointmentTime = date.Time;
+            appointment.AppointmentDuration = date.Duration;
+            appointment.AppointmentLength = date.Length;
             appointment.Name = service.Name;
         }
 
@@ -208,63 +208,24 @@ namespace Res2019
         private IDate GetDate(string date_id)
         {
             IDate date = kernel.Get<IDate>();
-            try
-            {
-                sqlConnection.Open();
-                sqlQuery = string.Format("SELECT * FROM date WHERE date_id = '{0}'", date_id);
+            IDateProcessor dateProcessor = kernel.Get<IDateProcessor>();
 
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        date.DateDay = reader["day"].ToString();
-                        date.DateTime = reader["time"].ToString();
-                        date.DateLength = reader["length"].ToString();
-                        date.DateDuration = reader["duration"].ToString();
-                        date.Date_Id = reader["date_id"].ToString();
-                    }
-                }
-                else
-                {
-                    date = null;
-                }
-                sqlConnection.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            query = string.Format("SELECT * FROM date WHERE date_id = '{0}'", date_id);
+            var receivedData = msSqlDataAccess.GetData(query, date).ToArray();
+
+            date = dateProcessor.CreateDate(receivedData);
             return date;
         }
 
         public IDate GetDate(string day, string time)
         {
             IDate date = kernel.Get<IDate>();
-            try
-            {
-                sqlConnection.Open();
-                sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}' AND time = '{1}'", day, time);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        date.DateDay = reader["day"].ToString();
-                        date.DateTime = reader["time"].ToString();
-                        date.DateLength = reader["length"].ToString();
-                        date.DateDuration = reader["duration"].ToString();
-                        date.Date_Id = reader["date_id"].ToString();
-                    }
-                }
-                sqlConnection.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            IDateProcessor dateProcessor = kernel.Get<IDateProcessor>();
+
+            query = string.Format("SELECT * FROM date WHERE day = '{0}' AND time = '{1}'", day, time);
+            var receivedData = msSqlDataAccess.GetData(query, date).ToArray();
+
+            date = dateProcessor.CreateDate(receivedData);
             return date;
         }
 

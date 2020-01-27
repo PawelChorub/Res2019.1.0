@@ -80,7 +80,9 @@
     <Compile Include="Models\MyServices.cs" />
     <Compile Include="Models\TimeOfAppointment.cs" />
     <Compile Include="Processors\CustomerProcessor.cs" />
+    <Compile Include="Processors\DateProcessor.cs" />
     <Compile Include="Processors\ICustomerProcessor.cs" />
+    <Compile Include="Processors\IDateProcessor.cs" />
     <Compile Include="Processors\IMyServicesProcessor.cs" />
     <Compile Include="Processors\MyServicesProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

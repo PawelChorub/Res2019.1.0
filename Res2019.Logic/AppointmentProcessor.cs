@@ -202,13 +202,13 @@ namespace Res2019.Logic
 
                 if (string.IsNullOrEmpty(date_id))
                 {
-                    date.DateDay = appointment.AppointmentDay;
-                    date.DateTime = appointment.AppointmentTime;
-                    date.DateLength = appointment.AppointmentLength;
-                    date.DateDuration = appointment.AppointmentDuration;
+                    date.Day = appointment.AppointmentDay;
+                    date.Time = appointment.AppointmentTime;
+                    date.Length = appointment.AppointmentLength;
+                    date.Duration = appointment.AppointmentDuration;
                     saveToDatabase.SaveDate(date);
 
-                    date_id = readFromDatabase.GetDate(date.DateDay, date.DateTime).Date_Id;
+                    date_id = readFromDatabase.GetDate(date.Day, date.Time).Date_Id;
                     saveToDatabase.SaveAppointment(date_id, customer_id, service_id);
                 }
                 else
