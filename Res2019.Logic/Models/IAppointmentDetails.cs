@@ -11,6 +11,6 @@
         string CustomerSurname { get; set; }
         string CustomerTelephoneNumber { get; set; }
         string IsOccupied { get; set; }
-        string ServiceName { get; set; }
+        string Name { get; set; }
     }
 }

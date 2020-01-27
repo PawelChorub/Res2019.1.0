@@ -225,7 +225,7 @@ namespace Res2019.Logic
                     (!string.IsNullOrWhiteSpace(appointment.AppointmentLength)) &&
                     (!string.IsNullOrWhiteSpace(appointment.AppointmentDuration)) &&
                     (!string.IsNullOrWhiteSpace(customer.CustomerSurname)) &&
-                    (!string.IsNullOrWhiteSpace(service.ServiceName)))
+                    (!string.IsNullOrWhiteSpace(service.Name)))
 
             {
                 return true;

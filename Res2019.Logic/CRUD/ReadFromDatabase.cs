@@ -164,7 +164,7 @@ namespace Res2019
             appointment.AppointmentTime = date.DateTime;
             appointment.AppointmentDuration = date.DateDuration;
             appointment.AppointmentLength = date.DateLength;
-            appointment.ServiceName = service.ServiceName;
+            appointment.Name = service.Name;
         }
 
         public IAppointmentDetails GetAppointmentDetails(string _date_id)
@@ -329,12 +329,12 @@ namespace Res2019
         {
             IMyServices service = kernel.Get<IMyServices>();
 
-            query = string.Format("SELECT * FROM service WHERE serviceName = '{0}'", _service.ServiceName);
-            string[] columns = new string[] { "service_id", "serviceName" };
+            query = string.Format("SELECT * FROM service WHERE name = '{0}'", _service.Name);
+            string[] columns = new string[] { "service_id", "name" };
             var receivedData = msSqlDataAccess.GetData(query, columns).ToArray();
 
             service.Service_Id = receivedData[0];
-            service.ServiceName = receivedData[1];
+            service.Name = receivedData[1];
 
             return service;
         }
@@ -344,11 +344,11 @@ namespace Res2019
             IMyServices service = kernel.Get<IMyServices>();
 
             query = string.Format("SELECT * FROM service WHERE service_id = '{0}'", service_id);
-            string[] columns = new string[] { "service_id", "serviceName" };
+            string[] columns = new string[] { "service_id", "name" };
             var receivedData = msSqlDataAccess.GetData(query, columns).ToArray();
 
             service.Service_Id = receivedData[0];
-            service.ServiceName = receivedData[1];
+            service.Name = receivedData[1];
 
             return service;
         }

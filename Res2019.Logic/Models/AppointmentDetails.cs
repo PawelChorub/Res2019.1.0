@@ -20,7 +20,7 @@ namespace Res2019.Logic.Models
         public string CustomerForename { get; set; }
         public string CustomerSurname { get; set; }
         public string CustomerTelephoneNumber { get; set; }
-        public string ServiceName { get; set; }
+        public string Name { get; set; }
         public string Service_Id { get; set; }
     }
 }
