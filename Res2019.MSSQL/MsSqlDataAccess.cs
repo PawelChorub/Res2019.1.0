@@ -35,6 +35,32 @@ namespace Res2019.MSSQL
             }
         }
         SqlDataReader reader;
+        public List<string> GetSingleColumnDataList(string sqlQuery, string modelProperty)
+        {
+            List<string> outputList = new List<string>();
+
+            try
+            {
+                sqlConnection.Open();
+
+                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+                reader = sqlCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        outputList.Add(reader[modelProperty].ToString());
+                    }
+                }
+                sqlConnection.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return outputList;
+        }
+
         //public List<string> GetData(string sqlQuery, string[] column)
         //{
         //    List<string> output = new List<string>();
@@ -70,7 +96,7 @@ namespace Res2019.MSSQL
         //        modelPropetry.Add(item.Name.ToLower());
         //    }
         //    var column = modelPropetry.ToArray();
-            
+
         //    List<string> output = new List<string>();
         //    T modelOut;
 

@@ -26,28 +26,37 @@ namespace Res2019
 
         public List<string> GetListOfDate_id(string day)
         {
-            List<string> date_id = new List<string>();
+            IDate date = kernel.Get<IDate>();
 
-            try
-            {
-                sqlConnection.Open();
-                sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}'", day);
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        date_id.Add(reader["date_id"].ToString());
-                    }
-                }
-                sqlConnection.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            return date_id;
+            var modelProperty = date.GetType().GetProperty("Date_Id").Name;
+            query = string.Format("SELECT * FROM date WHERE day = '{0}'", day);
+            var receivedData = msSqlDataAccess.GetSingleColumnDataList(query, modelProperty);
+
+            return receivedData;
+
+            //---------------
+            //List<string> date_id = new List<string>();
+
+            //try
+            //{
+            //    sqlConnection.Open();
+            //    sqlQuery = string.Format("SELECT * FROM date WHERE day = '{0}'", day);
+            //    sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+            //    reader = sqlCommand.ExecuteReader();
+            //    if (reader.HasRows)
+            //    {
+            //        while (reader.Read())
+            //        {
+            //            date_id.Add(reader["date_id"].ToString());
+            //        }
+            //    }
+            //    sqlConnection.Close();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.ToString());
+            //}
+            //return date_id;
         }
 
         public List<IAppointmentDetails> GetListOfAppointment(string day)
