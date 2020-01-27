@@ -235,8 +235,8 @@ namespace Res2019.Logic
 
         private void UpdateAppointmentToDatabase(IAppointment appointment, ICustomer customer, IMyServices service)
         {
-            //updateToDatabase.UpdatedToDatabase += emailConfirmation.OnUpdatedToDatabaseEventLog;
-            //updateToDatabase.UpdatedToDatabase += smsConfirmation.OnUpdatedToDatabaseEventLog;
+            updateToDatabase.UpdatedToDatabase += emailConfirmation.OnUpdatedToDatabaseEventLog;
+            updateToDatabase.UpdatedToDatabase += smsConfirmation.OnUpdatedToDatabaseEventLog;
             var date_id = readFromDatabase.GetDate(appointment.AppointmentDay, appointment.AppointmentTime);
             var customer_id = readFromDatabase.GetCustomer(customer);
             var service_id = readFromDatabase.GetService(service);
