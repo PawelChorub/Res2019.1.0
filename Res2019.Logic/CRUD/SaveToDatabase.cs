@@ -38,9 +38,9 @@ namespace Res2019
         public void SaveCustomer(ICustomer customer)
         {
             query = string.Format("INSERT INTO customer (forename, surname, telephoneNumber) VALUES ('{0}','{1}','{2}')",
-                  customer.CustomerForename,
-                  customer.CustomerSurname,
-                  customer.CustomerTelephoneNumber);
+                  customer.Forename,
+                  customer.Surname,
+                  customer.Telephone);
             msSqlDataAccess.SaveData(query);
         }
         public void SaveAppointment(string date_id, string customer_id, string service_id)

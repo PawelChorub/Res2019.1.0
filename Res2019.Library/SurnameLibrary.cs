@@ -8,6 +8,6 @@ namespace Res2019.Library
 {
     public class SurnameLibrary : ISurnameLibrary
     {
-        public string CustomerSurname { get; set; }
+        public string Surname { get; set; }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface ITelephoneNumberLibrary
     {
-        string CustomerTelephoneNumber { get; set; }
+        string Telephone { get; set; }
     }
 }

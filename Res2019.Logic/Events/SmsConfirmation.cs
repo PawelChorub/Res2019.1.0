@@ -18,8 +18,8 @@ namespace Res2019.Logic.Events
             MessageBox.Show("Not implemented service. Fake Message: Wysłano SMS z potwierdzeniem zmiany wizyty na: "
                 + e.Date.DateDay 
                 + " godz :" + e.Date.DateTime
-                + " dla : " + e.Customer.CustomerForename
-                + " " + e.Customer.CustomerSurname);
+                + " dla : " + e.Customer.Forename
+                + " " + e.Customer.Surname);
         }
     }
 }

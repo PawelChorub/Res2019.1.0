@@ -158,9 +158,9 @@ namespace Res2019
             customer = GetCustomer(customer_id);
             service = GetService(service_id);
 
-            appointment.CustomerForename = customer.CustomerForename;
-            appointment.CustomerSurname = customer.CustomerSurname;
-            appointment.CustomerTelephoneNumber = customer.CustomerTelephoneNumber;
+            appointment.Forename = customer.Forename;
+            appointment.Surname = customer.Surname;
+            appointment.Telephone = customer.Telephone;
             appointment.AppointmentDay = date.DateDay;
             appointment.AppointmentTime = date.DateTime;
             appointment.AppointmentDuration = date.DateDuration;
@@ -282,9 +282,9 @@ namespace Res2019
                 {
                     while (reader.Read())
                     {
-                        customer.CustomerForename = reader["forename"].ToString();
-                        customer.CustomerSurname = reader["surname"].ToString();
-                        customer.CustomerTelephoneNumber = reader["telephoneNumber"].ToString();
+                        customer.Forename = reader["forename"].ToString();
+                        customer.Surname = reader["surname"].ToString();
+                        customer.Telephone = reader["telephone"].ToString();
                         customer.CustomerId = reader["customer_id"].ToString();
                     }
                 }
@@ -303,17 +303,17 @@ namespace Res2019
             try
             {
                 sqlConnection.Open();
-                sqlQuery = string.Format("SELECT * FROM customer WHERE forename = '{0}' AND surname = '{1}' AND telephoneNumber = '{2}'",
-                                    _customer.CustomerForename, _customer.CustomerSurname, _customer.CustomerTelephoneNumber);
+                sqlQuery = string.Format("SELECT * FROM customer WHERE forename = '{0}' AND surname = '{1}' AND telephone = '{2}'",
+                                    _customer.Forename, _customer.Surname, _customer.Telephone);
                 sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
                 reader = sqlCommand.ExecuteReader();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        customer.CustomerForename = reader["forename"].ToString();
-                        customer.CustomerSurname = reader["surname"].ToString();
-                        customer.CustomerTelephoneNumber = reader["telephoneNumber"].ToString();
+                        customer.Forename = reader["forename"].ToString();
+                        customer.Surname = reader["surname"].ToString();
+                        customer.Telephone = reader["telephone"].ToString();
                         customer.CustomerId = reader["customer_id"].ToString();
                     }
                 }
@@ -335,12 +335,11 @@ namespace Res2019
             string[] columns = new string[] { "service_id", "name" };
             var receivedData = msSqlDataAccess.GetData(query, service).ToArray();
 
-            //service.Service_Id = receivedData[0];
-            //service.Name = receivedData[1];
-
             service = myServicesProcessor.CreateService(receivedData);
 
             return service;
+            //return myServicesProcessor.CreateService(receivedData);
+
         }
 
         private IMyServices GetService(string service_id)
@@ -353,9 +352,6 @@ namespace Res2019
             var receivedData = msSqlDataAccess.GetData(query, service).ToArray();
 
             service = myServicesProcessor.CreateService(receivedData);
-
-            //service.Service_Id = receivedData[0];
-            //service.Name = receivedData[1];
 
             return service;
         }

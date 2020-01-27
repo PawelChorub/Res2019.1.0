@@ -84,8 +84,8 @@ namespace Res2019
                 if (appointmentDetails != null)
                 {
                     AppointmentModifyWindow appointmentModifyWindow = new AppointmentModifyWindow(
-                        date, time, appointmentDetails.CustomerForename, appointmentDetails.CustomerSurname,
-                        appointmentDetails.CustomerTelephoneNumber, appointmentDetails.AppointmentDuration);
+                        date, time, appointmentDetails.Forename, appointmentDetails.Surname,
+                        appointmentDetails.Telephone, appointmentDetails.AppointmentDuration);
                     appointmentModifyWindow.ShowDialog();
                 }
                 else
