@@ -35,32 +35,32 @@ namespace Res2019.MSSQL
             }
         }
         SqlDataReader reader;
-        public List<string> GetData(string sqlQuery, string[] column)
-        {
-            List<string> output = new List<string>();
-            try
-            {
-                sqlConnection.Open();
-                sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
-                reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        for (int i = 0; i < column.Length; i++)
-                        {
-                            output.Add(reader[column.ElementAt(i)].ToString());
-                        }
-                    }
-                }
-                sqlConnection.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Wystąpił nieoczekiwany błąd podczas odczytu z bazy, szczegóły: " + ex.Message);
-            }
-            return output;
-        }
+        //public List<string> GetData(string sqlQuery, string[] column)
+        //{
+        //    List<string> output = new List<string>();
+        //    try
+        //    {
+        //        sqlConnection.Open();
+        //        sqlCommand = new SqlCommand(sqlQuery, sqlConnection);
+        //        reader = sqlCommand.ExecuteReader();
+        //        if (reader.HasRows)
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                for (int i = 0; i < column.Length; i++)
+        //                {
+        //                    output.Add(reader[column.ElementAt(i)].ToString());
+        //                }
+        //            }
+        //        }
+        //        sqlConnection.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Wystąpił nieoczekiwany błąd podczas odczytu z bazy, szczegóły: " + ex.Message);
+        //    }
+        //    return output;
+        //}
         public List<string> GetData(string sqlQuery, object model)
         {
             var modelPropetry = new List<string>();

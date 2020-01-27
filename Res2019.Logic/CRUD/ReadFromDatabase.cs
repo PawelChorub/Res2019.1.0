@@ -331,7 +331,7 @@ namespace Res2019
 
             query = string.Format("SELECT * FROM service WHERE name = '{0}'", _service.Name);
             string[] columns = new string[] { "service_id", "name" };
-            var receivedData = msSqlDataAccess.GetData(query, columns).ToArray();
+            var receivedData = msSqlDataAccess.GetData(query, service).ToArray();
 
             service.Service_Id = receivedData[0];
             service.Name = receivedData[1];
@@ -345,7 +345,7 @@ namespace Res2019
 
             query = string.Format("SELECT * FROM service WHERE service_id = '{0}'", service_id);
             string[] columns = new string[] { "service_id", "name" };
-            var receivedData = msSqlDataAccess.GetData(query, columns).ToArray();
+            var receivedData = msSqlDataAccess.GetData(query, service).ToArray();
 
             service.Service_Id = receivedData[0];
             service.Name = receivedData[1];
