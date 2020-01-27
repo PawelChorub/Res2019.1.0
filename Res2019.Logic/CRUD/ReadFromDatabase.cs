@@ -285,7 +285,7 @@ namespace Res2019
                         customer.Forename = reader["forename"].ToString();
                         customer.Surname = reader["surname"].ToString();
                         customer.Telephone = reader["telephone"].ToString();
-                        customer.CustomerId = reader["customer_id"].ToString();
+                        customer.Customer_Id = reader["customer_id"].ToString();
                     }
                 }
                 sqlConnection.Close();
@@ -314,7 +314,7 @@ namespace Res2019
                         customer.Forename = reader["forename"].ToString();
                         customer.Surname = reader["surname"].ToString();
                         customer.Telephone = reader["telephone"].ToString();
-                        customer.CustomerId = reader["customer_id"].ToString();
+                        customer.Customer_Id = reader["customer_id"].ToString();
                     }
                 }
                 sqlConnection.Close();

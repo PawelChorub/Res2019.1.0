@@ -188,7 +188,7 @@ namespace Res2019.Logic
 
             var date_id = readFromDatabase.GetDate(appointment.AppointmentDay, appointment.AppointmentTime).Date_Id;
 
-            var customer_id = readFromDatabase.GetCustomer(customer).CustomerId;
+            var customer_id = readFromDatabase.GetCustomer(customer).Customer_Id;
 
             var service_id = readFromDatabase.GetService(service).Service_Id;
 
@@ -197,7 +197,7 @@ namespace Res2019.Logic
                 if (string.IsNullOrEmpty(customer_id))    
                 {
                     saveToDatabase.SaveCustomer(customer);
-                    customer_id = readFromDatabase.GetCustomer(customer).CustomerId;
+                    customer_id = readFromDatabase.GetCustomer(customer).Customer_Id;
                 }
 
                 if (string.IsNullOrEmpty(date_id))
@@ -244,7 +244,7 @@ namespace Res2019.Logic
 
             if (CheckObjectsIsItsNotNull(appointment, customer, service))
             {
-                if (string.IsNullOrWhiteSpace(customer_id.CustomerId))
+                if (string.IsNullOrWhiteSpace(customer_id.Customer_Id))
                 {
                     saveToDatabase.SaveCustomer(customer);
                     customer_id = readFromDatabase.GetCustomer(customer);

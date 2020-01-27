@@ -46,7 +46,7 @@ namespace Res2019
         {
             query = string.Format("UPDATE appointment SET customer_id = '{0}'," +
                 "service_id = '{1}', date_id = '{2}' WHERE appointment_id = '{3}'",
-                customer.CustomerId,
+                customer.Customer_Id,
                 service.Service_Id,
                 date.Date_Id,
                 appointmentToModify_id);

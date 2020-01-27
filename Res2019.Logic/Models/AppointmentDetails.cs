@@ -15,7 +15,7 @@ namespace Res2019.Logic.Models
         public string AppointmentLength { get; set; }
         public string AppointmentTime { get; set; }
         public string IsOccupied { get; set; }
-        public string CustomerId { get; set; }
+        public string Customer_Id { get; set; }
         public string Email { get; set; }
         public string Forename { get; set; }
         public string Surname { get; set; }
