@@ -23,7 +23,6 @@ namespace Res2019
             var modelProperty = date.GetType().GetProperty("Date_Id").Name;
             query = string.Format("SELECT * FROM date WHERE day = '{0}'", day);
             var receivedData = msSqlDataAccess.GetSingleColumnDataList(query, modelProperty);
-
             return receivedData;
         }
 
@@ -119,7 +118,7 @@ namespace Res2019
             IDateProcessor dateProcessor = kernel.Get<IDateProcessor>();
 
             query = string.Format("SELECT * FROM date WHERE date_id = '{0}'", date_id);
-            var receivedData = msSqlDataAccess.GetData(query, date).ToArray();
+            var receivedData = msSqlDataAccess.GetDataList(query, date).ToArray();
 
             date = dateProcessor.CreateDate(receivedData);
             return date;
@@ -131,7 +130,7 @@ namespace Res2019
             IDateProcessor dateProcessor = kernel.Get<IDateProcessor>();
 
             query = string.Format("SELECT * FROM date WHERE day = '{0}' AND time = '{1}'", day, time);
-            var receivedData = msSqlDataAccess.GetData(query, date).ToArray();
+            var receivedData = msSqlDataAccess.GetDataList(query, date).ToArray();
 
             date = dateProcessor.CreateDate(receivedData);
             return date;
@@ -143,7 +142,7 @@ namespace Res2019
             ICustomerProcessor customerProcessor = kernel.Get<ICustomerProcessor>();
 
             query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer_id);
-            var receivedData = msSqlDataAccess.GetData(query, customer).ToArray();
+            var receivedData = msSqlDataAccess.GetDataList(query, customer).ToArray();
 
             customer = customerProcessor.CreateCustomer(receivedData);
             return customer;
@@ -155,7 +154,7 @@ namespace Res2019
             ICustomerProcessor customerProcessor = kernel.Get<ICustomerProcessor>();
 
             query = string.Format("SELECT * FROM customer WHERE forename = '{0}' AND surname = '{1}' AND telephone = '{2}'", _customer.Forename, _customer.Surname, _customer.Telephone);
-            var receivedData = msSqlDataAccess.GetData(query, customer).ToArray();
+            var receivedData = msSqlDataAccess.GetDataList(query, customer).ToArray();
 
             customer = customerProcessor.CreateCustomer(receivedData);
             return customer;
@@ -167,7 +166,7 @@ namespace Res2019
             IMyServicesProcessor myServicesProcessor = kernel.Get<IMyServicesProcessor>();
 
             query = string.Format("SELECT * FROM service WHERE name = '{0}'", _service.Name);
-            var receivedData = msSqlDataAccess.GetData(query, service).ToArray();
+            var receivedData = msSqlDataAccess.GetDataList(query, service).ToArray();
 
             service = myServicesProcessor.CreateService(receivedData);
             return service;
@@ -179,7 +178,7 @@ namespace Res2019
             IMyServicesProcessor myServicesProcessor = kernel.Get<IMyServicesProcessor>();
 
             query = string.Format("SELECT * FROM service WHERE service_id = '{0}'", service_id);
-            var receivedData = msSqlDataAccess.GetData(query, service).ToArray();
+            var receivedData = msSqlDataAccess.GetDataList(query, service).ToArray();
 
             service = myServicesProcessor.CreateService(receivedData);
             return service;
