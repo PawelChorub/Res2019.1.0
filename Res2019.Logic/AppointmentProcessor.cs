@@ -34,9 +34,8 @@ namespace Res2019.Logic
             timeToEndOfWorkProcessor = kernel.Get<ITimeToEndOfWorkProcessor>();
             emailConfirmation = kernel.Get<EmailConfirmation>();
             smsConfirmation = kernel.Get<SmsConfirmation>();
-
         }
-        //***
+
         public void BuildAppointment(IAppointment appointment, ICustomer customer, IMyServices service)
         {
             bool IsTimeAvailable = false;
@@ -192,7 +191,7 @@ namespace Res2019.Logic
 
             var service_id = readFromDatabase.GetService(service).Service_Id;
 
-            if (CheckObjectsIsItsNotNull(appointment, customer, service))
+            if (CheckObjectIsItNotNull(appointment, customer, service))
             {
                 if (string.IsNullOrEmpty(customer_id))    
                 {
@@ -213,12 +212,12 @@ namespace Res2019.Logic
                 }
                 else
                 {
-                    MessageBox.Show("Termin zajęty NEW");
+                    MessageBox.Show("Termin zajęty!");
                 }
             }
         }
 
-        private static bool CheckObjectsIsItsNotNull(IAppointment appointment, ICustomer customer, IMyServices service)
+        private static bool CheckObjectIsItNotNull(IAppointment appointment, ICustomer customer, IMyServices service)
         {
             if ((!string.IsNullOrWhiteSpace(appointment.AppointmentDay)) &&
                     (!string.IsNullOrWhiteSpace(appointment.AppointmentTime)) &&
@@ -242,7 +241,7 @@ namespace Res2019.Logic
             var service_id = readFromDatabase.GetService(service);
             var appointmentToModify_id = readFromDatabase.GetAppointment_id(appointment.AppointmentDay, appointment.AppointmentTime);
 
-            if (CheckObjectsIsItsNotNull(appointment, customer, service))
+            if (CheckObjectIsItNotNull(appointment, customer, service))
             {
                 if (string.IsNullOrWhiteSpace(customer_id.Customer_Id))
                 {

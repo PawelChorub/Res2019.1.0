@@ -62,17 +62,17 @@ namespace Res2019
             return appointment;
         }
 
-        public IAppointmentDetails BuildAppointmentDetails(string [] ids)
+        public IAppointmentDetails BuildAppointmentDetails(string [] idColumnSet)
         {
             IAppointmentDetails appointment = kernel.Get<IAppointmentDetails>();
             IDate date = kernel.Get<IDate>();
             ICustomer customer = kernel.Get<ICustomer>();
             IMyServices service = kernel.Get<IMyServices>();
-            if (ids.Length > 0)
+            if (idColumnSet.Length > 0)
             {
-                customer = GetCustomer(ids[1]);
-                service = GetService(ids[2]);
-                date = GetDate(ids[3]);
+                customer = GetCustomer(idColumnSet[1]);
+                service = GetService(idColumnSet[2]);
+                date = GetDate(idColumnSet[3]);
 
                 appointment.Forename = customer.Forename;
                 appointment.Surname = customer.Surname;
@@ -81,7 +81,7 @@ namespace Res2019
                 appointment.AppointmentTime = date.Time;
                 appointment.AppointmentDuration = date.Duration;
                 appointment.AppointmentLength = date.Length;
-                appointment.AppointmentId = ids[0];
+                appointment.AppointmentId = idColumnSet[0];
                 appointment.Name = service.Name;
             }
             return appointment;
@@ -91,8 +91,7 @@ namespace Res2019
         {
             query = string.Format("SELECT * FROM appointment WHERE appointment_id = '{0}'", _appointment_id);
             var column = new string[] { "appointment_id", "customer_id", "service_id", "date_id" };
-            var receivedData = msSqlDataAccess.GetSingleRowDataList(query, column).ToArray();
-            
+            var receivedData = msSqlDataAccess.GetSingleRowDataList(query, column).ToArray();           
             return BuildAppointmentDetails(receivedData);
         }
         public IAppointmentDetails GetAppointmentDetails(string _date_id)
@@ -100,7 +99,6 @@ namespace Res2019
             query = string.Format("SELECT * FROM appointment WHERE date_id = '{0}'", _date_id);
             var column = new string[] { "appointment_id", "customer_id", "service_id", "date_id" };
             var receivedData = msSqlDataAccess.GetSingleRowDataList(query, column).ToArray();
-
             return BuildAppointmentDetails(receivedData);
         }
         public string GetAppointment_id(string day, string time)

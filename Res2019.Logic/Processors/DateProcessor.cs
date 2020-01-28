@@ -23,7 +23,6 @@ namespace Res2019.Logic.Processors
                 date.Length = model[3];
                 date.Duration = model[4];
             }
-
             return date;
         }
 
