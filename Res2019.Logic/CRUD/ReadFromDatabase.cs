@@ -104,12 +104,7 @@ namespace Res2019
         {
             IDate date = GetDate(day, time);
             string date_id = date.Date_Id;
-
-            query = string.Format("SELECT * FROM appointment WHERE date_id = '{0}'", date_id);
-            var column = new string[] { "appointment_id", "customer_id", "service_id", "date_id" };
-            var receivedData = msSqlDataAccess.GetSingleRowDataList(query, column).ToArray();
-
-            return BuildAppointmentDetails(receivedData).AppointmentId;
+            return GetAppointmentDetails(date_id).AppointmentId;
         }
 
         private IDate GetDate(string date_id)
