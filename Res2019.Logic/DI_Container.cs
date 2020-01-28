@@ -26,7 +26,7 @@ namespace Res2019.Logic
             Bind<ISetNumberOfLabel>().To<SetNumberOfLabel>();
             Bind<ISetValueToLabelSize>().To<SetValueToLabelSize>();
             Bind<ITimeFromLabel>().To<TimeFromLabel>();
-            Bind<IAppointmentController>().To<AppointmentController>();
+            Bind<IAppointmentDetailsController>().To<AppointmentDetailsController>();
             Bind<ITimeToEndOfWorkProcessor>().To<TimeToEndOfWorkProcessor>();
             Bind<IAppointmentDetails>().To<AppointmentDetails>();
             Bind<IDate>().To<Date>();

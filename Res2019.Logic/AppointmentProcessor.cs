@@ -15,7 +15,7 @@ namespace Res2019.Logic
     public class AppointmentProcessor : IAppointmentProcessor
     {
         IKernel kernel = new StandardKernel(new DI_Container());
-        IAppointmentController appointmentController;
+        IAppointmentDetailsController appointmentController;
         IDateController dateController;
         ICustomerController customerController;
         IMyServicesController myServicesController;
@@ -27,7 +27,7 @@ namespace Res2019.Logic
         public AppointmentProcessor()
         {
             appointmentDetails = kernel.Get<IAppointmentDetails>();
-            appointmentController = kernel.Get<IAppointmentController>();
+            appointmentController = kernel.Get<IAppointmentDetailsController>();
             dateController = kernel.Get<IDateController>();
             myServicesController = kernel.Get<IMyServicesController>();
             customerController = kernel.Get<ICustomerController>();

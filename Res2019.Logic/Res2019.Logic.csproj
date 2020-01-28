@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="AppointmentProcessor.cs" />
     <Compile Include="BusinessLogic.cs" />
-    <Compile Include="Controller\IAppointmentController.cs" />
+    <Compile Include="Controller\IAppointmentDetailsController.cs" />
     <Compile Include="Controller\ICustomerController.cs" />
     <Compile Include="Controller\IDateController.cs" />
     <Compile Include="DatabaseManager.cs" />
@@ -78,7 +78,7 @@
     <Compile Include="Models\IMyServices.cs" />
     <Compile Include="Models\MyServices.cs" />
     <Compile Include="Models\TimeOfAppointment.cs" />
-    <Compile Include="Controller\AppointmentController.cs" />
+    <Compile Include="Controller\AppointmentDetailsController.cs" />
     <Compile Include="Controller\CustomerController.cs" />
     <Compile Include="Controller\DateController.cs" />
     <Compile Include="Controller\IMyServicesController.cs" />

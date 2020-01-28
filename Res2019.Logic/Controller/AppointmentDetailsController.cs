@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Res2019.Logic.Controller
 {
-    public class AppointmentController : IAppointmentController
+    public class AppointmentDetailsController : IAppointmentDetailsController
     {
         readonly IKernel kernel = new StandardKernel(new DI_Container());
         private static IMsSqlDataAccess msSqlDataAccess = MsSqlManager.CreateMsSqlDataAccess();
@@ -21,7 +21,7 @@ namespace Res2019.Logic.Controller
         IMyServicesController myServicesController;
         ICustomerController customerController;
 
-        public AppointmentController()
+        public AppointmentDetailsController()
         {
             dateController = kernel.Get<IDateController>();
             myServicesController = kernel.Get<IMyServicesController>();
@@ -70,19 +70,19 @@ namespace Res2019.Logic.Controller
 
         public IAppointmentDetails GetAppointment(string day, string time)
         {
-            IAppointmentDetails appointment = null;
+            IAppointmentDetails appointmentDetails = null;
             string id = GetAppointment_id(day, time);
             if (!string.IsNullOrWhiteSpace(id))
             {
-                appointment = kernel.Get<IAppointmentDetails>();
-                appointment = GetAppointment(id);
+                appointmentDetails = kernel.Get<IAppointmentDetails>();
+                appointmentDetails = GetAppointment(id);
             }
-            return appointment;
+            return appointmentDetails;
         }
 
         private IAppointmentDetails BuildAppointmentDetails(string[] idColumnSet)
         {
-            IAppointmentDetails appointment = kernel.Get<IAppointmentDetails>();
+            IAppointmentDetails appointmentDetails = kernel.Get<IAppointmentDetails>();
             IDate date = kernel.Get<IDate>();
             ICustomer customer = kernel.Get<ICustomer>();
             IMyServices service = kernel.Get<IMyServices>();
@@ -92,17 +92,17 @@ namespace Res2019.Logic.Controller
                 service = myServicesController.GetService(idColumnSet[2]);
                 date = dateController.GetDate(idColumnSet[3]);
 
-                appointment.Forename = customer.Forename;
-                appointment.Surname = customer.Surname;
-                appointment.Telephone = customer.Telephone;
-                appointment.AppointmentDay = date.Day;
-                appointment.AppointmentTime = date.Time;
-                appointment.AppointmentDuration = date.Duration;
-                appointment.AppointmentLength = date.Length;
-                appointment.AppointmentId = idColumnSet[0];
-                appointment.Name = service.Name;
+                appointmentDetails.Forename = customer.Forename;
+                appointmentDetails.Surname = customer.Surname;
+                appointmentDetails.Telephone = customer.Telephone;
+                appointmentDetails.AppointmentDay = date.Day;
+                appointmentDetails.AppointmentTime = date.Time;
+                appointmentDetails.AppointmentDuration = date.Duration;
+                appointmentDetails.AppointmentLength = date.Length;
+                appointmentDetails.AppointmentId = idColumnSet[0];
+                appointmentDetails.Name = service.Name;
             }
-            return appointment;
+            return appointmentDetails;
         }
 
         public IAppointmentDetails GetAppointment(string _appointment_id)

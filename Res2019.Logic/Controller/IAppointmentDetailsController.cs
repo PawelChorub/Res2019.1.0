@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Res2019.Logic.Models;
-using static Res2019.Logic.Controller.AppointmentController;
+using static Res2019.Logic.Controller.AppointmentDetailsController;
 
 namespace Res2019.Logic.Controller
 {
-    public interface IAppointmentController
+    public interface IAppointmentDetailsController
     {
         event SaveToDatabaseHandler SaveToDatabaseEventLog;
         event UpdatedToDatabaseHandler UpdatedToDatabase;
