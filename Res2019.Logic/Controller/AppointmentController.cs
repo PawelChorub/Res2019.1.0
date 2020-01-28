@@ -42,7 +42,7 @@ namespace Res2019.Logic.Controller
                  customer_id, service_id, date_id);
             msSqlDataAccess.SaveData(query);
 
-            OnSaveToDatabaseEventLog(); // to przenieść, albo dać if
+            OnSaveToDatabaseEventLog();
         }
 
         public List<IAppointmentDetails> GetListOfAppointment(string day)
@@ -139,7 +139,6 @@ namespace Res2019.Logic.Controller
             });
         }
 
-
         public void UpdateAppointment(IDate date, ICustomer customer, IMyServices service, string appointmentToModify_id)
         {
             query = string.Format("UPDATE appointment SET customer_id = '{0}'," +
@@ -155,17 +154,8 @@ namespace Res2019.Logic.Controller
 
         public void DeleteAppointment(string appointment_id)
         {
-            if (!string.IsNullOrWhiteSpace(appointment_id))
-            {
-                query = string.Format("DELETE FROM appointment WHERE appointment_id = '{0}'", appointment_id);
-                msSqlDataAccess.SaveData(query);
-            }
-            else
-            {
-                MessageBox.Show("Musisz podać godzinę wizyty, którą chcesz usunąć!");
-            }
+            query = string.Format("DELETE FROM appointment WHERE appointment_id = '{0}'", appointment_id);
+            msSqlDataAccess.SaveData(query);
         }
-
-
     }
 }

@@ -143,11 +143,17 @@ namespace Res2019.Logic
         {
             if (!string.IsNullOrWhiteSpace(appointment.AppointmentDay) && !string.IsNullOrWhiteSpace(appointment.AppointmentTime))
             {
-                string id = appointmentController.GetAppointment_id(appointment.AppointmentDay, appointment.AppointmentTime);
+                string appointment_id = appointmentController.GetAppointment_id(appointment.AppointmentDay, appointment.AppointmentTime);
                 string date_id = dateController.GetDate(appointment.AppointmentDay, appointment.AppointmentTime).Date_Id;
-
-                appointmentController.DeleteAppointment(id);
-                dateController.DeleteDate(date_id);               
+                if (!string.IsNullOrWhiteSpace(appointment_id))
+                {
+                    appointmentController.DeleteAppointment(appointment_id);
+                    dateController.DeleteDate(date_id);
+                }
+                else
+                {
+                    MessageBox.Show("Musisz podać godzinę wizyty, którą chcesz usunąć!");
+                }
             }
             else
             {

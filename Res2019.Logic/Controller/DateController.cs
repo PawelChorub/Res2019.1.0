@@ -15,10 +15,14 @@ namespace Res2019.Logic.Controller
         readonly IKernel kernel = new StandardKernel(new DI_Container());
         private static IMsSqlDataAccess msSqlDataAccess = MsSqlManager.CreateMsSqlDataAccess();
         private string query = "";
+        IDate date;
+        public DateController()
+        {
+            date = kernel.Get<IDate>();
+        }
 
         public IDate CreateDate(params string[] model)
         {
-            IDate date = kernel.Get<IDate>();
             if (model.Length > 0)
             {
                 date.Date_Id = model[0];
@@ -42,8 +46,6 @@ namespace Res2019.Logic.Controller
 
         public List<string> GetListOfDate_id(string day)
         {
-            IDate date = kernel.Get<IDate>();
-
             var modelProperty = date.GetType().GetProperty("Date_Id").Name;
             query = string.Format("SELECT * FROM date WHERE day = '{0}'", day);
             var receivedData = msSqlDataAccess.GetSingleColumnDataList(query, modelProperty);
@@ -52,8 +54,6 @@ namespace Res2019.Logic.Controller
 
         public IDate GetDate(string date_id)
         {
-            IDate date = kernel.Get<IDate>();
-
             query = string.Format("SELECT * FROM date WHERE date_id = '{0}'", date_id);
             var receivedData = msSqlDataAccess.GetDataList(query, date).ToArray();
 
@@ -63,8 +63,6 @@ namespace Res2019.Logic.Controller
 
         public IDate GetDate(string day, string time)
         {
-            IDate date = kernel.Get<IDate>();
-
             query = string.Format("SELECT * FROM date WHERE day = '{0}' AND time = '{1}'", day, time);
             var receivedData = msSqlDataAccess.GetDataList(query, date).ToArray();
 
@@ -85,15 +83,8 @@ namespace Res2019.Logic.Controller
 
         public void DeleteDate(string date_id)
         {
-            if (!string.IsNullOrWhiteSpace(date_id))
-            {
-                query = string.Format("DELETE FROM date WHERE date_id = '{0}'", date_id);
-                msSqlDataAccess.SaveData(query);
-            }
-            else
-            {
-                MessageBox.Show("Musisz podać godzinę wizyty, którą chcesz usunąć!");
-            }
+            query = string.Format("DELETE FROM date WHERE date_id = '{0}'", date_id);
+            msSqlDataAccess.SaveData(query);
         }
     }
 }
