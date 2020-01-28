@@ -47,10 +47,9 @@
   <ItemGroup>
     <Compile Include="AppointmentProcessor.cs" />
     <Compile Include="BusinessLogic.cs" />
-    <Compile Include="CRUD\IReadFromDatabase.cs" />
-    <Compile Include="CRUD\IRemoveFromDatabase.cs" />
-    <Compile Include="CRUD\ISaveToDatabase.cs" />
-    <Compile Include="CRUD\IUpdateToDatabase.cs" />
+    <Compile Include="Controller\IAppointmentController.cs" />
+    <Compile Include="Controller\ICustomerController.cs" />
+    <Compile Include="Controller\IDateController.cs" />
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DI_Container.cs" />
     <Compile Include="Events\AppointmentEventArgs.cs" />
@@ -79,20 +78,15 @@
     <Compile Include="Models\IMyServices.cs" />
     <Compile Include="Models\MyServices.cs" />
     <Compile Include="Models\TimeOfAppointment.cs" />
-    <Compile Include="Processors\CustomerProcessor.cs" />
-    <Compile Include="Processors\DateProcessor.cs" />
-    <Compile Include="Processors\ICustomerProcessor.cs" />
-    <Compile Include="Processors\IDateProcessor.cs" />
-    <Compile Include="Processors\IMyServicesProcessor.cs" />
-    <Compile Include="Processors\MyServicesProcessor.cs" />
+    <Compile Include="Controller\AppointmentController.cs" />
+    <Compile Include="Controller\CustomerController.cs" />
+    <Compile Include="Controller\DateController.cs" />
+    <Compile Include="Controller\IMyServicesController.cs" />
+    <Compile Include="Controller\MyServicesController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CRUD\ReadFromDatabase.cs" />
-    <Compile Include="CRUD\RemoveFromDatabase.cs" />
-    <Compile Include="CRUD\SaveToDatabase.cs" />
     <Compile Include="Helpers\SetNumberOfLabel.cs" />
     <Compile Include="Helpers\SetValueToLabelSize.cs" />
     <Compile Include="Helpers\TimeFromLabel.cs" />
-    <Compile Include="CRUD\UpdateToDatabase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Res2019.Library\Res2019.Library.csproj">
