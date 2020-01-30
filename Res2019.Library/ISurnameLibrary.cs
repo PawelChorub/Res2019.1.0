@@ -2,6 +2,6 @@
 {
     public interface ISurnameLibrary
     {
-        string CustomerSurname { get; set; }
+        string Surname { get; set; }
     }
 }

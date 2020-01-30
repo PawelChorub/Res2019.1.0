@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 namespace Res2019.Logic.Models
 {
     public class Appointment : IDayLibrary, ITimeLibrary, ILengthLibrary, IDurationLibrary, IOccupiedLibrary, IAppointment
-    {
-        
+    {       
         public string AppointmentId { get; set; }
         public string AppointmentDay { get; set; }
         public string AppointmentTime { get; set; }

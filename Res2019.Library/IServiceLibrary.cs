@@ -2,6 +2,6 @@
 {
     public interface IServiceLibrary
     {
-        string ServiceName { get; set; }
+        string Name { get; set; }
     }
 }

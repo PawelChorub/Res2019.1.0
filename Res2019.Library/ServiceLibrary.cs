@@ -8,6 +8,6 @@ namespace Res2019.Library
 {
     public class ServiceLibrary : IServiceLibrary
     {
-        public string ServiceName { get; set; }
+        public string Name { get; set; }
     }
 }

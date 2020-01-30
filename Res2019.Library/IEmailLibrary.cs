@@ -2,6 +2,6 @@
 {
     public interface IEmailLibrary
     {
-        string CustomerEmail { get; set; }
+        string Email { get; set; }
     }
 }

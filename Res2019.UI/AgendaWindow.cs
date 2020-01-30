@@ -110,7 +110,7 @@ namespace Res2019
                 foreach (AppointmentDetails appointmentDetails in businessLogic.ReadListOfAppointments(dateOfAppointment))
                 {
                     string labelNumber = businessLogic.SetNumberOfLabel(appointmentDetails.AppointmentTime);
-                    this.Controls[labelName + labelNumber].Text = appointmentDetails.CustomerForename + " " + appointmentDetails.CustomerSurname + " " + appointmentDetails.ServiceName + " " + appointmentDetails.CustomerTelephoneNumber;
+                    this.Controls[labelName + labelNumber].Text = appointmentDetails.Forename + " " + appointmentDetails.Surname + " " + appointmentDetails.Name + " " + appointmentDetails.Telephone;
                     this.Controls[labelName + labelNumber].BackColor = Color.Coral;
                     this.Controls[labelName + labelNumber].Height = Convert.ToInt32(labelHeightDefault * Convert.ToDouble(appointmentDetails.AppointmentDuration));
                     this.Controls[labelName + labelNumber].Height = this.Controls[labelName + labelNumber].Size.Height - 2;

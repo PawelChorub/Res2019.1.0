@@ -8,6 +8,6 @@ namespace Res2019.Library
 {
     public class TelephoneNumberLibrary : ITelephoneNumberLibrary
     {
-        public string CustomerTelephoneNumber { get; set; }
+        public string Telephone { get; set; }
     }
 }

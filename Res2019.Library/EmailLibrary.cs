@@ -8,6 +8,6 @@ namespace Res2019.Library
 {
     public class EmailLibrary : IEmailLibrary
     {
-        public string CustomerEmail { get; set; }
+        public string Email { get; set; }
     }
 }
