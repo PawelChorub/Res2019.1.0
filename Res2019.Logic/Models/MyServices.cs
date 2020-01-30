@@ -9,8 +9,7 @@ namespace Res2019.Logic.Models
 {
     public class MyServices : IServiceLibrary, IMyServices
     {
-        public string ServiceId { get; set; }
-        public string ServiceName { get; set; }
-        // cena itd
+        public string Service_Id { get; set; }
+        public string Name { get; set; }
     }
 }

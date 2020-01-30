@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Res2019.Library
+namespace Res2019.Test
 {
-    public class SurnameLibrary : ISurnameLibrary
+    class Program
     {
-        public string Surname { get; set; }
+        static void Main(string[] args)
+        {
+        }
     }
 }

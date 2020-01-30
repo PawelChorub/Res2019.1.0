@@ -44,11 +44,11 @@ namespace Res2019.Logic
             appointment.AppointmentTime = time;
             appointment.AppointmentLength = length;
             appointment.AppointmentDuration = duration;
-            customer.CustomerForename = forename;
-            customer.CustomerSurname = surname;
-            customer.CustomerEmail = "email";
-            customer.CustomerTelephoneNumber = tel;
-            service.ServiceName = _service;
+            customer.Forename = forename;
+            customer.Surname = surname;
+            customer.Email = "email";
+            customer.Telephone = tel;
+            service.Name = _service;
 
             appointmentProcessor.BuildAppointment(appointment, customer, service);
         }
@@ -59,11 +59,11 @@ namespace Res2019.Logic
             appointment.AppointmentTime = time;
             appointment.AppointmentLength = length;
             appointment.AppointmentDuration = duration;
-            customer.CustomerForename = forename;
-            customer.CustomerSurname = surname;
-            customer.CustomerEmail = "email";
-            customer.CustomerTelephoneNumber = tel;
-            service.ServiceName = _service;
+            customer.Forename = forename;
+            customer.Surname = surname;
+            customer.Email = "email";
+            customer.Telephone = tel;
+            service.Name = _service;
 
             appointmentProcessor.ModifyAppointment(appointment, customer, service, existAppDuration);
         }

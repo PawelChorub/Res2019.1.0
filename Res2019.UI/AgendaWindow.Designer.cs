@@ -1,6 +1,6 @@
 ﻿namespace Res2019
 {
-    partial class Agenda
+    partial class AgendaWindow
     {
         /// <summary>
         /// Required designer variable.

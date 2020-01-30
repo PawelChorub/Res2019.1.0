@@ -6,20 +6,20 @@ using System.Windows.Forms;
 
 namespace Res2019
 {
-    public partial class AddOrRemoveAppointmentForm : Form
+    public partial class AppointmentMenuWindow : Form
     {
         IKernel kernel = new StandardKernel(new DI_Container());
         IBusinessLogic businessLogic;
         private string date;
         private string time;
 
-        public AddOrRemoveAppointmentForm()
+        public AppointmentMenuWindow()
         {
             businessLogic = kernel.Get<IBusinessLogic>();
             InitializeComponent();
         }
 
-        public AddOrRemoveAppointmentForm(string dateOfAppointment, string timeOfAppointment)
+        public AppointmentMenuWindow(string dateOfAppointment, string timeOfAppointment)
         {
             businessLogic = kernel.Get<IBusinessLogic>();
             InitializeComponent();
@@ -38,9 +38,9 @@ namespace Res2019
         {
             try
             {
-                AppointmentForm appointmentForm = new AppointmentForm(date, time);
+                AppointmentWindow appointmentWindow = new AppointmentWindow(date, time);
                 Close();
-                appointmentForm.ShowDialog();
+                appointmentWindow.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -81,13 +81,12 @@ namespace Res2019
             {
                 IAppointmentDetails appointmentDetails;
                 appointmentDetails = businessLogic.ReadSingleAppointment(date, time);
-                // propsy nie moga byc null, nie obiekt
                 if (appointmentDetails != null)
                 {
-                    AppointmentModify am = new AppointmentModify(
-                        date, time, appointmentDetails.CustomerForename, appointmentDetails.CustomerSurname,
-                        appointmentDetails.CustomerTelephoneNumber, appointmentDetails.AppointmentDuration);
-                    am.Show();
+                    AppointmentModifyWindow appointmentModifyWindow = new AppointmentModifyWindow(
+                        date, time, appointmentDetails.Forename, appointmentDetails.Surname,
+                        appointmentDetails.Telephone, appointmentDetails.AppointmentDuration);
+                    appointmentModifyWindow.ShowDialog();
                 }
                 else
                 {

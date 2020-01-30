@@ -63,23 +63,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddOrRemoveAppointmentForm.cs">
+    <Compile Include="AppointmentMenuWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddOrRemoveAppointmentForm.Designer.cs">
-      <DependentUpon>AddOrRemoveAppointmentForm.cs</DependentUpon>
+    <Compile Include="AppointmentMenuWindow.Designer.cs">
+      <DependentUpon>AppointmentMenuWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="AppointmentForm.cs">
+    <Compile Include="AppointmentWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AppointmentForm.Designer.cs">
-      <DependentUpon>AppointmentForm.cs</DependentUpon>
+    <Compile Include="AppointmentWindow.Designer.cs">
+      <DependentUpon>AppointmentWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="AppointmentModify.cs">
+    <Compile Include="AppointmentModifyWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AppointmentModify.Designer.cs">
-      <DependentUpon>AppointmentModify.cs</DependentUpon>
+    <Compile Include="AppointmentModifyWindow.Designer.cs">
+      <DependentUpon>AppointmentModifyWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="CredentialsWindow.cs">
       <SubType>Form</SubType>
@@ -101,11 +101,11 @@
     <Compile Include="StartWindow.Designer.cs">
       <DependentUpon>StartWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Agenda.cs">
+    <Compile Include="AgendaWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Agenda.Designer.cs">
-      <DependentUpon>Agenda.cs</DependentUpon>
+    <Compile Include="AgendaWindow.Designer.cs">
+      <DependentUpon>AgendaWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="UserManagerWindow.cs">
       <SubType>Form</SubType>
@@ -113,14 +113,14 @@
     <Compile Include="UserManagerWindow.Designer.cs">
       <DependentUpon>UserManagerWindow.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AddOrRemoveAppointmentForm.resx">
-      <DependentUpon>AddOrRemoveAppointmentForm.cs</DependentUpon>
+    <EmbeddedResource Include="AppointmentMenuWindow.resx">
+      <DependentUpon>AppointmentMenuWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AppointmentForm.resx">
-      <DependentUpon>AppointmentForm.cs</DependentUpon>
+    <EmbeddedResource Include="AppointmentWindow.resx">
+      <DependentUpon>AppointmentWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AppointmentModify.resx">
-      <DependentUpon>AppointmentModify.cs</DependentUpon>
+    <EmbeddedResource Include="AppointmentModifyWindow.resx">
+      <DependentUpon>AppointmentModifyWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CredentialsWindow.resx">
       <DependentUpon>CredentialsWindow.cs</DependentUpon>
@@ -140,8 +140,8 @@
     <EmbeddedResource Include="StartWindow.resx">
       <DependentUpon>StartWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Agenda.resx">
-      <DependentUpon>Agenda.cs</DependentUpon>
+    <EmbeddedResource Include="AgendaWindow.resx">
+      <DependentUpon>AgendaWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserManagerWindow.resx">
       <DependentUpon>UserManagerWindow.cs</DependentUpon>

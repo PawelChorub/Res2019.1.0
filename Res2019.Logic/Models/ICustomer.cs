@@ -2,10 +2,10 @@
 {
     public interface ICustomer
     {
-        string CustomerId { get; set; }
-        string CustomerEmail { get; set; }
-        string CustomerForename { get; set; }
-        string CustomerSurname { get; set; }
-        string CustomerTelephoneNumber { get; set; }
+        string Customer_Id { get; set; }
+        string Email { get; set; }
+        string Forename { get; set; }
+        string Surname { get; set; }
+        string Telephone { get; set; }
     }
 }

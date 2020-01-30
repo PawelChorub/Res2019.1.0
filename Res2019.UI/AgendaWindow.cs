@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Res2019
 {
-    public partial class Agenda : Form
+    public partial class AgendaWindow : Form
     {
         IKernel kernelUserManager = new StandardKernel(new UserManagerContainerConfig());
         IKernel kernel = new StandardKernel(new DI_Container());
@@ -21,7 +21,7 @@ namespace Res2019
         private string setTimeFromLabel;
         private string setDateFromLabel;
 
-        public Agenda()
+        public AgendaWindow()
         {
             userStatus = kernelUserManager.Get<IUserStatus>();
             accountManager = kernelUserManager.Get<IAccountManager>();
@@ -110,7 +110,7 @@ namespace Res2019
                 foreach (AppointmentDetails appointmentDetails in businessLogic.ReadListOfAppointments(dateOfAppointment))
                 {
                     string labelNumber = businessLogic.SetNumberOfLabel(appointmentDetails.AppointmentTime);
-                    this.Controls[labelName + labelNumber].Text = appointmentDetails.CustomerForename + " " + appointmentDetails.CustomerSurname + " " + appointmentDetails.ServiceName + " " + appointmentDetails.CustomerTelephoneNumber;
+                    this.Controls[labelName + labelNumber].Text = appointmentDetails.Forename + " " + appointmentDetails.Surname + " " + appointmentDetails.Name + " " + appointmentDetails.Telephone;
                     this.Controls[labelName + labelNumber].BackColor = Color.Coral;
                     this.Controls[labelName + labelNumber].Height = Convert.ToInt32(labelHeightDefault * Convert.ToDouble(appointmentDetails.AppointmentDuration));
                     this.Controls[labelName + labelNumber].Height = this.Controls[labelName + labelNumber].Size.Height - 2;
@@ -164,8 +164,8 @@ namespace Res2019
 
         private void OnLabelClick_Click(object sender, EventArgs e)
         {
-            AddOrRemoveAppointmentForm addOrRemove = new AddOrRemoveAppointmentForm(setDateFromLabel, setTimeFromLabel);
-            addOrRemove.ShowDialog();
+            AppointmentMenuWindow appointmentMenuWindow = new AppointmentMenuWindow(setDateFromLabel, setTimeFromLabel);
+            appointmentMenuWindow.ShowDialog();
             SectionSetToDefaultMulti();
             SectionFillMulti();     // ustawic tylko 1 sekcje
         }

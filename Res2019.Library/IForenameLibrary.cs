@@ -2,6 +2,6 @@
 {
     public interface IForenameLibrary
     {
-        string CustomerForename { get; set; }
+        string Forename { get; set; }
     }
 }

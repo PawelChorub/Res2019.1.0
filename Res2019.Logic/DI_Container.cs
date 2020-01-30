@@ -3,6 +3,7 @@ using Ninject.Modules;
 using Res2019.Logic.Events;
 using Res2019.Logic.Helpers;
 using Res2019.Logic.Models;
+using Res2019.Logic.Controller;
 using Res2019.MSSQL;
 using System;
 using System.Collections.Generic;
@@ -25,15 +26,17 @@ namespace Res2019.Logic
             Bind<ISetNumberOfLabel>().To<SetNumberOfLabel>();
             Bind<ISetValueToLabelSize>().To<SetValueToLabelSize>();
             Bind<ITimeFromLabel>().To<TimeFromLabel>();
-            Bind<IReadFromDatabase>().To<ReadFromDatabase>();
-            Bind<IRemoveFromDatabase>().To<RemoveFromDatabase>();
-            Bind<ISaveToDatabase>().To<SaveToDatabase>();
-            Bind<IUpdateToDatabase>().To<UpdateToDatabase>();
+            Bind<IAppointmentDetailsController>().To<AppointmentDetailsController>();
             Bind<ITimeToEndOfWorkProcessor>().To<TimeToEndOfWorkProcessor>();
             Bind<IAppointmentDetails>().To<AppointmentDetails>();
             Bind<IDate>().To<Date>();
             Bind<EmailConfirmation>().ToSelf();
             Bind<SmsConfirmation>().ToSelf();
+            Bind<IMyServicesController>().To<MyServicesController>();
+            Bind<ICustomerController>().To<CustomerController>();
+            Bind<IDateController>().To<DateController>();
+
+
 
             Bind<IBusinessLogic>().To<BusinessLogic>();
         }
