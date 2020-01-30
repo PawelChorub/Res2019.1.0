@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MoqTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeToEndoOfWorkProcessor_Test.cs" />
@@ -101,6 +102,10 @@
     <ProjectReference Include="..\Res2019.Logic\Res2019.Logic.csproj">
       <Project>{eda1151d-af55-4f5f-9742-cae8d3ec1aea}</Project>
       <Name>Res2019.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Res2019.MSSQL\Res2019.MSSQL.csproj">
+      <Project>{3D644432-A583-404D-983D-5D0A1D855A9D}</Project>
+      <Name>Res2019.MSSQL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Res2019.UsersManager\Res2019.UsersManager.csproj">
       <Project>{5a1b17bb-113f-4f29-b9f3-2678d0e2e802}</Project>
