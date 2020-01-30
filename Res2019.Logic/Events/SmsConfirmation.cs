@@ -11,14 +11,14 @@ namespace Res2019.Logic.Events
     {
         public void OnSavedToDatabaseEventLog(object source, EventArgs e)
         {
-            MessageBox.Show("Not implemented service. Fake Message: Wysłano SMS z potwierdzeniem");
+            MessageBox.Show("Not implemented service. Test Message: Wysłano SMS z potwierdzeniem");
         }
         public void OnUpdatedToDatabaseEventLog(object source, AppointmentEventArgs e)
         {
-            MessageBox.Show("Not implemented service. Fake Message: Wysłano SMS z potwierdzeniem zmiany wizyty na: "
+            MessageBox.Show("Not implemented service. Test Message:\nWysłano SMS z potwierdzeniem zmiany wizyty na:\n"
                 + e.Date.Day 
-                + " godz :" + e.Date.Time
-                + " dla : " + e.Customer.Forename
+                + "\ngodz :" + e.Date.Time
+                + "\ndla : " + e.Customer.Forename
                 + " " + e.Customer.Surname);
         }
     }

@@ -4,9 +4,6 @@ using Res2019.Logic.Models;
 using Res2019.MSSQL;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Res2019.Logic.Controller
