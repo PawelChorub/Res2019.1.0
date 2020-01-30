@@ -34,6 +34,22 @@ namespace Res2019.Test
 
             mock.VerifyAll();
         }
+        [Fact]
+        public void SaveCustomer_ShouldSaveCustomer()
+        {
+            var customer = CreateSampleCustomer();
+            string query = string.Format("INSERT INTO customer (forename, surname, telephone) VALUES ('{0}','{1}','{2}')",
+                                        customer.Forename, customer.Surname, customer.Telephone);
+            var mock = _kernel.GetMock<IMsSqlDataAccess>();
+            mock.Setup(m => m.SaveData(query));
+
+            var ctrl = _kernel.GetMock<ICustomerController>();
+            ctrl.Object.SaveCustomer(customer);
+            ctrl.Verify(c => c.SaveCustomer(customer), Times.Exactly(1));
+
+            mock.Object.SaveData(query);
+            mock.Verify(x => x.SaveData(query), Times.Exactly(1));
+        }
 
         public ICustomer CreateSampleCustomer()
         {
