@@ -13,21 +13,17 @@ namespace Res2019.Logic.Controller
         readonly IKernel kernel = new StandardKernel(new DI_Container());
         private static IMsSqlDataAccess msSqlDataAccess = MsSqlManager.CreateMsSqlDataAccess();
         private string query = "";
-        ICustomer customer;
+        readonly ICustomer customer;
 
         public CustomerController()
         {
             customer = kernel.Get<ICustomer>();
         }
-        public ICustomer BuildCustomer()
-        {
-            var receivedData = msSqlDataAccess.GetDataList(query, customer).ToArray();
-            customer = CreateCustomer(receivedData);
-            return customer;
-        }
 
-        public ICustomer CreateCustomer(params string[] model)
+        public ICustomer CreateCustomer(List<string> _receivedData)
         {
+            var model = _receivedData.ToArray();
+
             ICustomer customer = kernel.Get<ICustomer>();
             if (model.Length > 0)
             {
@@ -51,13 +47,15 @@ namespace Res2019.Logic.Controller
         public ICustomer GetCustomer(string customer_id)
         {
             query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer_id);
-            return BuildCustomer();
+            var receivedData = msSqlDataAccess.GetDataList(query, customer);
+            return CreateCustomer(receivedData);
         }
 
         public ICustomer GetCustomer(ICustomer _customer)
         {
             query = string.Format("SELECT * FROM customer WHERE forename = '{0}' AND surname = '{1}' AND telephone = '{2}'", _customer.Forename, _customer.Surname, _customer.Telephone);
-            return BuildCustomer();
+            var receivedData = msSqlDataAccess.GetDataList(query, customer);
+            return CreateCustomer(receivedData);
         }
 
 
