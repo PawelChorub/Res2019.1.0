@@ -40,12 +40,12 @@ namespace Res2019.Logic.Controller
         public ICustomer GetCustomer(string customer_id)
         {
             ICustomer customer = kernel.Get<ICustomer>();
-            ICustomerController customerProcessor = kernel.Get<ICustomerController>();
+            ICustomerController customerController = kernel.Get<ICustomerController>();
 
             query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer_id);
             var receivedData = msSqlDataAccess.GetDataList(query, customer).ToArray();
 
-            customer = customerProcessor.CreateCustomer(receivedData);
+            customer = customerController.CreateCustomer(receivedData);
             return customer;
         }
 

@@ -50,6 +50,41 @@ namespace Res2019.Test
             mock.Object.SaveData(query);
             mock.Verify(x => x.SaveData(query), Times.Exactly(1));
         }
+        [Fact]
+        public void GetCustomer_ShouldGetsCustomer()
+        {
+            ICustomer customer = new Customer();
+            var customer_id = "4";
+
+            string query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer_id);
+
+            var mock = _kernel.GetMock<IMsSqlDataAccess>();
+            mock.Setup(m => m.GetDataList(query, customer)).Returns(CreateSampleListOfCustomer());
+
+            //dalej dla następnych składowych metody
+
+            //var mock_2 = _kernel.GetMock<ICustomerController>();
+            //mock_2.Object.CreateCustomer(CreateSampleListOfCustomer().ToArray());
+
+            //mock_2.Object.GetCustomer(customer_id);
+            //var expected = CreateSampleListOfCustomer();
+            var actual = mock.Object.GetDataList(query, customer);
+            mock.VerifyAll();
+     
+
+
+
+        }
+        public List<string> CreateSampleListOfCustomer()
+        {
+            var output = new List<string>();
+            output.Add("4");
+            output.Add("Justyna");
+            output.Add("Ceha");
+            output.Add("721721721");
+            output.Add("email222@wp.pl");
+            return output;
+        }
 
         public ICustomer CreateSampleCustomer()
         {
@@ -64,5 +99,7 @@ namespace Res2019.Test
 
             return customer;
         }
+
+
     }
 }
