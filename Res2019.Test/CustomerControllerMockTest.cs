@@ -15,7 +15,7 @@ namespace Res2019.Test
     public class CustomerControllerMockTest
     {
         private readonly MoqMockingKernel _kernel;
-
+        Sample sample = new Sample();
         public CustomerControllerMockTest()
         {            
             _kernel = new MoqMockingKernel();
@@ -27,9 +27,9 @@ namespace Res2019.Test
         public void CreateCustomer_ShouldReturnCustomer()
         {
             var mock = _kernel.GetMock<ICustomerController>();
-            mock.Setup(moq => moq.CreateCustomer(CreateSampleListOfCustomerDetails())).Returns(CreateSampleCustomer());
+            mock.Setup(moq => moq.CreateCustomer(sample.CreateSampleListOfCustomerDetails())).Returns(sample.CreateSampleCustomer()).Verifiable();
 
-            var list = CreateSampleListOfCustomerDetails();
+            var list = sample.CreateSampleListOfCustomerDetails();
 
             var obj = mock.Object.CreateCustomer(list);
 
@@ -38,11 +38,11 @@ namespace Res2019.Test
         [Fact]
         public void SaveCustomer_ShouldSaveCustomer()
         {
-            var customer = CreateSampleCustomer();
+            var customer = sample.CreateSampleCustomer();
             string query = string.Format("INSERT INTO customer (forename, surname, telephone) VALUES ('{0}','{1}','{2}')",
                                         customer.Forename, customer.Surname, customer.Telephone);
             var mock = _kernel.GetMock<IMsSqlDataAccess>();
-            mock.Setup(m => m.SaveData(query));
+            mock.Setup(m => m.SaveData(query)).Verifiable();
 
             var ctrl = _kernel.GetMock<ICustomerController>();
             ctrl.Object.SaveCustomer(customer);
@@ -55,19 +55,18 @@ namespace Res2019.Test
         [Fact]
         public void GetCustomer_ShouldGetsCustomer_ByModel()
         {
-            ICustomer customer = CreateSampleCustomer();
+            ICustomer customer = sample.CreateSampleCustomer();
 
             var mock = _kernel.GetMock<ICustomerController>();
-            mock.Setup(m => m.GetCustomer(customer)).Returns(CreateSampleCustomer());
+            mock.Setup(m => m.GetCustomer(customer)).Returns(sample.CreateSampleCustomer()).Verifiable();
 
-            var actual = CreateSampleCustomer("5");
+            var actual = sample.CreateSampleCustomer("5");
             var expected = mock.Object.GetCustomer(customer);
 
             mock.Verify(v => v.GetCustomer(customer));
 
             Assert.NotEqual(expected.Customer_Id, actual.Customer_Id);
         }
-
 
         [Theory]
         [InlineData("4")]
@@ -76,7 +75,7 @@ namespace Res2019.Test
         public void GetCustomer_ShouldGetsCustomer_ById(string customer_id)
         {
             var mock = _kernel.GetMock<ICustomerController>();
-            mock.Setup(m => m.GetCustomer(customer_id)).Returns(CreateSampleCustomer(customer_id));
+            mock.Setup(m => m.GetCustomer(customer_id)).Returns(sample.CreateSampleCustomer(customer_id)).Verifiable();
 
             var obj = mock.Object.GetCustomer(customer_id);
 
@@ -89,47 +88,6 @@ namespace Res2019.Test
             Assert.NotNull(obj.Telephone);
             Assert.NotNull(obj.Email);
         }
-
-
-        public List<string> CreateSampleListOfCustomerDetails()
-        {
-            var output = new List<string>();
-            output.Add("4");
-            output.Add("NameMock");
-            output.Add("SurnameMock");
-            output.Add("123456789");
-            output.Add("mockEmail@wp.pl");
-            return output;
-        }
-
-        public ICustomer CreateSampleCustomer()
-        {
-            ICustomer customer = new Customer();
-            string [] model = new string[] { "4", "NameMock", "SurnameMock", "123456789", "mockEmail@wp.pl" };
-
-            customer.Customer_Id = model[0];
-            customer.Forename = model[1];
-            customer.Surname = model[2];
-            customer.Telephone = model[3];
-            customer.Email = model[4];
-
-            return customer;
-        }
-        public ICustomer CreateSampleCustomer(string customer_id)
-        {
-            ICustomer customer = new Customer();
-            string[] model = new string[] { customer_id, "NameMock", "SurnameMock", "123456789", "mockEmail@wp.pl" };
-
-            customer.Customer_Id = model[0];
-            customer.Forename = model[1];
-            customer.Surname = model[2];
-            customer.Telephone = model[3];
-            customer.Email = model[4];
-
-            return customer;
-        }
-
-
 
     }
 }
