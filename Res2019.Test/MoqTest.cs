@@ -19,7 +19,7 @@ namespace Res2019.Test
         public MoqTest()
         {            
             _kernel = new MoqMockingKernel();
-            _kernel.Bind<ICustomerController>().ToMock();//.To<Customer>();
+            _kernel.Bind<ICustomerController>().ToMock();
             _kernel.Bind<IMsSqlDataAccess>().ToMock();
         }
 
@@ -27,12 +27,12 @@ namespace Res2019.Test
         public void CreateCustomer_ShouldReturnCustomer()
         {
             var mock = _kernel.GetMock<ICustomerController>();
-            mock.Setup(moq => moq.CreateCustomer()).Returns(CreateSampleCustomer());
+            mock.Setup(moq => moq.CreateCustomer(CreateSampleListOfCustomerDetails())).Returns(CreateSampleCustomer());
 
-            var expected = CreateSampleCustomer();
-            var actual = mock.Object.CreateCustomer();
+            var list = CreateSampleListOfCustomerDetails();
 
-            mock.VerifyAll();
+            var obj = mock.Object.CreateCustomer(list);
+            mock.Verify(d => d.CreateCustomer(list), Times.Once);
         }
         [Fact]
         public void SaveCustomer_ShouldSaveCustomer()
@@ -59,37 +59,31 @@ namespace Res2019.Test
             string query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer_id);
 
             var mock = _kernel.GetMock<IMsSqlDataAccess>();
-            mock.Setup(m => m.GetDataList(query, customer)).Returns(CreateSampleListOfCustomer());
+            mock.Setup(m => m.GetDataList(query, customer)).Returns(CreateSampleListOfCustomerDetails());
 
-            //dalej dla następnych składowych metody
+            var mock2 = _kernel.GetMock<ICustomerController>();
+            mock2.Setup(m => m.CreateCustomer(CreateSampleListOfCustomerDetails())).Returns(CreateSampleCustomer());
 
-            //var mock_2 = _kernel.GetMock<ICustomerController>();
-            //mock_2.Object.CreateCustomer(CreateSampleListOfCustomer().ToArray());
+            mock.Object.GetDataList(query, customer);
+            mock2.Object.CreateCustomer(CreateSampleListOfCustomerDetails());
 
-            //mock_2.Object.GetCustomer(customer_id);
-            //var expected = CreateSampleListOfCustomer();
-            var actual = mock.Object.GetDataList(query, customer);
             mock.VerifyAll();
-     
-
-
-
         }
-        public List<string> CreateSampleListOfCustomer()
+        public List<string> CreateSampleListOfCustomerDetails()
         {
             var output = new List<string>();
             output.Add("4");
             output.Add("Justyna");
             output.Add("Ceha");
             output.Add("721721721");
-            output.Add("email222@wp.pl");
+            output.Add("email@wp.pl");
             return output;
         }
 
         public ICustomer CreateSampleCustomer()
         {
             ICustomer customer = new Customer();
-            string [] model = new string[] {"3", "Paweł", "Ceha", "721721721","email@wp.pl" };
+            string [] model = new string[] { "4", "Justyna", "Ceha", "721721721", "email@wp.pl" };
 
             customer.Customer_Id = model[0];
             customer.Forename = model[1];

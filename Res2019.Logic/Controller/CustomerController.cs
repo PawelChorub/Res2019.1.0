@@ -24,7 +24,6 @@ namespace Res2019.Logic.Controller
         {
             var model = _receivedData.ToArray();
 
-            ICustomer customer = kernel.Get<ICustomer>();
             if (model.Length > 0)
             {
                 customer.Customer_Id = model[0];
