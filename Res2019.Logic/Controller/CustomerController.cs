@@ -13,6 +13,18 @@ namespace Res2019.Logic.Controller
         readonly IKernel kernel = new StandardKernel(new DI_Container());
         private static IMsSqlDataAccess msSqlDataAccess = MsSqlManager.CreateMsSqlDataAccess();
         private string query = "";
+        ICustomer customer;
+
+        public CustomerController()
+        {
+            customer = kernel.Get<ICustomer>();
+        }
+        public ICustomer BuildCustomer()
+        {
+            var receivedData = msSqlDataAccess.GetDataList(query, customer).ToArray();
+            customer = CreateCustomer(receivedData);
+            return customer;
+        }
 
         public ICustomer CreateCustomer(params string[] model)
         {
@@ -25,7 +37,6 @@ namespace Res2019.Logic.Controller
                 customer.Telephone = model[3];
                 customer.Email = model[4];
             }
-
             return customer;
         }
         public void SaveCustomer(ICustomer customer)
@@ -39,26 +50,14 @@ namespace Res2019.Logic.Controller
 
         public ICustomer GetCustomer(string customer_id)
         {
-            ICustomer customer = kernel.Get<ICustomer>();
-            ICustomerController customerController = kernel.Get<ICustomerController>();
-
             query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer_id);
-            var receivedData = msSqlDataAccess.GetDataList(query, customer).ToArray();
-
-            customer = customerController.CreateCustomer(receivedData);
-            return customer;
+            return BuildCustomer();
         }
 
         public ICustomer GetCustomer(ICustomer _customer)
         {
-            ICustomer customer = kernel.Get<ICustomer>();
-            ICustomerController customerProcessor = kernel.Get<ICustomerController>();
-
             query = string.Format("SELECT * FROM customer WHERE forename = '{0}' AND surname = '{1}' AND telephone = '{2}'", _customer.Forename, _customer.Surname, _customer.Telephone);
-            var receivedData = msSqlDataAccess.GetDataList(query, customer).ToArray();
-
-            customer = customerProcessor.CreateCustomer(receivedData);
-            return customer;
+            return BuildCustomer();
         }
 
 
