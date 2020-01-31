@@ -51,34 +51,32 @@ namespace Res2019.Test
             mock.Object.SaveData(query);
             mock.Verify(x => x.SaveData(query), Times.Exactly(1));
         }
+
         [Fact]
-        public void GetCustomer_ShouldGetsCustomer()
+        public void GetCustomer_ShouldGetsCustomer_ByModel()
         {
-            ICustomer customer = new Customer();
-            var customer_id = "4";
-
-            string query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer_id);
-
-            var mock = _kernel.GetMock<IMsSqlDataAccess>();
-            mock.Setup(m => m.GetDataList(query, customer)).Returns(CreateSampleListOfCustomerDetails());
-
-            var mock2 = _kernel.GetMock<ICustomerController>();
-            mock2.Setup(m => m.CreateCustomer(CreateSampleListOfCustomerDetails())).Returns(CreateSampleCustomer());
-
-            mock.Object.GetDataList(query, customer);
-            mock2.Object.CreateCustomer(CreateSampleListOfCustomerDetails());
-
-            mock.VerifyAll();
-        }
-        [Fact]
-        public void GetCustomer_ShouldGetsCustomer_ById()
-        {
-            var customer_id = "4";
-
-            string query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer_id);
+            ICustomer customer = CreateSampleCustomer();
 
             var mock = _kernel.GetMock<ICustomerController>();
-            mock.Setup(m => m.GetCustomer(customer_id)).Returns(CreateSampleCustomer);
+            mock.Setup(m => m.GetCustomer(customer)).Returns(CreateSampleCustomer());
+
+            var actual = CreateSampleCustomer("5");
+            var expected = mock.Object.GetCustomer(customer);
+
+            mock.Verify(v => v.GetCustomer(customer));
+
+            Assert.NotEqual(expected.Customer_Id, actual.Customer_Id);
+        }
+
+
+        [Theory]
+        [InlineData("4")]
+        [InlineData("1000")]
+        [InlineData("366666")]
+        public void GetCustomer_ShouldGetsCustomer_ById(string customer_id)
+        {
+            var mock = _kernel.GetMock<ICustomerController>();
+            mock.Setup(m => m.GetCustomer(customer_id)).Returns(CreateSampleCustomer(customer_id));
 
             var obj = mock.Object.GetCustomer(customer_id);
 
@@ -97,17 +95,17 @@ namespace Res2019.Test
         {
             var output = new List<string>();
             output.Add("4");
-            output.Add("Justyna");
-            output.Add("Ceha");
-            output.Add("721721721");
-            output.Add("email@wp.pl");
+            output.Add("NameMock");
+            output.Add("SurnameMock");
+            output.Add("123456789");
+            output.Add("mockEmail@wp.pl");
             return output;
         }
 
         public ICustomer CreateSampleCustomer()
         {
             ICustomer customer = new Customer();
-            string [] model = new string[] { "4", "Justyna", "Ceha", "721721721", "email@wp.pl" };
+            string [] model = new string[] { "4", "NameMock", "SurnameMock", "123456789", "mockEmail@wp.pl" };
 
             customer.Customer_Id = model[0];
             customer.Forename = model[1];
@@ -117,6 +115,20 @@ namespace Res2019.Test
 
             return customer;
         }
+        public ICustomer CreateSampleCustomer(string customer_id)
+        {
+            ICustomer customer = new Customer();
+            string[] model = new string[] { customer_id, "NameMock", "SurnameMock", "123456789", "mockEmail@wp.pl" };
+
+            customer.Customer_Id = model[0];
+            customer.Forename = model[1];
+            customer.Surname = model[2];
+            customer.Telephone = model[3];
+            customer.Email = model[4];
+
+            return customer;
+        }
+
 
 
     }
