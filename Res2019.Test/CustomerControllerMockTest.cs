@@ -12,11 +12,11 @@ using Xunit;
 
 namespace Res2019.Test
 {
-    public class MoqTest
+    public class CustomerControllerMockTest
     {
         private readonly MoqMockingKernel _kernel;
 
-        public MoqTest()
+        public CustomerControllerMockTest()
         {            
             _kernel = new MoqMockingKernel();
             _kernel.Bind<ICustomerController>().ToMock();
