@@ -32,6 +32,7 @@ namespace Res2019.Test
             var list = CreateSampleListOfCustomerDetails();
 
             var obj = mock.Object.CreateCustomer(list);
+
             mock.Verify(d => d.CreateCustomer(list), Times.Once);
         }
         [Fact]
@@ -69,6 +70,29 @@ namespace Res2019.Test
 
             mock.VerifyAll();
         }
+        [Fact]
+        public void GetCustomer_ShouldGetsCustomer_ById()
+        {
+            var customer_id = "4";
+
+            string query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer_id);
+
+            var mock = _kernel.GetMock<ICustomerController>();
+            mock.Setup(m => m.GetCustomer(customer_id)).Returns(CreateSampleCustomer);
+
+            var obj = mock.Object.GetCustomer(customer_id);
+
+            mock.Verify(v => v.GetCustomer(customer_id));
+
+            Assert.Equal(customer_id, obj.Customer_Id);
+            Assert.NotEqual("66", obj.Customer_Id);
+            Assert.NotNull(obj.Forename);
+            Assert.NotNull(obj.Surname);
+            Assert.NotNull(obj.Telephone);
+            Assert.NotNull(obj.Email);
+        }
+
+
         public List<string> CreateSampleListOfCustomerDetails()
         {
             var output = new List<string>();
