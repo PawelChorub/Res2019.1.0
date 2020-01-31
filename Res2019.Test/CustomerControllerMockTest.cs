@@ -44,9 +44,9 @@ namespace Res2019.Test
             var mock = _kernel.GetMock<IMsSqlDataAccess>();
             mock.Setup(m => m.SaveData(query)).Verifiable();
 
-            var ctrl = _kernel.GetMock<ICustomerController>();
-            ctrl.Object.SaveCustomer(customer);
-            ctrl.Verify(c => c.SaveCustomer(customer), Times.Exactly(1));
+            var controller = _kernel.GetMock<ICustomerController>();
+            controller.Object.SaveCustomer(customer);
+            controller.Verify(c => c.SaveCustomer(customer), Times.Exactly(1));
 
             mock.Object.SaveData(query);
             mock.Verify(x => x.SaveData(query), Times.Exactly(1));

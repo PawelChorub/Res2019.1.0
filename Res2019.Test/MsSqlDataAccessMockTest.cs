@@ -20,8 +20,7 @@ namespace Res2019.Test
         {
             _kernel = new MoqMockingKernel();
             _kernel.Bind<IMsSqlDataAccess>().ToMock();
-            _kernel.Bind<ICustomer>().ToMock();
-            
+            _kernel.Bind<ICustomer>().ToMock();        
         }
 
         [Fact]
@@ -70,6 +69,7 @@ namespace Res2019.Test
 
             Assert.NotNull(actual);
             Assert.IsType<List<string>>(actual);
+            Assert.Contains("SELECT * FROM", query);
         }
     }
 }
