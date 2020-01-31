@@ -15,6 +15,7 @@ namespace Res2019.Test
     {
         private readonly MoqMockingKernel _kernel;
         Sample sample = new Sample();
+
         public MsSqlDataAccessMockTest()
         {
             _kernel = new MoqMockingKernel();
@@ -40,7 +41,7 @@ namespace Res2019.Test
         }
 
         [Fact]
-        public void GetDataList_ShouldGetDataFromDatabaseIntoList()
+        public void GetDataList_ShouldGetDataFromDatabaseToList()
         {
             var customer = _kernel.GetMock<ICustomer>();
             string query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer.Object.Customer_Id);
@@ -50,6 +51,25 @@ namespace Res2019.Test
 
             mock.Object.GetDataList(query, customer);
             mock.Verify(v => v.GetDataList(query, customer), Times.Once);
+        }
+
+        [Fact]
+        public void GetDataList_ShouldGetDataFromOneColumnFromDatabaseToList()
+        {
+            var customer = _kernel.GetMock<ICustomer>();
+            string query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer.Object.Customer_Id);
+
+            var mock = _kernel.GetMock<IMsSqlDataAccess>();
+            mock.Setup(m => m.GetSingleColumnDataList(query, customer.Object.Customer_Id)).Returns(sample.CreateSampleListOfCustomerDetails()).Verifiable();
+
+            var actual = mock.Object.GetSingleColumnDataList(query, customer.Object.Customer_Id);
+            var expected = sample.CreateSampleListOfCustomerDetails();
+
+            mock.Verify(v => v.GetSingleColumnDataList(query, customer.Object.Customer_Id), Times.Once);
+            mock.VerifyNoOtherCalls();
+
+            Assert.NotNull(actual);
+            Assert.IsType<List<string>>(actual);
         }
     }
 }
