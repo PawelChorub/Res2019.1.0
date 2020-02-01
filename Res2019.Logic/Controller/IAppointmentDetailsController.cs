@@ -6,7 +6,7 @@ namespace Res2019.Logic.Controller
 {
     public interface IAppointmentDetailsController
     {
-        event SaveToDatabaseHandler SaveToDatabaseEventLog;
+        event SaveToDatabaseHandler SaveToDatabaseEvent;
         event UpdatedToDatabaseHandler UpdatedToDatabase;
 
         void DeleteAppointment(string appointment_id);

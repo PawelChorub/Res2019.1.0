@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Res2019.Logic.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Res2019.Test
 {
-    public class Sample
+    public class SampleProvider
     {
         public List<string> CreateSampleListOfCustomerDetails()
         {
@@ -45,6 +46,22 @@ namespace Res2019.Test
 
             return customer;
         }
-
+        public IDate CreateSampleDate()
+        {
+            IDate date = new Date();
+            date.Date_Id = "2";
+            date.Day = "2020-02-20";
+            date.Time = "18:00";
+            date.Length = "0:30";
+            date.Duration = "1";
+            return date;
+        }
+        public IMyServices CreateSampleService()
+        {
+            IMyServices service = new MyServices();
+            service.Service_Id = "1";
+            service.Name = "sampleName";
+            return service;
+        }
     }
 }

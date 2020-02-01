@@ -14,7 +14,7 @@ namespace Res2019.Test
     public class MsSqlDataAccessMockTest
     {
         private readonly MoqMockingKernel _kernel;
-        Sample sample = new Sample();
+        SampleProvider sampleProvider = new SampleProvider();
 
         public MsSqlDataAccessMockTest()
         {
@@ -26,7 +26,7 @@ namespace Res2019.Test
         [Fact]
         public void SaveData_ShouldSaveDataToDatabase()
         {
-            ICustomer customer = sample.CreateSampleCustomer();
+            ICustomer customer = sampleProvider.CreateSampleCustomer();
             string query = string.Format("INSERT INTO customer (forename, surname, telephone) VALUES ('{0}','{1}','{2}')",
                 customer.Forename,
                 customer.Surname,
@@ -46,7 +46,7 @@ namespace Res2019.Test
             string query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer.Object.Customer_Id);
 
             var mock = _kernel.GetMock<IMsSqlDataAccess>();
-            mock.Setup(m => m.GetDataList(query, customer)).Returns(sample.CreateSampleListOfCustomerDetails).Verifiable();
+            mock.Setup(m => m.GetDataList(query, customer)).Returns(sampleProvider.CreateSampleListOfCustomerDetails).Verifiable();
 
             mock.Object.GetDataList(query, customer);
             mock.Verify(v => v.GetDataList(query, customer), Times.Once);
@@ -59,10 +59,10 @@ namespace Res2019.Test
             string query = string.Format("SELECT * FROM customer WHERE customer_id = '{0}'", customer.Object.Customer_Id);
 
             var mock = _kernel.GetMock<IMsSqlDataAccess>();
-            mock.Setup(m => m.GetSingleColumnDataList(query, customer.Object.Customer_Id)).Returns(sample.CreateSampleListOfCustomerDetails()).Verifiable();
+            mock.Setup(m => m.GetSingleColumnDataList(query, customer.Object.Customer_Id)).Returns(sampleProvider.CreateSampleListOfCustomerDetails()).Verifiable();
 
             var actual = mock.Object.GetSingleColumnDataList(query, customer.Object.Customer_Id);
-            var expected = sample.CreateSampleListOfCustomerDetails();
+            var expected = sampleProvider.CreateSampleListOfCustomerDetails();
 
             mock.Verify(v => v.GetSingleColumnDataList(query, customer.Object.Customer_Id), Times.Once);
             mock.VerifyNoOtherCalls();

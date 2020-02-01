@@ -15,7 +15,7 @@ namespace Res2019.Test
     public class CustomerControllerMockTest
     {
         private readonly MoqMockingKernel _kernel;
-        Sample sample = new Sample();
+        SampleProvider sampleProvider = new SampleProvider();
         public CustomerControllerMockTest()
         {            
             _kernel = new MoqMockingKernel();
@@ -27,9 +27,9 @@ namespace Res2019.Test
         public void CreateCustomer_ShouldReturnCustomer()
         {
             var mock = _kernel.GetMock<ICustomerController>();
-            mock.Setup(moq => moq.CreateCustomer(sample.CreateSampleListOfCustomerDetails())).Returns(sample.CreateSampleCustomer()).Verifiable();
+            mock.Setup(moq => moq.CreateCustomer(sampleProvider.CreateSampleListOfCustomerDetails())).Returns(sampleProvider.CreateSampleCustomer()).Verifiable();
 
-            var list = sample.CreateSampleListOfCustomerDetails();
+            var list = sampleProvider.CreateSampleListOfCustomerDetails();
 
             var obj = mock.Object.CreateCustomer(list);
 
@@ -38,7 +38,7 @@ namespace Res2019.Test
         [Fact]
         public void SaveCustomer_ShouldSaveCustomer()
         {
-            var customer = sample.CreateSampleCustomer();
+            var customer = sampleProvider.CreateSampleCustomer();
             string query = string.Format("INSERT INTO customer (forename, surname, telephone) VALUES ('{0}','{1}','{2}')",
                                         customer.Forename, customer.Surname, customer.Telephone);
             var mock = _kernel.GetMock<IMsSqlDataAccess>();
@@ -55,12 +55,12 @@ namespace Res2019.Test
         [Fact]
         public void GetCustomer_ShouldGetsCustomer_ByModel()
         {
-            ICustomer customer = sample.CreateSampleCustomer();
+            ICustomer customer = sampleProvider.CreateSampleCustomer();
 
             var mock = _kernel.GetMock<ICustomerController>();
-            mock.Setup(m => m.GetCustomer(customer)).Returns(sample.CreateSampleCustomer()).Verifiable();
+            mock.Setup(m => m.GetCustomer(customer)).Returns(sampleProvider.CreateSampleCustomer()).Verifiable();
 
-            var actual = sample.CreateSampleCustomer("5");
+            var actual = sampleProvider.CreateSampleCustomer("5");
             var expected = mock.Object.GetCustomer(customer);
 
             mock.Verify(v => v.GetCustomer(customer));
@@ -75,7 +75,7 @@ namespace Res2019.Test
         public void GetCustomer_ShouldGetsCustomer_ById(string customer_id)
         {
             var mock = _kernel.GetMock<ICustomerController>();
-            mock.Setup(m => m.GetCustomer(customer_id)).Returns(sample.CreateSampleCustomer(customer_id)).Verifiable();
+            mock.Setup(m => m.GetCustomer(customer_id)).Returns(sampleProvider.CreateSampleCustomer(customer_id)).Verifiable();
 
             var obj = mock.Object.GetCustomer(customer_id);
 

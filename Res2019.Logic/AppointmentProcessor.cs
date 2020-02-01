@@ -188,8 +188,8 @@ namespace Res2019.Logic
         {
             IDate date = kernel.Get<IDate>();
 
-            appointmentController.SaveToDatabaseEventLog += emailConfirmation.OnSavedToDatabaseEventLog;
-            appointmentController.SaveToDatabaseEventLog += smsConfirmation.OnSavedToDatabaseEventLog;
+            appointmentController.SaveToDatabaseEvent += emailConfirmation.OnSavedToDatabaseEventLog;
+            appointmentController.SaveToDatabaseEvent += smsConfirmation.OnSavedToDatabaseEventLog;
 
             var date_id = dateController.GetDate(appointment.AppointmentDay, appointment.AppointmentTime).Date_Id;
 

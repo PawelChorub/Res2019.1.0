@@ -26,11 +26,11 @@ namespace Res2019.Logic.Controller
         }
         public delegate void SaveToDatabaseHandler(object source, EventArgs e);
 
-        public event SaveToDatabaseHandler SaveToDatabaseEventLog;
+        public event SaveToDatabaseHandler SaveToDatabaseEvent;
 
-        protected virtual void OnSaveToDatabaseEventLog()
+        protected virtual void OnSaveToDatabaseEvent()
         {
-            SaveToDatabaseEventLog?.Invoke(this, EventArgs.Empty);
+            SaveToDatabaseEvent?.Invoke(this, EventArgs.Empty);
         }
 
         public void SaveAppointment(string date_id, string customer_id, string service_id)
@@ -39,7 +39,7 @@ namespace Res2019.Logic.Controller
                  customer_id, service_id, date_id);
             msSqlDataAccess.SaveData(query);
 
-            OnSaveToDatabaseEventLog();
+            OnSaveToDatabaseEvent();
         }
 
         public List<IAppointmentDetails> GetListOfAppointment(string day)
