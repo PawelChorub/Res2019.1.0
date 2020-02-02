@@ -23,18 +23,39 @@ namespace Res2019.Test
         {
             _kernel = new MoqMockingKernel();
             _kernel.Bind<IMsSqlDataAccess>().ToMock();
-            _kernel.Bind<ICustomer>().ToMock();
-            _kernel.Bind<IDate>().ToMock();
-            _kernel.Bind<ICustomer>().ToMock();
         }
         [Fact]
         public void EventTest_ShouldBeRaisedWithoutArgs()
         {
-            var controller = _kernel.GetMock<IAppointmentDetailsController>();
             var mock = _kernel.GetMock<IAppointmentDetailsController>();
             mock.Setup(a => a.SaveAppointment("2", "3", "4")).Raises(a => a.SaveToDatabaseEvent += null, EventArgs.Empty).Verifiable();
-            controller.Object.SaveAppointment("2", "3", "4");
+            mock.Object.SaveAppointment("2", "3", "4");
             mock.Raise(r => r.SaveToDatabaseEvent += null, EventArgs.Empty);
+        }
+        [Fact]
+        public void EventTest_ShouldBeRaisedWithArgs()
+        {
+            var mock = _kernel.GetMock<IAppointmentDetailsController>();
+            var customer = sampleProvider.CreateSampleCustomer();
+            var date = sampleProvider.CreateSampleDate();
+            var service = sampleProvider.CreateSampleService();
+
+            var args = new AppointmentEventArgs();
+
+            mock.Setup(a => a.UpdateAppointment(date, customer, service, "1"))
+                //.Raises(a => a.UpdatedToDatabase += null, new AppointmentEventArgs() { Date = date, Customer = customer, Service = service })
+                .Raises(a => a.UpdatedToDatabase += null, args.Date = date, args.Customer = customer, args.Service = service)
+                .Verifiable();
+
+            mock.Object.UpdateAppointment(date, customer, service, "1");
+
+            //mock.Raise(r => r.UpdatedToDatabase += null, new AppointmentEventArgs() { Date = date, Customer = customer, Service = service });
+            mock.Raise(r => r.UpdatedToDatabase += null, args.Date = date, args.Customer = customer, args.Service = service);
+            Assert.Equal(args.Date.Date_Id, date.Date_Id);
+            Assert.Equal(args.Customer.Customer_Id, customer.Customer_Id);
+            Assert.Equal(args.Service.Service_Id, service.Service_Id);
+            Assert.IsType<string>(args.Customer.Surname);
+            Assert.IsAssignableFrom<IDate>(args.Date);
         }
 
     }
